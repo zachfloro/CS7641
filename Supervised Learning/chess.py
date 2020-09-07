@@ -11,5 +11,3 @@ ATTRIBUTIONS:
 
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
-
-# Read and parse data from combined txt files to build a training dataset
