@@ -11,3 +11,5 @@ ATTRIBUTIONS:
 
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
+
+df = pd.read_csv('../Data/chess/games.csv')
