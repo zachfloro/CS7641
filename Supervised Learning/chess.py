@@ -7,11 +7,18 @@ ATTRIBUTIONS:
     For data loading and manipulation I used the Pandas package.  Please see the following paper for more specific information:
         Jeff Reback, Wes McKinney, jbrockmendel, Joris Van den Bossche, Tom Augspurger, Phillip Cloud, … Mortada Mehyar. (2020, March 18). pandas-dev/pandas: Pandas 1.0.3 (Version v1.0.3). Zenodo. http://doi.org/10.5281/zenodo.3715232
         (https://pandas.pydata.org/)
+    For data manipulation I use the Numpy package. Please see the following papers for more specifice information:
+        Travis E, Oliphant. A guide to NumPy, USA: Trelgol Publishing, (2006).
+        Stéfan van der Walt, S. Chris Colbert, and Gaël Varoquaux. The NumPy Array: A Structure for Efficient Numerical Computation, Computing in Science & Engineering, 13, 22-30 (2011), DOI:10.1109/MCSE.2011.37 (publisher link)
+        (https://numpy.org/)
 '''
 
 import pandas as pd
+import numpy as np
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+import time
 
 df = pd.read_csv('../Data/chess/games.csv')
 
@@ -82,13 +89,27 @@ df['black_captures'] = black_captures
 # Remove unneeded columns
 df.drop(columns=['id', 'created_at', 'last_move_at', 'victory_status', 'increment_code', 'white_id', 'black_id', 'moves', 'opening_name', 'opening_ply'], inplace=True)
 
+
 # Split data into train and test
 y = df['winner']
 X = df.drop(columns=['winner'])
+
+# Encode string columns
+le = LabelEncoder()
+le.fit(y)
+y = le.transform(y)
+ohe = OneHotEncoder()
+op_ec = X['opening_eco'].reshape(-1,1)
+ohe.fit(op_ec)
+
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=13)
 
 ##### Decision Tree #######
 
-
-
+# Train a decision tree
+start_time = time.time()
+dt = DecisionTreeClassifier(random_state=13)
+dt.fit(X_train, y_train)
+end_time = time.time()
+print("Decision Tree training time: " + str(end_time-start_time))
