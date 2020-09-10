@@ -17,7 +17,7 @@ import pandas as pd
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+from sklearn.preprocessing import LabelEncoder
 import time
 
 df = pd.read_csv('../Data/chess/games.csv')
@@ -98,10 +98,9 @@ X = df.drop(columns=['winner'])
 le = LabelEncoder()
 le.fit(y)
 y = le.transform(y)
-ohe = OneHotEncoder()
-op_ec = X['opening_eco'].reshape(-1,1)
-ohe.fit(op_ec)
-
+op_ec = pd.get_dummies(X['opening_eco'])
+X.drop(columns=['opening_eco'],inplace=True)
+X = X.merge(op_ec, how='inner', left_index=True, right_index=True)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=13)
 
