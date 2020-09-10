@@ -135,3 +135,24 @@ print("Decision Tree out of sample query time: " + str(end_time-start_time))
 ##### Decision Tree w/ Boosting #######
 
 # Train model using ADABoost
+start_time = time.time()
+parameters = {'base_estimator__max_depth':(1,5,10,25,50), 'base_estimator__min_samples_split':(5,10,15)}
+ada = AdaBoostClassifier(base_estimator = dt, n_estimators=50, random_state=13)
+clf = GridSearchCV(ada,parameters)
+clf.fit(X_train, y_train)
+end_time = time.time()
+print("Boosted Decision Tree training time: " + str(end_time-start_time))
+
+# Get predictions for in sample data
+start_time = time.time()
+y_insample = clf.predict(X_train)
+end_time = time.time()
+print("In sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_train, y_insample)))
+print("Boosted Decision Tree insample query time: " + str(end_time-start_time))
+
+# Get predictions for out of sample data
+start_time = time.time()
+y_outsample = clf.predict(X_test)
+end_time = time.time()
+print("Out of sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_test, y_outsample)))
+print("Boosted Decision Tree out of sample query time: " + str(end_time-start_time))
