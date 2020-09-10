@@ -18,6 +18,7 @@ import numpy as np
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import accuracy_score
 import time
 
 df = pd.read_csv('../Data/chess/games.csv')
@@ -112,3 +113,17 @@ dt = DecisionTreeClassifier(random_state=13)
 dt.fit(X_train, y_train)
 end_time = time.time()
 print("Decision Tree training time: " + str(end_time-start_time))
+
+# Get predictions for in sample data
+start_time = time.time()
+y_insample = dt.predict(X_train)
+end_time = time.time()
+print("In sample accuracy for Decision Tree: " + str(accuracy_score(y_train, y_insample)))
+print("Decision Tree insample query time: " + str(end_time-start_time))
+
+# Get predictions for out of sample data
+start_time = time.time()
+y_outsample = dt.predict(X_test)
+end_time = time.time()
+print("Out of sample accuracy for Decision Tree: " + str(accuracy_score(y_test, y_outsample)))
+print("Decision Tree out of sample query time: " + str(end_time-start_time))
