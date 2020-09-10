@@ -16,7 +16,9 @@ ATTRIBUTIONS:
 import pandas as pd
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import AdaBoostClassifier
 from sklearn.model_selection import train_test_split
+from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import accuracy_score
 import time
@@ -110,20 +112,26 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random
 # Train a decision tree
 start_time = time.time()
 dt = DecisionTreeClassifier(random_state=13)
-dt.fit(X_train, y_train)
+parameters = {'max_depth':(None, 1, 5, 10), 'min_samples_split':(2,3,4,5,6,7,8,9,10)} # Set parameters to be used in gridsearch
+clf = GridSearchCV(dt, parameters) # perform gridsearch and cross validation
+clf.fit(X_train, y_train)
 end_time = time.time()
 print("Decision Tree training time: " + str(end_time-start_time))
 
 # Get predictions for in sample data
 start_time = time.time()
-y_insample = dt.predict(X_train)
+y_insample = clf.predict(X_train)
 end_time = time.time()
 print("In sample accuracy for Decision Tree: " + str(accuracy_score(y_train, y_insample)))
 print("Decision Tree insample query time: " + str(end_time-start_time))
 
 # Get predictions for out of sample data
 start_time = time.time()
-y_outsample = dt.predict(X_test)
+y_outsample = clf.predict(X_test)
 end_time = time.time()
 print("Out of sample accuracy for Decision Tree: " + str(accuracy_score(y_test, y_outsample)))
 print("Decision Tree out of sample query time: " + str(end_time-start_time))
+
+##### Decision Tree w/ Boosting #######
+
+# Train model using ADABoost
