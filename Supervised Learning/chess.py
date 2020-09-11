@@ -108,6 +108,9 @@ X = X.merge(op_ec, how='inner', left_index=True, right_index=True)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=13)
 
+# Open a txt file to log data in
+file = open("supervised_log.txt","w")
+
 ##### Decision Tree #######
 
 # Train a decision tree
@@ -117,21 +120,24 @@ parameters = {'max_depth':(None, 1, 5, 10), 'min_samples_split':(2,3,4,5,6,7,8,9
 clf = GridSearchCV(dt, parameters) # perform gridsearch and cross validation
 clf.fit(X_train, y_train)
 end_time = time.time()
-print("Decision Tree training time: " + str(end_time-start_time))
+file.write("Decision Tree training time: " + str(end_time-start_time)+'\n')
+#print("Decision Tree training time: " + str(end_time-start_time))
 
 # Get predictions for in sample data
 start_time = time.time()
 y_insample = clf.predict(X_train)
 end_time = time.time()
-print("In sample accuracy for Decision Tree: " + str(accuracy_score(y_train, y_insample)))
-print("Decision Tree insample query time: " + str(end_time-start_time))
+file.writelines(["In sample accuracy for Decision Tree: " + str(accuracy_score(y_train, y_insample))+'\n', "Decision Tree insample query time: " + str(end_time-start_time)+'\n'])
+#print("In sample accuracy for Decision Tree: " + str(accuracy_score(y_train, y_insample)))
+#print("Decision Tree insample query time: " + str(end_time-start_time))
 
 # Get predictions for out of sample data
 start_time = time.time()
 y_outsample = clf.predict(X_test)
 end_time = time.time()
-print("Out of sample accuracy for Decision Tree: " + str(accuracy_score(y_test, y_outsample)))
-print("Decision Tree out of sample query time: " + str(end_time-start_time))
+file.writelines(["Out of sample accuracy for Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
+#print("Out of sample accuracy for Decision Tree: " + str(accuracy_score(y_test, y_outsample))) 
+#print("Decision Tree out of sample query time: " + str(end_time-start_time))
 
 ##### Decision Tree w/ Boosting #######
 
@@ -142,21 +148,24 @@ ada = AdaBoostClassifier(base_estimator = dt, n_estimators=50, random_state=13)
 clf = GridSearchCV(ada,parameters)
 clf.fit(X_train, y_train)
 end_time = time.time()
-print("Boosted Decision Tree training time: " + str(end_time-start_time))
+file.write("Boosted Decision Tree training time: " + str(end_time-start_time)+'\n')
+#print("Boosted Decision Tree training time: " + str(end_time-start_time))
 
 # Get predictions for in sample data
 start_time = time.time()
 y_insample = clf.predict(X_train)
 end_time = time.time()
-print("In sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_train, y_insample)))
-print("Boosted Decision Tree insample query time: " + str(end_time-start_time))
+file.writelines(["In sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_train, y_insample))+'\n', "Boosted Decision Tree insample query time: " + str(end_time-start_time)+'\n'])
+#print("In sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_train, y_insample)))
+#print("Boosted Decision Tree insample query time: " + str(end_time-start_time))
 
 # Get predictions for out of sample data
 start_time = time.time()
 y_outsample = clf.predict(X_test)
 end_time = time.time()
-print("Out of sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_test, y_outsample)))
-print("Boosted Decision Tree out of sample query time: " + str(end_time-start_time))
+file.writelines(["Out of sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Boosted Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
+#print("Out of sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_test, y_outsample)))
+#print("Boosted Decision Tree out of sample query time: " + str(end_time-start_time))
 
 ##### K Nearest Neighbors #######
 
@@ -167,18 +176,24 @@ parameters = {'n_neighbors':(1,5,10,20), 'weights':('uniform','distance')}
 clf = GridSearchCV(knn,parameters)
 clf.fit(X_train, y_train)
 end_time = time.time()
-print("KNN training time: " + str(end_time-start_time))
+file.write("KNN Tree training time: " + str(end_time-start_time)+'\n')
+#print("KNN training time: " + str(end_time-start_time))
 
 # Get predictions for in sample data
 start_time = time.time()
 y_insample = clf.predict(X_train)
 end_time = time.time()
-print("In sample accuracy for KNN: " + str(accuracy_score(y_train, y_insample)))
-print("KNN insample query time: " + str(end_time-start_time))
+file.writelines(["In sample accuracy for KNN: " + str(accuracy_score(y_train, y_insample))+'\n', "KNN insample query time: " + str(end_time-start_time)+'\n'])
+#print("In sample accuracy for KNN: " + str(accuracy_score(y_train, y_insample)))
+#print("KNN insample query time: " + str(end_time-start_time))
 
 # Get predictions for out of sample data
 start_time = time.time()
 y_outsample = clf.predict(X_test)
 end_time = time.time()
-print("Out of sample accuracy for KNN: " + str(accuracy_score(y_test, y_outsample)))
-print("KNN out of sample query time: " + str(end_time-start_time))
+file.writelines(["Out of sample accuracy for KNN: " + str(accuracy_score(y_test, y_outsample))+'\n', "KNN out of sample query time: " + str(end_time-start_time)+'\n'])
+#print("Out of sample accuracy for KNN: " + str(accuracy_score(y_test, y_outsample)))
+#print("KNN out of sample query time: " + str(end_time-start_time))
+
+#Close file
+file.close()

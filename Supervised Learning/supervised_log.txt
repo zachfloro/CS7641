@@ -1,0 +1,15 @@
+Decision Tree training time: 37.29192090034485
+In sample accuracy for Decision Tree: 0.8485637743711862
+Decision Tree insample query time: 0.19411301612854004
+Out of sample accuracy for Decision Tree: 0.7593655589123867
+Decision Tree out of sample query time: 0.09436154365539551
+Boosted Decision Tree training time: 728.6753005981445
+In sample accuracy for Boosted Decision Tree: 1.0
+Boosted Decision Tree insample query time: 6.247635126113892
+Out of sample accuracy for Boosted Decision Tree: 0.7779456193353474
+Boosted Decision Tree out of sample query time: 2.919372320175171
+KNN Tree training time: 28.475703716278076
+In sample accuracy for KNN: 1.0
+KNN insample query time: 3.4752204418182373
+Out of sample accuracy for KNN: 0.638821752265861
+KNN out of sample query time: 1.7373504638671875
