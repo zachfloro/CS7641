@@ -17,6 +17,7 @@ import pandas as pd
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import AdaBoostClassifier
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import LabelEncoder
@@ -156,3 +157,28 @@ y_outsample = clf.predict(X_test)
 end_time = time.time()
 print("Out of sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_test, y_outsample)))
 print("Boosted Decision Tree out of sample query time: " + str(end_time-start_time))
+
+##### K Nearest Neighbors #######
+
+# Train a K-NN model
+start_time = time.time()
+knn = KNeighborsClassifier()
+parameters = {'n_neighbors':(1,5,10,20), 'weights':('uniform','distance')}
+clf = GridSearchCV(knn,parameters)
+clf.fit(X_train, y_train)
+end_time = time.time()
+print("KNN training time: " + str(end_time-start_time))
+
+# Get predictions for in sample data
+start_time = time.time()
+y_insample = clf.predict(X_train)
+end_time = time.time()
+print("In sample accuracy for KNN: " + str(accuracy_score(y_train, y_insample)))
+print("KNN insample query time: " + str(end_time-start_time))
+
+# Get predictions for out of sample data
+start_time = time.time()
+y_outsample = clf.predict(X_test)
+end_time = time.time()
+print("Out of sample accuracy for KNN: " + str(accuracy_score(y_test, y_outsample)))
+print("KNN out of sample query time: " + str(end_time-start_time))
