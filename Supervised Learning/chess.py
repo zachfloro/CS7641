@@ -18,6 +18,7 @@ import numpy as np
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import LabelEncoder
@@ -194,6 +195,35 @@ end_time = time.time()
 file.writelines(["Out of sample accuracy for KNN: " + str(accuracy_score(y_test, y_outsample))+'\n', "KNN out of sample query time: " + str(end_time-start_time)+'\n'])
 #print("Out of sample accuracy for KNN: " + str(accuracy_score(y_test, y_outsample)))
 #print("KNN out of sample query time: " + str(end_time-start_time))
+
+##### Support Vector Machine #######
+
+# Train a SVM classifier
+start_time = time.time()
+svc = SVC(random_state=13)
+parameters = {'kernel':['linear', 'rbf'], 'gamma':['auto', 'scale']}
+clf = GridSearchCV(svc, parameters)
+clf.fit(X_train, y_train)
+end_time = time.time()
+#file.write("SVC Tree training time: " + str(end_time-start_time)+'\n')
+print("SVC training time: " + str(end_time-start_time))
+
+# Get predictions for in sample data
+start_time = time.time()
+y_insample = clf.predict(X_train)
+end_time = time.time()
+#file.writelines(["In sample accuracy for SVC: " + str(accuracy_score(y_train, y_insample))+'\n', "SVC insample query time: " + str(end_time-start_time)+'\n'])
+print("In sample accuracy for SVC: " + str(accuracy_score(y_train, y_insample)))
+print("SVC insample query time: " + str(end_time-start_time))
+
+# Get predictions for out of sample data
+start_time = time.time()
+y_outsample = clf.predict(X_test)
+end_time = time.time()
+#file.writelines(["Out of sample accuracy for SVC: " + str(accuracy_score(y_test, y_outsample))+'\n', "SVC out of sample query time: " + str(end_time-start_time)+'\n'])
+print("Out of sample accuracy for SVC: " + str(accuracy_score(y_test, y_outsample)))
+print("SVC out of sample query time: " + str(end_time-start_time))
+
 
 #Close file
 file.close()
