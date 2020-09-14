@@ -21,8 +21,18 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
-from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import accuracy_score
 import time
 
 df = pd.read_csv('../Data/churn/Churn_Modeling.csv')
+
+# Preprocessing
+df.drop(columns=['RowNumber','CustomerId','Surname'], inplace=True)
+
+dummies = pd.get_dummies(df[['Geography', 'Gender']])
+df.drop(columns=['Geography', 'Gender'],inplace=True)
+df = df.merge(dummies, how='inner', left_index=True, right_index=True)
+
+# Split data into train and test
+y = df['Exited']
+X = df.drop(columns=['Exited'])
