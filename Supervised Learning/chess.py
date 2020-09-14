@@ -198,31 +198,33 @@ file.writelines(["Out of sample accuracy for KNN: " + str(accuracy_score(y_test,
 
 ##### Support Vector Machine #######
 
-# Train a SVM classifier
-start_time = time.time()
-svc = SVC(random_state=13)
-parameters = {'kernel':['linear', 'rbf'], 'gamma':['auto', 'scale']}
-clf = GridSearchCV(svc, parameters)
-clf.fit(X_train, y_train)
-end_time = time.time()
-#file.write("SVC Tree training time: " + str(end_time-start_time)+'\n')
-print("SVC training time: " + str(end_time-start_time))
-
-# Get predictions for in sample data
-start_time = time.time()
-y_insample = clf.predict(X_train)
-end_time = time.time()
-#file.writelines(["In sample accuracy for SVC: " + str(accuracy_score(y_train, y_insample))+'\n', "SVC insample query time: " + str(end_time-start_time)+'\n'])
-print("In sample accuracy for SVC: " + str(accuracy_score(y_train, y_insample)))
-print("SVC insample query time: " + str(end_time-start_time))
-
-# Get predictions for out of sample data
-start_time = time.time()
-y_outsample = clf.predict(X_test)
-end_time = time.time()
-#file.writelines(["Out of sample accuracy for SVC: " + str(accuracy_score(y_test, y_outsample))+'\n', "SVC out of sample query time: " + str(end_time-start_time)+'\n'])
-print("Out of sample accuracy for SVC: " + str(accuracy_score(y_test, y_outsample)))
-print("SVC out of sample query time: " + str(end_time-start_time))
+# Take a subsample of the training set to computational load
+#X_train_svm, X_test_svm, y_train_svm, y_test_svm = train_test_split(X_train, y_train, test_size=0.75, random_state=13)
+## Train a SVM classifier
+#start_time = time.time()
+#svc = SVC(random_state=13, kernel='linear', gamma='auto', cache_size=7000)
+#parameters = {'kernel':['linear'], 'gamma':['auto']}
+#clf = GridSearchCV(svc, parameters)
+#clf.fit(X_train_svm, y_train_svm)
+#end_time = time.time()
+##file.write("SVC Tree training time: " + str(end_time-start_time)+'\n')
+#print("SVC training time: " + str(end_time-start_time))
+#
+## Get predictions for in sample data
+#start_time = time.time()
+#y_insample = clf.predict(X_train)
+#end_time = time.time()
+##file.writelines(["In sample accuracy for SVC: " + str(accuracy_score(y_train, y_insample))+'\n', "SVC insample query time: " + str(end_time-start_time)+'\n'])
+#print("In sample accuracy for SVC: " + str(accuracy_score(y_train, y_insample)))
+#print("SVC insample query time: " + str(end_time-start_time))
+#
+## Get predictions for out of sample data
+#start_time = time.time()
+#y_outsample = clf.predict(X_test)
+#end_time = time.time()
+##file.writelines(["Out of sample accuracy for SVC: " + str(accuracy_score(y_test, y_outsample))+'\n', "SVC out of sample query time: " + str(end_time-start_time)+'\n'])
+#print("Out of sample accuracy for SVC: " + str(accuracy_score(y_test, y_outsample)))
+#print("SVC out of sample query time: " + str(end_time-start_time))
 
 
 #Close file
