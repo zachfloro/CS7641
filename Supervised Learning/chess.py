@@ -116,6 +116,28 @@ scaler.fit(X_train)
 X_train_scaled = pd.DataFrame(scaler.transform(X_train),columns=X_train.columns)
 X_test_scaled = pd.DataFrame(scaler.transform(X_test),columns=X_test.columns)
 
+# Create various sizes of training set
+X_train_100 = X_train.head(100)
+X_train_1000 = X_train.iloc[100:].head(1000)
+X_train_2500 = X_train.iloc[1100:].head(2500)
+X_train_5000 = X_train.iloc[3600:].head(5000)
+X_train_10000 = X_train.tail(10000)
+y_train_100 = y_train.head(100)
+y_train_1000 = y_train.iloc[100:].head(1000)
+y_train_2500 = y_train.iloc[1100:].head(2500)
+y_train_5000 = y_train.iloc[3600:].head(5000)
+y_train_10000 = y_train.tail(10000)
+
+# Do same thing for scaled versions
+X_train_sc_100 = X_train_scaled.head(100)
+X_train_sc_1000 = X_train_scaled.iloc[100:].head(1000)
+X_train_sc_2500 = X_train_scaled.iloc[1100:].head(2500)
+X_train_sc_5000 = X_train_scaled.iloc[3600:].head(5000)
+X_train_sc_10000 = X_train_scaled.tail(10000)
+
+training_sets = [(X_train_100, y_train_100), (X_train_1000, y_train_1000), (X_train_2500, y_train_2500), (X_train_5000, y_train_5000), (X_train_10000, y_train_10000), (X_train, y_train)]
+training_sets_scaled = [(X_train_sc_100, y_train_100), (X_train_sc_1000, y_train_1000), (X_train_sc_2500, y_train_2500), (X_train_sc_5000, y_train_5000), (X_train_sc_10000, y_train_10000), (X_train_scaled, y_train)]
+
 # Open a txt file to log data in
 file = open("supervised_log.txt","w")
 
