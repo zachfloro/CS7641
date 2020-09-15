@@ -15,13 +15,14 @@ ATTRIBUTIONS:
 
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, precision_score
 import time
 
 df = pd.read_csv('../Data/churn/Churn_Modeling.csv')
@@ -36,3 +37,70 @@ df = df.merge(dummies, how='inner', left_index=True, right_index=True)
 # Split data into train and test
 y = df['Exited']
 X = df.drop(columns=['Exited'])
+
+# Split into train and test
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=13)
+
+# Create various sizes of training set
+X_train_100 = X_train.head(100)
+X_train_1000 = X_train.iloc[100:].head(1000)
+X_train_2500 = X_train.iloc[1100:].head(2500)
+X_train_5000 = X_train.tail(5000)
+y_train_100 = y_train.head(100)
+y_train_1000 = y_train.iloc[100:].head(1000)
+y_train_2500 = y_train.iloc[1100:].head(2500)
+y_train_5000 = y_train.tail(5000)
+
+training_sets = [(X_train_100, y_train_100), (X_train_1000, y_train_1000), (X_train_2500, y_train_2500), (X_train_5000, y_train_5000), (X_train, y_train)]
+
+# Open a txt file to log data in
+file = open("churn_log.txt","w")
+
+##### Decision Tree #######
+
+file.write("DECISION TREE RESULTS\n")
+
+# Initialize empty lists to store data
+in_accuracy = []
+in_precision = []
+out_accuracy = []
+out_precision = []
+training_time = []
+in_query_time = []
+out_query_time = []
+
+# Train decision trees with different sizes of training data
+i = 1
+for X, y in training_sets: 
+    file.write('Training Set %s:\n' % (i))
+    start_time = time.time()
+    dt = DecisionTreeClassifier(random_state=13)
+    parameters = {'max_depth':(None, 1, 5, 10), 'min_samples_split':(2,3,4,5,6,7,8,9,10)} # Set parameters to be used in gridsearch
+    clf = GridSearchCV(dt, parameters) # perform gridsearch and cross validation
+    clf.fit(X, y)
+    end_time = time.time()
+    training_time.append(end_time-start_time)
+    file.write("Decision Tree training time: " + str(end_time-start_time)+'\n')
+    file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
+
+    # Get predictions for in sample data
+    start_time = time.time()
+    y_insample = clf.predict(X)
+    end_time = time.time()
+    in_accuracy.append(accuracy_score(y, y_insample))
+    in_precision.append(precision_score(y, y_insample))
+    in_query_time.append(end_time-start_time)
+    file.writelines(["In sample accuracy for Decision Tree: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for Decision Tree: " + str(precision_score(y, y_insample))+'\n', "Decision Tree insample query time: " + str(end_time-start_time)+'\n'])
+
+    # Get predictions for out of sample data
+    start_time = time.time()
+    y_outsample = clf.predict(X_test)
+    end_time = time.time()
+    out_accuracy.append(accuracy_score(y_test, y_outsample))
+    out_precision.append(precision_score(y_test, y_outsample))
+    out_query_time.append(end_time-start_time)
+    file.writelines(["Out of sample accuracy for Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for Decision Tree: " + str(precision_score(y_test, y_outsample))+'\n', "Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
+    file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
+    i = i+1
+
+# Create graphs
