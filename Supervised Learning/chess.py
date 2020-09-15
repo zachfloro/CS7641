@@ -15,10 +15,12 @@ ATTRIBUTIONS:
 
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.svm import SVC
+from sklearn.svm import LinearSVC
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import LabelEncoder
@@ -107,7 +109,12 @@ op_ec = pd.get_dummies(X['opening_eco'])
 X.drop(columns=['opening_eco'],inplace=True)
 X = X.merge(op_ec, how='inner', left_index=True, right_index=True)
 
+# Split into train and test
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=13)
+scaler = MinMaxScaler()
+scaler.fit(X_train)
+X_train_scaled = pd.DataFrame(scaler.transform(X_train),columns=X_train.columns)
+X_test_scaled = pd.DataFrame(scaler.transform(X_test),columns=X_test.columns)
 
 # Open a txt file to log data in
 file = open("supervised_log.txt","w")
