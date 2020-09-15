@@ -1,0 +1,72 @@
+SUPPORT VECTOR MACHINE RESULTS
+Training Set 1:
+SUPPORT VECTOR MACHINE RESULTS
+Training Set 1:
+SVC training time: 0.04618668556213379
+Best Classifier Chosen: LinearSVC(C=1.0, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='hinge', max_iter=1000, multi_class='ovr',
+          penalty='l2', random_state=13, tol=0.0001, verbose=0)
+In sample accuracy for SVC: 0.84
+In sample precision for SVC: 0.0
+SVC insample query time: 0.0
+Out of sample accuracy for SVC: 0.7906060606060606
+Out of sample precision for SVC: 0.0
+SVC out of sample query time: 0.000997304916381836
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 2:
+SVC training time: 0.14484953880310059
+Best Classifier Chosen: LinearSVC(C=1.0, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=1000,
+          multi_class='ovr', penalty='l2', random_state=13, tol=0.0001,
+          verbose=0)
+In sample accuracy for SVC: 0.813
+In sample precision for SVC: 0.6521739130434783
+SVC insample query time: 0.0
+Out of sample accuracy for SVC: 0.8018181818181818
+Out of sample precision for SVC: 0.5793991416309013
+SVC out of sample query time: 0.0009975433349609375
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 3:
+SVC training time: 0.2959306240081787
+Best Classifier Chosen: LinearSVC(C=1.0, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=1000,
+          multi_class='ovr', penalty='l2', random_state=13, tol=0.0001,
+          verbose=0)
+In sample accuracy for SVC: 0.8252
+In sample precision for SVC: 0.6936936936936937
+SVC insample query time: 0.0009975433349609375
+Out of sample accuracy for SVC: 0.8018181818181818
+Out of sample precision for SVC: 0.6370370370370371
+SVC out of sample query time: 0.000997304916381836
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 4:
+SVC training time: 0.40916943550109863
+Best Classifier Chosen: LinearSVC(C=1.0, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=1000,
+          multi_class='ovr', penalty='l2', random_state=13, tol=0.01,
+          verbose=0)
+In sample accuracy for SVC: 0.812
+In sample precision for SVC: 0.6162790697674418
+SVC insample query time: 0.0019943714141845703
+Out of sample accuracy for SVC: 0.8045454545454546
+Out of sample precision for SVC: 0.6493506493506493
+SVC out of sample query time: 0.0009980201721191406
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 5:
+SVC training time: 0.7100009918212891
+Best Classifier Chosen: LinearSVC(C=1.0, class_weight=None, dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='squared_hinge', max_iter=1000,
+          multi_class='ovr', penalty='l2', random_state=13, tol=0.0001,
+          verbose=0)
+In sample accuracy for SVC: 0.8116417910447761
+In sample precision for SVC: 0.622093023255814
+SVC insample query time: 0.0009975433349609375
+Out of sample accuracy for SVC: 0.803030303030303
+Out of sample precision for SVC: 0.6257668711656442
+SVC out of sample query time: 0.000997781753540039
+END OF ITERATION
+----------------------------------------------------------------------------------
