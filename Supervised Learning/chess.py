@@ -24,7 +24,7 @@ from sklearn.svm import LinearSVC
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, precision_score
 import time
 
 df = pd.read_csv('../Data/chess/games.csv')
@@ -138,122 +138,535 @@ X_train_sc_10000 = X_train_scaled.tail(10000)
 training_sets = [(X_train_100, y_train_100), (X_train_1000, y_train_1000), (X_train_2500, y_train_2500), (X_train_5000, y_train_5000), (X_train_10000, y_train_10000), (X_train, y_train)]
 training_sets_scaled = [(X_train_sc_100, y_train_100), (X_train_sc_1000, y_train_1000), (X_train_sc_2500, y_train_2500), (X_train_sc_5000, y_train_5000), (X_train_sc_10000, y_train_10000), (X_train_scaled, y_train)]
 
+# Create lists to compare final test accuracy and precision for each model, plus query and train times
+final_accuracy = []
+final_precision = []
+final_train_time = []
+final_query_time = []
+
 # Open a txt file to log data in
 file = open("supervised_log.txt","w")
 
 ##### Decision Tree #######
 
-# Train a decision tree
-start_time = time.time()
-dt = DecisionTreeClassifier(random_state=13)
-parameters = {'max_depth':(None, 1, 5, 10), 'min_samples_split':(2,3,4,5,6,7,8,9,10)} # Set parameters to be used in gridsearch
-clf = GridSearchCV(dt, parameters) # perform gridsearch and cross validation
-clf.fit(X_train, y_train)
-end_time = time.time()
-file.write("Decision Tree training time: " + str(end_time-start_time)+'\n')
-#print("Decision Tree training time: " + str(end_time-start_time))
+file.write("DECISION TREE RESULTS\n")
 
-# Get predictions for in sample data
-start_time = time.time()
-y_insample = clf.predict(X_train)
-end_time = time.time()
-file.writelines(["In sample accuracy for Decision Tree: " + str(accuracy_score(y_train, y_insample))+'\n', "Decision Tree insample query time: " + str(end_time-start_time)+'\n'])
-#print("In sample accuracy for Decision Tree: " + str(accuracy_score(y_train, y_insample)))
-#print("Decision Tree insample query time: " + str(end_time-start_time))
+# Initialize empty lists to store data
+in_accuracy = []
+in_precision = []
+out_accuracy = []
+out_precision = []
+training_time = []
+in_query_time = []
+out_query_time = []
 
-# Get predictions for out of sample data
-start_time = time.time()
-y_outsample = clf.predict(X_test)
-end_time = time.time()
-file.writelines(["Out of sample accuracy for Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
-#print("Out of sample accuracy for Decision Tree: " + str(accuracy_score(y_test, y_outsample))) 
-#print("Decision Tree out of sample query time: " + str(end_time-start_time))
+# Train decision trees with different sizes of training data
+i = 1
+for X, y in training_sets: 
+    file.write('Training Set %s:\n' % (i))
+    start_time = time.time()
+    dt = DecisionTreeClassifier(random_state=13)
+    parameters = {'max_depth':(None, 1, 5, 10), 'min_samples_split':(2,3,4,5,6,7,8,9,10)} # Set parameters to be used in gridsearch
+    clf = GridSearchCV(dt, parameters) # perform gridsearch and cross validation
+    clf.fit(X, y)
+    end_time = time.time()
+    training_time.append(end_time-start_time)
+    file.write("Decision Tree training time: " + str(end_time-start_time)+'\n')
+    file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
+
+    # Get predictions for in sample data
+    start_time = time.time()
+    y_insample = clf.predict(X)
+    end_time = time.time()
+    in_accuracy.append(accuracy_score(y, y_insample))
+    in_precision.append(precision_score(y, y_insample, average='weighted'))
+    in_query_time.append(end_time-start_time)
+    file.writelines(["In sample accuracy for Decision Tree: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for Decision Tree: " + str(precision_score(y, y_insample))+'\n', "Decision Tree insample query time: " + str(end_time-start_time)+'\n'])
+
+    # Get predictions for out of sample data
+    start_time = time.time()
+    y_outsample = clf.predict(X_test)
+    end_time = time.time()
+    out_accuracy.append(accuracy_score(y_test, y_outsample))
+    out_precision.append(precision_score(y_test, y_outsample, average='weighted'))
+    out_query_time.append(end_time-start_time)
+    file.writelines(["Out of sample accuracy for Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for Decision Tree: " + str(precision_score(y_test, y_outsample))+'\n', "Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
+    file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
+    i = i+1
+
+# Append final values
+final_accuracy.append(out_accuracy[-1])
+final_precision.append(out_precision[-1])
+final_train_time.append(training_time[-1])
+final_query_time.append(out_query_time[-1])
+
+# Create graphs
+# Accuracy
+plt.plot(in_accuracy)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Accuracy')
+plt.title('Decision Tree In-Sample Accuracy by Training Size')
+plt.savefig('churn_output/Decision Tree In-Sample Accuracy by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_accuracy)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Accuracy')
+plt.title('Decision Tree Testing Accuracy by Training Size')
+plt.savefig('churn_output/Decision Tree Testing Accuracy by Training Size.png')
+plt.close()
+plt.figure()
+
+# Precision
+plt.plot(in_precision)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Precision')
+plt.title('Decision Tree In-Sample Precision by Training Size')
+plt.savefig('churn_output/Decision Tree In-Sample Precision by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_precision)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Precision')
+plt.title('Decision Tree Testing Precision by Training Size')
+plt.savefig('churn_output/Decision Tree Testing Precision by Training Size.png')
+plt.close()
+plt.figure()
+
+# Wall Time
+plt.plot(training_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Training Time')
+plt.title('Decision Tree Training Time by Training Size')
+plt.savefig('churn_output/Decision Tree Training Time by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(in_query_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Query Time')
+plt.title('Decision Tree In-Sample Query Time by Training Size')
+plt.savefig('churn_output/Decision Tree In-Sample Query by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_query_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Query Time')
+plt.title('Decision Tree Testing Query Time by Training Size')
+plt.savefig('churn_output/Decision Tree Testing Query Time by Training Size.png')
+plt.close()
+plt.figure()
 
 ##### Decision Tree w/ Boosting #######
 
-# Train model using ADABoost
-start_time = time.time()
-parameters = {'base_estimator__max_depth':(1,5,10,25,50), 'base_estimator__min_samples_split':(5,10,15)}
-ada = AdaBoostClassifier(base_estimator = dt, n_estimators=50, random_state=13)
-clf = GridSearchCV(ada,parameters)
-clf.fit(X_train, y_train)
-end_time = time.time()
-file.write("Boosted Decision Tree training time: " + str(end_time-start_time)+'\n')
-#print("Boosted Decision Tree training time: " + str(end_time-start_time))
+file.write("DECISION TREE W/ BOOSTING RESULTS\n")
 
-# Get predictions for in sample data
-start_time = time.time()
-y_insample = clf.predict(X_train)
-end_time = time.time()
-file.writelines(["In sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_train, y_insample))+'\n', "Boosted Decision Tree insample query time: " + str(end_time-start_time)+'\n'])
-#print("In sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_train, y_insample)))
-#print("Boosted Decision Tree insample query time: " + str(end_time-start_time))
+# Initialize empty lists to store data
+in_accuracy = []
+in_precision = []
+out_accuracy = []
+out_precision = []
+training_time = []
+in_query_time = []
+out_query_time = []
 
-# Get predictions for out of sample data
-start_time = time.time()
-y_outsample = clf.predict(X_test)
-end_time = time.time()
-file.writelines(["Out of sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Boosted Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
-#print("Out of sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_test, y_outsample)))
-#print("Boosted Decision Tree out of sample query time: " + str(end_time-start_time))
+# Train decision trees w/ boosting with different sizes of training data
+i = 1
+for X, y in training_sets: 
+    file.write('Training Set %s:\n' % (i))
+    start_time = time.time()
+    parameters = {'base_estimator__max_depth':(1,5,10,25,50), 'base_estimator__min_samples_split':(5,10,15)}
+    ada = AdaBoostClassifier(base_estimator = dt, n_estimators=50, random_state=13)
+    clf = GridSearchCV(ada, parameters) # perform gridsearch and cross validation
+    clf.fit(X, y)
+    end_time = time.time()
+    training_time.append(end_time-start_time)
+    file.write("Boosted Decision Tree training time: " + str(end_time-start_time)+'\n')
+    file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
+
+    # Get predictions for in sample data
+    start_time = time.time()
+    y_insample = clf.predict(X)
+    end_time = time.time()
+    in_accuracy.append(accuracy_score(y, y_insample))
+    in_precision.append(precision_score(y, y_insample, average='weighted'))
+    in_query_time.append(end_time-start_time)
+    file.writelines(["In sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for Boosted Decision Tree: " + str(precision_score(y, y_insample))+'\n', "Boosted Decision Tree insample query time: " + str(end_time-start_time)+'\n'])
+
+    # Get predictions for out of sample data
+    start_time = time.time()
+    y_outsample = clf.predict(X_test)
+    end_time = time.time()
+    out_accuracy.append(accuracy_score(y_test, y_outsample))
+    out_precision.append(precision_score(y_test, y_outsample, average='weighted'))
+    out_query_time.append(end_time-start_time)
+    file.writelines(["Out of sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for Boosted Decision Tree: " + str(precision_score(y_test, y_outsample))+'\n', "Boosted Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
+    file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
+    i = i+1
+  
+# Append final values
+final_accuracy.append(out_accuracy[-1])
+final_precision.append(out_precision[-1])
+final_train_time.append(training_time[-1])
+final_query_time.append(out_query_time[-1])
+
+# Create graphs
+# Accuracy
+plt.plot(in_accuracy)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Accuracy')
+plt.title('Boosted Decision Tree In-Sample Accuracy by Training Size')
+plt.savefig('churn_output/Boosted Decision Tree In-Sample Accuracy by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_accuracy)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Accuracy')
+plt.title('Boosted Decision Tree Testing Accuracy by Training Size')
+plt.savefig('churn_output/Boosted Decision Tree Testing Accuracy by Training Size.png')
+plt.close()
+plt.figure()
+
+# Precision
+plt.plot(in_precision)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Precision')
+plt.title('Boosted Decision Tree In-Sample Precision by Training Size')
+plt.savefig('churn_output/Boosted Decision Tree In-Sample Precision by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_precision)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Precision')
+plt.title('Boosted Decision Tree Testing Precision by Training Size')
+plt.savefig('churn_output/Boosted Decision Tree Testing Precision by Training Size.png')
+plt.close()
+plt.figure()
+
+# Wall Time
+plt.plot(training_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Training Time')
+plt.title('Boosted Decision Tree Training Time by Training Size')
+plt.savefig('churn_output/Boosted Decision Tree Training Time by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(in_query_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Query Time')
+plt.title('Boosted Decision Tree In-Sample Query Time by Training Size')
+plt.savefig('churn_output/Boosted Decision Tree In-Sample Query by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_query_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Query Time')
+plt.title('Boosted Decision Tree Testing Query Time by Training Size')
+plt.savefig('churn_output/Boosted Decision Tree Testing Query Time by Training Size.png')
+plt.close()
+plt.figure()
 
 ##### K Nearest Neighbors #######
 
-# Train a K-NN model
-start_time = time.time()
-knn = KNeighborsClassifier()
-parameters = {'n_neighbors':(1,5,10,20), 'weights':('uniform','distance')}
-clf = GridSearchCV(knn,parameters)
-clf.fit(X_train, y_train)
-end_time = time.time()
-file.write("KNN Tree training time: " + str(end_time-start_time)+'\n')
-#print("KNN training time: " + str(end_time-start_time))
+file.write("K NEAREST NEIGHBORS RESULTS\n")
 
-# Get predictions for in sample data
-start_time = time.time()
-y_insample = clf.predict(X_train)
-end_time = time.time()
-file.writelines(["In sample accuracy for KNN: " + str(accuracy_score(y_train, y_insample))+'\n', "KNN insample query time: " + str(end_time-start_time)+'\n'])
-#print("In sample accuracy for KNN: " + str(accuracy_score(y_train, y_insample)))
-#print("KNN insample query time: " + str(end_time-start_time))
+# Initialize empty lists to store data
+in_accuracy = []
+in_precision = []
+out_accuracy = []
+out_precision = []
+training_time = []
+in_query_time = []
+out_query_time = []
 
-# Get predictions for out of sample data
-start_time = time.time()
-y_outsample = clf.predict(X_test)
-end_time = time.time()
-file.writelines(["Out of sample accuracy for KNN: " + str(accuracy_score(y_test, y_outsample))+'\n', "KNN out of sample query time: " + str(end_time-start_time)+'\n'])
-#print("Out of sample accuracy for KNN: " + str(accuracy_score(y_test, y_outsample)))
-#print("KNN out of sample query time: " + str(end_time-start_time))
+# Train decision trees w/ boosting with different sizes of training data
+i = 1
+for X, y in training_sets_scaled: 
+    file.write('Training Set %s:\n' % (i))
+    start_time = time.time()
+    knn = KNeighborsClassifier()
+    parameters = {'n_neighbors':(1,5,10,20), 'weights':('uniform','distance')}
+    clf = GridSearchCV(knn, parameters) # perform gridsearch and cross validation
+    clf.fit(X, y)
+    end_time = time.time()
+    training_time.append(end_time-start_time)
+    file.write("KNN training time: " + str(end_time-start_time)+'\n')
+    file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
+
+    # Get predictions for in sample data
+    start_time = time.time()
+    y_insample = clf.predict(X)
+    end_time = time.time()
+    in_accuracy.append(accuracy_score(y, y_insample))
+    in_precision.append(precision_score(y, y_insample, average='weighted'))
+    in_query_time.append(end_time-start_time)
+    file.writelines(["In sample accuracy for KNN: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for KNN: " + str(precision_score(y, y_insample))+'\n', "KNN insample query time: " + str(end_time-start_time)+'\n'])
+
+    # Get predictions for out of sample data
+    start_time = time.time()
+    y_outsample = clf.predict(X_test_scaled)
+    end_time = time.time()
+    out_accuracy.append(accuracy_score(y_test, y_outsample))
+    out_precision.append(precision_score(y_test, y_outsample, average='weighted'))
+    out_query_time.append(end_time-start_time)
+    file.writelines(["Out of sample accuracy for KNN: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for KNN: " + str(precision_score(y_test, y_outsample))+'\n', "KNN out of sample query time: " + str(end_time-start_time)+'\n'])
+    file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
+    i = i+1
+    
+# Append final values
+final_accuracy.append(out_accuracy[-1])
+final_precision.append(out_precision[-1])
+final_train_time.append(training_time[-1])
+final_query_time.append(out_query_time[-1])
+
+# Create graphs
+# Accuracy
+plt.plot(in_accuracy)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Accuracy')
+plt.title('KNN In-Sample Accuracy by Training Size')
+plt.savefig('churn_output/KNN In-Sample Accuracy by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_accuracy)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Accuracy')
+plt.title('KNN Testing Accuracy by Training Size')
+plt.savefig('churn_output/KNN Testing Accuracy by Training Size.png')
+plt.close()
+plt.figure()
+
+# Precision
+plt.plot(in_precision)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Precision')
+plt.title('KNN In-Sample Precision by Training Size')
+plt.savefig('churn_output/KNN In-Sample Precision by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_precision)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Precision')
+plt.title('KNN Testing Precision by Training Size')
+plt.savefig('churn_output/KNN Testing Precision by Training Size.png')
+plt.close()
+plt.figure()
+
+# Wall Time
+plt.plot(training_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Training Time')
+plt.title('KNN Training Time by Training Size')
+plt.savefig('churn_output/KNN Training Time by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(in_query_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Query Time')
+plt.title('KNN In-Sample Query Time by Training Size')
+plt.savefig('churn_output/KNN In-Sample Query by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_query_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Query Time')
+plt.title('KNN Testing Query Time by Training Size')
+plt.savefig('churn_output/KNN Testing Query Time by Training Size.png')
+plt.close()
+plt.figure()
 
 ##### Support Vector Machine #######
 
-# Take a subsample of the training set to computational load
-#X_train_svm, X_test_svm, y_train_svm, y_test_svm = train_test_split(X_train, y_train, test_size=0.75, random_state=13)
-## Train a SVM classifier
-#start_time = time.time()
-#svc = SVC(random_state=13, kernel='linear', gamma='auto', cache_size=7000)
-#parameters = {'kernel':['linear'], 'gamma':['auto']}
-#clf = GridSearchCV(svc, parameters)
-#clf.fit(X_train_svm, y_train_svm)
-#end_time = time.time()
-##file.write("SVC Tree training time: " + str(end_time-start_time)+'\n')
-#print("SVC training time: " + str(end_time-start_time))
-#
-## Get predictions for in sample data
-#start_time = time.time()
-#y_insample = clf.predict(X_train)
-#end_time = time.time()
-##file.writelines(["In sample accuracy for SVC: " + str(accuracy_score(y_train, y_insample))+'\n', "SVC insample query time: " + str(end_time-start_time)+'\n'])
-#print("In sample accuracy for SVC: " + str(accuracy_score(y_train, y_insample)))
-#print("SVC insample query time: " + str(end_time-start_time))
-#
-## Get predictions for out of sample data
-#start_time = time.time()
-#y_outsample = clf.predict(X_test)
-#end_time = time.time()
-##file.writelines(["Out of sample accuracy for SVC: " + str(accuracy_score(y_test, y_outsample))+'\n', "SVC out of sample query time: " + str(end_time-start_time)+'\n'])
-#print("Out of sample accuracy for SVC: " + str(accuracy_score(y_test, y_outsample)))
-#print("SVC out of sample query time: " + str(end_time-start_time))
+file.write("SUPPORT VECTOR MACHINE RESULTS\n")
+
+# Initialize empty lists to store data
+in_accuracy = []
+in_precision = []
+out_accuracy = []
+out_precision = []
+training_time = []
+in_query_time = []
+out_query_time = []
+
+# Train decision trees w/ boosting with different sizes of training data
+i = 1
+for X, y in training_sets_scaled: 
+    file.write('Training Set %s:\n' % (i))
+    start_time = time.time()
+    svc = LinearSVC(random_state=13)
+    parameters = {'loss':['hinge','squared_hinge'], 'tol':[1e-4, 1e-5, 0.01]}
+    clf = GridSearchCV(svc, parameters) # perform gridsearch and cross validation
+    clf.fit(X, y)
+    end_time = time.time()
+    training_time.append(end_time-start_time)
+    file.write("SVC training time: " + str(end_time-start_time)+'\n')
+    file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
+
+    # Get predictions for in sample data
+    start_time = time.time()
+    y_insample = clf.predict(X)
+    end_time = time.time()
+    in_accuracy.append(accuracy_score(y, y_insample))
+    in_precision.append(precision_score(y, y_insample, average='weighted'))
+    in_query_time.append(end_time-start_time)
+    file.writelines(["In sample accuracy for SVC: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for SVC: " + str(precision_score(y, y_insample))+'\n', "SVC insample query time: " + str(end_time-start_time)+'\n'])
+
+    # Get predictions for out of sample data
+    start_time = time.time()
+    y_outsample = clf.predict(X_test_scaled)
+    end_time = time.time()
+    out_accuracy.append(accuracy_score(y_test, y_outsample))
+    out_precision.append(precision_score(y_test, y_outsample, average='weighted'))
+    out_query_time.append(end_time-start_time)
+    file.writelines(["Out of sample accuracy for SVC: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for SVC: " + str(precision_score(y_test, y_outsample))+'\n', "SVC out of sample query time: " + str(end_time-start_time)+'\n'])
+    file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
+    i = i+1
+    
+# Append final values
+final_accuracy.append(out_accuracy[-1])
+final_precision.append(out_precision[-1])
+final_train_time.append(training_time[-1])
+final_query_time.append(out_query_time[-1])
+
+# Create graphs
+# Accuracy
+plt.plot(in_accuracy)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Accuracy')
+plt.title('SVC In-Sample Accuracy by Training Size')
+plt.savefig('churn_output/SVC In-Sample Accuracy by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_accuracy)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Accuracy')
+plt.title('SVC Testing Accuracy by Training Size')
+plt.savefig('churn_output/SVC Testing Accuracy by Training Size.png')
+plt.close()
+plt.figure()
+
+# Precision
+plt.plot(in_precision)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Precision')
+plt.title('SVC In-Sample Precision by Training Size')
+plt.savefig('churn_output/SVC In-Sample Precision by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_precision)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Precision')
+plt.title('SVC Testing Precision by Training Size')
+plt.savefig('churn_output/SVC Testing Precision by Training Size.png')
+plt.close()
+plt.figure()
+
+# Wall Time
+plt.plot(training_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Training Time')
+plt.title('SVC Training Time by Training Size')
+plt.savefig('churn_output/SVC Training Time by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(in_query_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Query Time')
+plt.title('SVC In-Sample Query Time by Training Size')
+plt.savefig('churn_output/SVC In-Sample Query by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_query_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Query Time')
+plt.title('SVC Testing Query Time by Training Size')
+plt.savefig('churn_output/SVC Testing Query Time by Training Size.png')
+plt.close()
+plt.figure()
+
+##### FINAL PLOTS #######
+# Accuracy
+plt.barh(np.arange(len(final_accuracy)), final_accuracy)
+plt.yticks(ticks=np.arange(len(final_accuracy)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN'])
+plt.ylabel('Model')
+plt.xlabel('Testing Accuracy')
+plt.title('Testing Accuracy by Model')
+plt.savefig('churn_output/Testing Accuracy by Model.png')
+plt.close()
+plt.figure()
+
+# Precision
+plt.barh(np.arange(len(final_precision)), final_precision)
+plt.yticks(ticks=np.arange(len(final_precision)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN'])
+plt.ylabel('Model')
+plt.xlabel('Testing Precision')
+plt.title('Testing Precision by Model')
+plt.savefig('churn_output/Testing Precision by Model.png')
+plt.close()
+plt.figure()
+
+# Training Time
+plt.barh(np.arange(len(final_train_time)), final_train_time)
+plt.yticks(ticks=np.arange(len(final_train_time)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN'])
+plt.ylabel('Model')
+plt.xlabel('Training Time')
+plt.title('Training Time by Model')
+plt.savefig('churn_output/Training Time by Model.png')
+plt.close()
+plt.figure()
+
+# Query Time
+plt.barh(np.arange(len(final_query_time)), final_query_time)
+plt.yticks(ticks=np.arange(len(final_query_time)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN'])
+plt.ylabel('Model')
+plt.xlabel('Query Time')
+plt.title('Query Time by Model')
+plt.savefig('churn_output/Query Time by Model.png')
+plt.close()
+plt.figure()
 
 
 #Close file
