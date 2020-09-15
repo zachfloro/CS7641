@@ -16,6 +16,7 @@ ATTRIBUTIONS:
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.neighbors import KNeighborsClassifier
@@ -40,6 +41,10 @@ X = df.drop(columns=['Exited'])
 
 # Split into train and test
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=13)
+scaler = MinMaxScaler()
+scaler.fit(X_train)
+X_train_scaled = pd.DataFrame(scaler.transform(X_train),columns=X_train.columns)
+X_test_scaled = pd.DataFrame(scaler.transform(X_test),columns=X_test.columns)
 
 # Create various sizes of training set
 X_train_100 = X_train.head(100)
@@ -51,7 +56,14 @@ y_train_1000 = y_train.iloc[100:].head(1000)
 y_train_2500 = y_train.iloc[1100:].head(2500)
 y_train_5000 = y_train.tail(5000)
 
+# Do same thing for scaled versions
+X_train_sc_100 = X_train_scaled.head(100)
+X_train_sc_1000 = X_train_scaled.iloc[100:].head(1000)
+X_train_sc_2500 = X_train_scaled.iloc[1100:].head(2500)
+X_train_sc_5000 = X_train_scaled.tail(5000)
+
 training_sets = [(X_train_100, y_train_100), (X_train_1000, y_train_1000), (X_train_2500, y_train_2500), (X_train_5000, y_train_5000), (X_train, y_train)]
+training_sets_scaled = [(X_train_sc_100, y_train_100), (X_train_sc_1000, y_train_1000), (X_train_sc_2500, y_train_2500), (X_train_sc_5000, y_train_5000), (X_train_scaled, y_train)]
 
 # Open a txt file to log data in
 file = open("churn_log.txt","w")
@@ -302,7 +314,6 @@ plt.savefig('Boosted Decision Tree Testing Query Time by Training Size.png')
 plt.close()
 plt.figure()
 
-
 ##### K Nearest Neighbors #######
 
 file.write("K NEAREST NEIGHBORS RESULTS\n")
@@ -318,7 +329,7 @@ out_query_time = []
 
 # Train decision trees w/ boosting with different sizes of training data
 i = 1
-for X, y in training_sets: 
+for X, y in training_sets_scaled: 
     file.write('Training Set %s:\n' % (i))
     start_time = time.time()
     knn = KNeighborsClassifier()
@@ -341,7 +352,7 @@ for X, y in training_sets:
 
     # Get predictions for out of sample data
     start_time = time.time()
-    y_outsample = clf.predict(X_test)
+    y_outsample = clf.predict(X_test_scaled)
     end_time = time.time()
     out_accuracy.append(accuracy_score(y_test, y_outsample))
     out_precision.append(precision_score(y_test, y_outsample))
@@ -420,5 +431,48 @@ plt.xlabel('Training Size')
 plt.ylabel('Testing Query Time')
 plt.title('KNN Testing Query Time by Training Size')
 plt.savefig('KNN Testing Query Time by Training Size.png')
+plt.close()
+plt.figure()
+
+
+
+##### FINAL PLOTS #######
+# Accuracy
+plt.barh(np.arange(len(final_accuracy)), final_accuracy)
+plt.yticks(ticks=np.arange(len(final_accuracy)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN'])
+plt.ylabel('Model')
+plt.xlabel('Testing Accuracy')
+plt.title('Testing Accuracy by Model')
+plt.savefig('Testing Accuracy by Model.png')
+plt.close()
+plt.figure()
+
+# Precision
+plt.barh(np.arange(len(final_precision)), final_precision)
+plt.yticks(ticks=np.arange(len(final_precision)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN'])
+plt.ylabel('Model')
+plt.xlabel('Testing Precision')
+plt.title('Testing Precision by Model')
+plt.savefig('Testing Precision by Model.png')
+plt.close()
+plt.figure()
+
+# Training Time
+plt.barh(np.arange(len(final_train_time)), final_train_time)
+plt.yticks(ticks=np.arange(len(final_train_time)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN'])
+plt.ylabel('Model')
+plt.xlabel('Training Time')
+plt.title('Training Time by Model')
+plt.savefig('Training Time by Model.png')
+plt.close()
+plt.figure()
+
+# Query Time
+plt.barh(np.arange(len(final_query_time)), final_query_time)
+plt.yticks(ticks=np.arange(len(final_query_time)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN'])
+plt.ylabel('Model')
+plt.xlabel('Query Time')
+plt.title('Query Time by Model')
+plt.savefig('Query Time by Model.png')
 plt.close()
 plt.figure()

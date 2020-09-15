@@ -1,6 +1,87 @@
+DECISION TREE RESULTS
+Training Set 1:
+Decision Tree training time: 0.2941555976867676
+Best Classifier Chosen: DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=1,
+                       max_features=None, max_leaf_nodes=None,
+                       min_impurity_decrease=0.0, min_impurity_split=None,
+                       min_samples_leaf=1, min_samples_split=2,
+                       min_weight_fraction_leaf=0.0, presort=False,
+                       random_state=13, splitter='best')
+In sample accuracy for Decision Tree: 0.84
+In sample precision for Decision Tree: 0.0
+Decision Tree insample query time: 0.0
+Out of sample accuracy for Decision Tree: 0.7906060606060606
+Out of sample precision for Decision Tree: 0.0
+Decision Tree out of sample query time: 0.0009953975677490234
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 2:
+Decision Tree training time: 0.3619654178619385
+Best Classifier Chosen: DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
+                       max_features=None, max_leaf_nodes=None,
+                       min_impurity_decrease=0.0, min_impurity_split=None,
+                       min_samples_leaf=1, min_samples_split=9,
+                       min_weight_fraction_leaf=0.0, presort=False,
+                       random_state=13, splitter='best')
+In sample accuracy for Decision Tree: 0.871
+In sample precision for Decision Tree: 0.9157894736842105
+Decision Tree insample query time: 0.000997781753540039
+Out of sample accuracy for Decision Tree: 0.8278787878787879
+Out of sample precision for Decision Tree: 0.7003257328990228
+Decision Tree out of sample query time: 0.0
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 3:
+Decision Tree training time: 0.594977617263794
+Best Classifier Chosen: DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
+                       max_features=None, max_leaf_nodes=None,
+                       min_impurity_decrease=0.0, min_impurity_split=None,
+                       min_samples_leaf=1, min_samples_split=4,
+                       min_weight_fraction_leaf=0.0, presort=False,
+                       random_state=13, splitter='best')
+In sample accuracy for Decision Tree: 0.8636
+In sample precision for Decision Tree: 0.6935933147632312
+Decision Tree insample query time: 0.0
+Out of sample accuracy for Decision Tree: 0.843030303030303
+Out of sample precision for Decision Tree: 0.6828752642706131
+Decision Tree out of sample query time: 0.0009968280792236328
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 4:
+Decision Tree training time: 0.9571259021759033
+Best Classifier Chosen: DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
+                       max_features=None, max_leaf_nodes=None,
+                       min_impurity_decrease=0.0, min_impurity_split=None,
+                       min_samples_leaf=1, min_samples_split=2,
+                       min_weight_fraction_leaf=0.0, presort=False,
+                       random_state=13, splitter='best')
+In sample accuracy for Decision Tree: 0.8666
+In sample precision for Decision Tree: 0.7335203366058906
+Decision Tree insample query time: 0.0009655952453613281
+Out of sample accuracy for Decision Tree: 0.8512121212121212
+Out of sample precision for Decision Tree: 0.7222222222222222
+Decision Tree out of sample query time: 0.0009682178497314453
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 5:
+Decision Tree training time: 1.25490140914917
+Best Classifier Chosen: DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=5,
+                       max_features=None, max_leaf_nodes=None,
+                       min_impurity_decrease=0.0, min_impurity_split=None,
+                       min_samples_leaf=1, min_samples_split=2,
+                       min_weight_fraction_leaf=0.0, presort=False,
+                       random_state=13, splitter='best')
+In sample accuracy for Decision Tree: 0.8637313432835821
+In sample precision for Decision Tree: 0.7994467496542186
+Decision Tree insample query time: 0.0009877681732177734
+Out of sample accuracy for Decision Tree: 0.8515151515151516
+Out of sample precision for Decision Tree: 0.7879656160458453
+Decision Tree out of sample query time: 0.000997781753540039
+END OF ITERATION
+----------------------------------------------------------------------------------
 DECISION TREE W/ BOOSTING RESULTS
 Training Set 1:
-Boosted Decision Tree training time: 1.7191181182861328
+Boosted Decision Tree training time: 1.7013442516326904
 Best Classifier Chosen: AdaBoostClassifier(algorithm='SAMME.R',
                    base_estimator=DecisionTreeClassifier(class_weight=None,
                                                          criterion='gini',
@@ -18,14 +99,14 @@ Best Classifier Chosen: AdaBoostClassifier(algorithm='SAMME.R',
                    learning_rate=1.0, n_estimators=50, random_state=13)
 In sample accuracy for Boosted Decision Tree: 1.0
 In sample precision for Boosted Decision Tree: 1.0
-Boosted Decision Tree insample query time: 0.004987001419067383
+Boosted Decision Tree insample query time: 0.003989458084106445
 Out of sample accuracy for Boosted Decision Tree: 0.7896969696969697
 Out of sample precision for Boosted Decision Tree: 0.49372384937238495
-Boosted Decision Tree out of sample query time: 0.021969318389892578
+Boosted Decision Tree out of sample query time: 0.020946025848388672
 END OF ITERATION
 ----------------------------------------------------------------------------------
 Training Set 2:
-Boosted Decision Tree training time: 4.464357852935791
+Boosted Decision Tree training time: 4.345871210098267
 Best Classifier Chosen: AdaBoostClassifier(algorithm='SAMME.R',
                    base_estimator=DecisionTreeClassifier(class_weight=None,
                                                          criterion='gini',
@@ -43,14 +124,14 @@ Best Classifier Chosen: AdaBoostClassifier(algorithm='SAMME.R',
                    learning_rate=1.0, n_estimators=50, random_state=13)
 In sample accuracy for Boosted Decision Tree: 0.864
 In sample precision for Boosted Decision Tree: 0.7368421052631579
-Boosted Decision Tree insample query time: 0.008975982666015625
+Boosted Decision Tree insample query time: 0.00897669792175293
 Out of sample accuracy for Boosted Decision Tree: 0.8324242424242424
 Out of sample precision for Boosted Decision Tree: 0.6443514644351465
-Boosted Decision Tree out of sample query time: 0.016954660415649414
+Boosted Decision Tree out of sample query time: 0.01692509651184082
 END OF ITERATION
 ----------------------------------------------------------------------------------
 Training Set 3:
-Boosted Decision Tree training time: 9.515286684036255
+Boosted Decision Tree training time: 9.765206575393677
 Best Classifier Chosen: AdaBoostClassifier(algorithm='SAMME.R',
                    base_estimator=DecisionTreeClassifier(class_weight=None,
                                                          criterion='gini',
@@ -68,14 +149,14 @@ Best Classifier Chosen: AdaBoostClassifier(algorithm='SAMME.R',
                    learning_rate=1.0, n_estimators=50, random_state=13)
 In sample accuracy for Boosted Decision Tree: 0.8648
 In sample precision for Boosted Decision Tree: 0.738255033557047
-Boosted Decision Tree insample query time: 0.014447212219238281
+Boosted Decision Tree insample query time: 0.013991355895996094
 Out of sample accuracy for Boosted Decision Tree: 0.850909090909091
 Out of sample precision for Boosted Decision Tree: 0.762532981530343
-Boosted Decision Tree out of sample query time: 0.017952442169189453
+Boosted Decision Tree out of sample query time: 0.016952991485595703
 END OF ITERATION
 ----------------------------------------------------------------------------------
 Training Set 4:
-Boosted Decision Tree training time: 18.979068279266357
+Boosted Decision Tree training time: 18.66802453994751
 Best Classifier Chosen: AdaBoostClassifier(algorithm='SAMME.R',
                    base_estimator=DecisionTreeClassifier(class_weight=None,
                                                          criterion='gini',
@@ -93,14 +174,14 @@ Best Classifier Chosen: AdaBoostClassifier(algorithm='SAMME.R',
                    learning_rate=1.0, n_estimators=50, random_state=13)
 In sample accuracy for Boosted Decision Tree: 0.8646
 In sample precision for Boosted Decision Tree: 0.7435897435897436
-Boosted Decision Tree insample query time: 0.0249330997467041
+Boosted Decision Tree insample query time: 0.02194380760192871
 Out of sample accuracy for Boosted Decision Tree: 0.85
 Out of sample precision for Boosted Decision Tree: 0.7268518518518519
-Boosted Decision Tree out of sample query time: 0.017923593521118164
+Boosted Decision Tree out of sample query time: 0.01722097396850586
 END OF ITERATION
 ----------------------------------------------------------------------------------
 Training Set 5:
-Boosted Decision Tree training time: 25.747272491455078
+Boosted Decision Tree training time: 25.43230438232422
 Best Classifier Chosen: AdaBoostClassifier(algorithm='SAMME.R',
                    base_estimator=DecisionTreeClassifier(class_weight=None,
                                                          criterion='gini',
@@ -118,9 +199,75 @@ Best Classifier Chosen: AdaBoostClassifier(algorithm='SAMME.R',
                    learning_rate=1.0, n_estimators=50, random_state=13)
 In sample accuracy for Boosted Decision Tree: 0.8613432835820896
 In sample precision for Boosted Decision Tree: 0.7410404624277457
-Boosted Decision Tree insample query time: 0.029887914657592773
+Boosted Decision Tree insample query time: 0.028922557830810547
 Out of sample accuracy for Boosted Decision Tree: 0.8545454545454545
 Out of sample precision for Boosted Decision Tree: 0.7482352941176471
-Boosted Decision Tree out of sample query time: 0.017951488494873047
+Boosted Decision Tree out of sample query time: 0.016954660415649414
+END OF ITERATION
+----------------------------------------------------------------------------------
+K NEAREST NEIGHBORS RESULTS
+Training Set 1:
+KNN training time: 0.06878829002380371
+Best Classifier Chosen: KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
+                     metric_params=None, n_jobs=None, n_neighbors=10, p=2,
+                     weights='uniform')
+In sample accuracy for KNN: 0.84
+In sample precision for KNN: 0.0
+KNN insample query time: 0.001994609832763672
+Out of sample accuracy for KNN: 0.7906060606060606
+Out of sample precision for KNN: 0.0
+KNN out of sample query time: 0.06591129302978516
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 2:
+KNN training time: 0.21519947052001953
+Best Classifier Chosen: KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
+                     metric_params=None, n_jobs=None, n_neighbors=10, p=2,
+                     weights='uniform')
+In sample accuracy for KNN: 0.808
+In sample precision for KNN: 0.7666666666666667
+KNN insample query time: 0.03191089630126953
+Out of sample accuracy for KNN: 0.7942424242424242
+Out of sample precision for KNN: 0.6
+KNN out of sample query time: 0.1049659252166748
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 3:
+KNN training time: 0.6441876888275146
+Best Classifier Chosen: KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
+                     metric_params=None, n_jobs=None, n_neighbors=10, p=2,
+                     weights='uniform')
+In sample accuracy for KNN: 0.8288
+In sample precision for KNN: 0.7321428571428571
+KNN insample query time: 0.1227719783782959
+Out of sample accuracy for KNN: 0.7966666666666666
+Out of sample precision for KNN: 0.6063829787234043
+KNN out of sample query time: 0.16121268272399902
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 4:
+KNN training time: 1.6187946796417236
+Best Classifier Chosen: KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
+                     metric_params=None, n_jobs=None, n_neighbors=5, p=2,
+                     weights='distance')
+In sample accuracy for KNN: 1.0
+In sample precision for KNN: 1.0
+KNN insample query time: 0.1682147979736328
+Out of sample accuracy for KNN: 0.8136363636363636
+Out of sample precision for KNN: 0.6151515151515151
+KNN out of sample query time: 0.11892962455749512
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 5:
+KNN training time: 2.718250036239624
+Best Classifier Chosen: KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
+                     metric_params=None, n_jobs=None, n_neighbors=10, p=2,
+                     weights='distance')
+In sample accuracy for KNN: 1.0
+In sample precision for KNN: 1.0
+KNN insample query time: 0.3586385250091553
+Out of sample accuracy for KNN: 0.8136363636363636
+Out of sample precision for KNN: 0.6496062992125984
+KNN out of sample query time: 0.21323800086975098
 END OF ITERATION
 ----------------------------------------------------------------------------------
