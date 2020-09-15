@@ -1,0 +1,126 @@
+DECISION TREE W/ BOOSTING RESULTS
+Training Set 1:
+Boosted Decision Tree training time: 1.7191181182861328
+Best Classifier Chosen: AdaBoostClassifier(algorithm='SAMME.R',
+                   base_estimator=DecisionTreeClassifier(class_weight=None,
+                                                         criterion='gini',
+                                                         max_depth=5,
+                                                         max_features=None,
+                                                         max_leaf_nodes=None,
+                                                         min_impurity_decrease=0.0,
+                                                         min_impurity_split=None,
+                                                         min_samples_leaf=1,
+                                                         min_samples_split=15,
+                                                         min_weight_fraction_leaf=0.0,
+                                                         presort=False,
+                                                         random_state=13,
+                                                         splitter='best'),
+                   learning_rate=1.0, n_estimators=50, random_state=13)
+In sample accuracy for Boosted Decision Tree: 1.0
+In sample precision for Boosted Decision Tree: 1.0
+Boosted Decision Tree insample query time: 0.004987001419067383
+Out of sample accuracy for Boosted Decision Tree: 0.7896969696969697
+Out of sample precision for Boosted Decision Tree: 0.49372384937238495
+Boosted Decision Tree out of sample query time: 0.021969318389892578
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 2:
+Boosted Decision Tree training time: 4.464357852935791
+Best Classifier Chosen: AdaBoostClassifier(algorithm='SAMME.R',
+                   base_estimator=DecisionTreeClassifier(class_weight=None,
+                                                         criterion='gini',
+                                                         max_depth=1,
+                                                         max_features=None,
+                                                         max_leaf_nodes=None,
+                                                         min_impurity_decrease=0.0,
+                                                         min_impurity_split=None,
+                                                         min_samples_leaf=1,
+                                                         min_samples_split=5,
+                                                         min_weight_fraction_leaf=0.0,
+                                                         presort=False,
+                                                         random_state=13,
+                                                         splitter='best'),
+                   learning_rate=1.0, n_estimators=50, random_state=13)
+In sample accuracy for Boosted Decision Tree: 0.864
+In sample precision for Boosted Decision Tree: 0.7368421052631579
+Boosted Decision Tree insample query time: 0.008975982666015625
+Out of sample accuracy for Boosted Decision Tree: 0.8324242424242424
+Out of sample precision for Boosted Decision Tree: 0.6443514644351465
+Boosted Decision Tree out of sample query time: 0.016954660415649414
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 3:
+Boosted Decision Tree training time: 9.515286684036255
+Best Classifier Chosen: AdaBoostClassifier(algorithm='SAMME.R',
+                   base_estimator=DecisionTreeClassifier(class_weight=None,
+                                                         criterion='gini',
+                                                         max_depth=1,
+                                                         max_features=None,
+                                                         max_leaf_nodes=None,
+                                                         min_impurity_decrease=0.0,
+                                                         min_impurity_split=None,
+                                                         min_samples_leaf=1,
+                                                         min_samples_split=5,
+                                                         min_weight_fraction_leaf=0.0,
+                                                         presort=False,
+                                                         random_state=13,
+                                                         splitter='best'),
+                   learning_rate=1.0, n_estimators=50, random_state=13)
+In sample accuracy for Boosted Decision Tree: 0.8648
+In sample precision for Boosted Decision Tree: 0.738255033557047
+Boosted Decision Tree insample query time: 0.014447212219238281
+Out of sample accuracy for Boosted Decision Tree: 0.850909090909091
+Out of sample precision for Boosted Decision Tree: 0.762532981530343
+Boosted Decision Tree out of sample query time: 0.017952442169189453
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 4:
+Boosted Decision Tree training time: 18.979068279266357
+Best Classifier Chosen: AdaBoostClassifier(algorithm='SAMME.R',
+                   base_estimator=DecisionTreeClassifier(class_weight=None,
+                                                         criterion='gini',
+                                                         max_depth=1,
+                                                         max_features=None,
+                                                         max_leaf_nodes=None,
+                                                         min_impurity_decrease=0.0,
+                                                         min_impurity_split=None,
+                                                         min_samples_leaf=1,
+                                                         min_samples_split=5,
+                                                         min_weight_fraction_leaf=0.0,
+                                                         presort=False,
+                                                         random_state=13,
+                                                         splitter='best'),
+                   learning_rate=1.0, n_estimators=50, random_state=13)
+In sample accuracy for Boosted Decision Tree: 0.8646
+In sample precision for Boosted Decision Tree: 0.7435897435897436
+Boosted Decision Tree insample query time: 0.0249330997467041
+Out of sample accuracy for Boosted Decision Tree: 0.85
+Out of sample precision for Boosted Decision Tree: 0.7268518518518519
+Boosted Decision Tree out of sample query time: 0.017923593521118164
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 5:
+Boosted Decision Tree training time: 25.747272491455078
+Best Classifier Chosen: AdaBoostClassifier(algorithm='SAMME.R',
+                   base_estimator=DecisionTreeClassifier(class_weight=None,
+                                                         criterion='gini',
+                                                         max_depth=1,
+                                                         max_features=None,
+                                                         max_leaf_nodes=None,
+                                                         min_impurity_decrease=0.0,
+                                                         min_impurity_split=None,
+                                                         min_samples_leaf=1,
+                                                         min_samples_split=5,
+                                                         min_weight_fraction_leaf=0.0,
+                                                         presort=False,
+                                                         random_state=13,
+                                                         splitter='best'),
+                   learning_rate=1.0, n_estimators=50, random_state=13)
+In sample accuracy for Boosted Decision Tree: 0.8613432835820896
+In sample precision for Boosted Decision Tree: 0.7410404624277457
+Boosted Decision Tree insample query time: 0.029887914657592773
+Out of sample accuracy for Boosted Decision Tree: 0.8545454545454545
+Out of sample precision for Boosted Decision Tree: 0.7482352941176471
+Boosted Decision Tree out of sample query time: 0.017951488494873047
+END OF ITERATION
+----------------------------------------------------------------------------------

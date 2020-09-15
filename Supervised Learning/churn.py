@@ -56,6 +56,12 @@ training_sets = [(X_train_100, y_train_100), (X_train_1000, y_train_1000), (X_tr
 # Open a txt file to log data in
 file = open("churn_log.txt","w")
 
+# Create lists to compare final test accuracy and precision for each model, plus query and train times
+final_accuracy = []
+final_precision = []
+final_train_time = []
+final_query_time = []
+
 ##### Decision Tree #######
 
 file.write("DECISION TREE RESULTS\n")
@@ -102,6 +108,12 @@ for X, y in training_sets:
     file.writelines(["Out of sample accuracy for Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for Decision Tree: " + str(precision_score(y_test, y_outsample))+'\n', "Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
     file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
     i = i+1
+
+# Append final values
+final_accuracy.append(out_accuracy[-1])
+final_precision.append(out_precision[-1])
+final_train_time.append(training_time[-1])
+final_query_time.append(out_query_time[-1])
 
 # Create graphs
 # Accuracy
@@ -216,7 +228,13 @@ for X, y in training_sets:
     file.writelines(["Out of sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for Boosted Decision Tree: " + str(precision_score(y_test, y_outsample))+'\n', "Boosted Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
     file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
     i = i+1
-    
+  
+# Append final values
+final_accuracy.append(out_accuracy[-1])
+final_precision.append(out_precision[-1])
+final_train_time.append(training_time[-1])
+final_query_time.append(out_query_time[-1])
+
 # Create graphs
 # Accuracy
 plt.plot(in_accuracy)
@@ -281,5 +299,126 @@ plt.xlabel('Training Size')
 plt.ylabel('Testing Query Time')
 plt.title('Boosted Decision Tree Testing Query Time by Training Size')
 plt.savefig('Boosted Decision Tree Testing Query Time by Training Size.png')
+plt.close()
+plt.figure()
+
+
+##### K Nearest Neighbors #######
+
+file.write("K NEAREST NEIGHBORS RESULTS\n")
+
+# Initialize empty lists to store data
+in_accuracy = []
+in_precision = []
+out_accuracy = []
+out_precision = []
+training_time = []
+in_query_time = []
+out_query_time = []
+
+# Train decision trees w/ boosting with different sizes of training data
+i = 1
+for X, y in training_sets: 
+    file.write('Training Set %s:\n' % (i))
+    start_time = time.time()
+    knn = KNeighborsClassifier()
+    parameters = {'n_neighbors':(1,5,10,20), 'weights':('uniform','distance')}
+    clf = GridSearchCV(knn, parameters) # perform gridsearch and cross validation
+    clf.fit(X, y)
+    end_time = time.time()
+    training_time.append(end_time-start_time)
+    file.write("KNN training time: " + str(end_time-start_time)+'\n')
+    file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
+
+    # Get predictions for in sample data
+    start_time = time.time()
+    y_insample = clf.predict(X)
+    end_time = time.time()
+    in_accuracy.append(accuracy_score(y, y_insample))
+    in_precision.append(precision_score(y, y_insample))
+    in_query_time.append(end_time-start_time)
+    file.writelines(["In sample accuracy for KNN: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for KNN: " + str(precision_score(y, y_insample))+'\n', "KNN insample query time: " + str(end_time-start_time)+'\n'])
+
+    # Get predictions for out of sample data
+    start_time = time.time()
+    y_outsample = clf.predict(X_test)
+    end_time = time.time()
+    out_accuracy.append(accuracy_score(y_test, y_outsample))
+    out_precision.append(precision_score(y_test, y_outsample))
+    out_query_time.append(end_time-start_time)
+    file.writelines(["Out of sample accuracy for KNN: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for KNN: " + str(precision_score(y_test, y_outsample))+'\n', "KNN out of sample query time: " + str(end_time-start_time)+'\n'])
+    file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
+    i = i+1
+    
+# Append final values
+final_accuracy.append(out_accuracy[-1])
+final_precision.append(out_precision[-1])
+final_train_time.append(training_time[-1])
+final_query_time.append(out_query_time[-1])
+
+# Create graphs
+# Accuracy
+plt.plot(in_accuracy)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Accuracy')
+plt.title('KNN In-Sample Accuracy by Training Size')
+plt.savefig('KNN In-Sample Accuracy by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_accuracy)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Accuracy')
+plt.title('KNN Testing Accuracy by Training Size')
+plt.savefig('KNN Testing Accuracy by Training Size.png')
+plt.close()
+plt.figure()
+
+# Precision
+plt.plot(in_precision)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Precision')
+plt.title('KNN In-Sample Precision by Training Size')
+plt.savefig('KNN In-Sample Precision by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_precision)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Precision')
+plt.title('KNN Testing Precision by Training Size')
+plt.savefig('KNN Testing Precision by Training Size.png')
+plt.close()
+plt.figure()
+
+# Wall Time
+plt.plot(training_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Training Time')
+plt.title('KNN Training Time by Training Size')
+plt.savefig('KNN Training Time by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(in_query_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Query Time')
+plt.title('KNN In-Sample Query Time by Training Size')
+plt.savefig('KNN In-Sample Query by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_query_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Query Time')
+plt.title('KNN Testing Query Time by Training Size')
+plt.savefig('KNN Testing Query Time by Training Size.png')
 plt.close()
 plt.figure()
