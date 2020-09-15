@@ -185,3 +185,101 @@ out_query_time = []
 
 # Train decision trees w/ boosting with different sizes of training data
 i = 1
+for X, y in training_sets: 
+    file.write('Training Set %s:\n' % (i))
+    start_time = time.time()
+    parameters = {'base_estimator__max_depth':(1,5,10,25,50), 'base_estimator__min_samples_split':(5,10,15)}
+    ada = AdaBoostClassifier(base_estimator = dt, n_estimators=50, random_state=13)
+    clf = GridSearchCV(ada, parameters) # perform gridsearch and cross validation
+    clf.fit(X, y)
+    end_time = time.time()
+    training_time.append(end_time-start_time)
+    file.write("Boosted Decision Tree training time: " + str(end_time-start_time)+'\n')
+    file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
+
+    # Get predictions for in sample data
+    start_time = time.time()
+    y_insample = clf.predict(X)
+    end_time = time.time()
+    in_accuracy.append(accuracy_score(y, y_insample))
+    in_precision.append(precision_score(y, y_insample))
+    in_query_time.append(end_time-start_time)
+    file.writelines(["In sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for Boosted Decision Tree: " + str(precision_score(y, y_insample))+'\n', "Boosted Decision Tree insample query time: " + str(end_time-start_time)+'\n'])
+
+    # Get predictions for out of sample data
+    start_time = time.time()
+    y_outsample = clf.predict(X_test)
+    end_time = time.time()
+    out_accuracy.append(accuracy_score(y_test, y_outsample))
+    out_precision.append(precision_score(y_test, y_outsample))
+    out_query_time.append(end_time-start_time)
+    file.writelines(["Out of sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for Boosted Decision Tree: " + str(precision_score(y_test, y_outsample))+'\n', "Boosted Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
+    file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
+    i = i+1
+    
+# Create graphs
+# Accuracy
+plt.plot(in_accuracy)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Accuracy')
+plt.title('Boosted Decision Tree In-Sample Accuracy by Training Size')
+plt.savefig('Boosted Decision Tree In-Sample Accuracy by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_accuracy)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Accuracy')
+plt.title('Boosted Decision Tree Testing Accuracy by Training Size')
+plt.savefig('Boosted Decision Tree Testing Accuracy by Training Size.png')
+plt.close()
+plt.figure()
+
+# Precision
+plt.plot(in_precision)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Precision')
+plt.title('Boosted Decision Tree In-Sample Precision by Training Size')
+plt.savefig('Boosted Decision Tree In-Sample Precision by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_precision)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Precision')
+plt.title('Boosted Decision Tree Testing Precision by Training Size')
+plt.savefig('Boosted Decision Tree Testing Precision by Training Size.png')
+plt.close()
+plt.figure()
+
+# Wall Time
+plt.plot(training_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Training Time')
+plt.title('Boosted Decision Tree Training Time by Training Size')
+plt.savefig('Boosted Decision Tree Training Time by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(in_query_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Query Time')
+plt.title('Boosted Decision Tree In-Sample Query Time by Training Size')
+plt.savefig('Boosted Decision Tree In-Sample Query by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_query_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Query Time')
+plt.title('Boosted Decision Tree Testing Query Time by Training Size')
+plt.savefig('Boosted Decision Tree Testing Query Time by Training Size.png')
+plt.close()
+plt.figure()
