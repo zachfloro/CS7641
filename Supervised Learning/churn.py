@@ -16,6 +16,7 @@ ATTRIBUTIONS:
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import torch
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import AdaBoostClassifier
