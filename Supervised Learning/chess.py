@@ -122,11 +122,11 @@ X_train_1000 = X_train.iloc[100:].head(1000)
 X_train_2500 = X_train.iloc[1100:].head(2500)
 X_train_5000 = X_train.iloc[3600:].head(5000)
 X_train_10000 = X_train.tail(10000)
-y_train_100 = y_train.head(100)
-y_train_1000 = y_train.iloc[100:].head(1000)
-y_train_2500 = y_train.iloc[1100:].head(2500)
-y_train_5000 = y_train.iloc[3600:].head(5000)
-y_train_10000 = y_train.tail(10000)
+y_train_100 = y_train[:100]
+y_train_1000 = y_train[100:1100]
+y_train_2500 = y_train[1100:3600]
+y_train_5000 = y_train[3600:8600]
+y_train_10000 = y_train[-10000:]
 
 # Do same thing for scaled versions
 X_train_sc_100 = X_train_scaled.head(100)
@@ -145,7 +145,7 @@ final_train_time = []
 final_query_time = []
 
 # Open a txt file to log data in
-file = open("supervised_log.txt","w")
+file = open("chess_output/chess_log.txt","w")
 
 ##### Decision Tree #######
 
@@ -167,7 +167,7 @@ for X, y in training_sets:
     start_time = time.time()
     dt = DecisionTreeClassifier(random_state=13)
     parameters = {'max_depth':(None, 1, 5, 10), 'min_samples_split':(2,3,4,5,6,7,8,9,10)} # Set parameters to be used in gridsearch
-    clf = GridSearchCV(dt, parameters) # perform gridsearch and cross validation
+    clf = GridSearchCV(dt, parameters, cv=5) # perform gridsearch and cross validation
     clf.fit(X, y)
     end_time = time.time()
     training_time.append(end_time-start_time)
@@ -181,7 +181,7 @@ for X, y in training_sets:
     in_accuracy.append(accuracy_score(y, y_insample))
     in_precision.append(precision_score(y, y_insample, average='weighted'))
     in_query_time.append(end_time-start_time)
-    file.writelines(["In sample accuracy for Decision Tree: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for Decision Tree: " + str(precision_score(y, y_insample))+'\n', "Decision Tree insample query time: " + str(end_time-start_time)+'\n'])
+    file.writelines(["In sample accuracy for Decision Tree: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for Decision Tree: " + str(precision_score(y, y_insample, average='weighted'))+'\n', "Decision Tree insample query time: " + str(end_time-start_time)+'\n'])
 
     # Get predictions for out of sample data
     start_time = time.time()
@@ -190,7 +190,7 @@ for X, y in training_sets:
     out_accuracy.append(accuracy_score(y_test, y_outsample))
     out_precision.append(precision_score(y_test, y_outsample, average='weighted'))
     out_query_time.append(end_time-start_time)
-    file.writelines(["Out of sample accuracy for Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for Decision Tree: " + str(precision_score(y_test, y_outsample))+'\n', "Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
+    file.writelines(["Out of sample accuracy for Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for Decision Tree: " + str(precision_score(y_test, y_outsample, average='weighted'))+'\n', "Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
     file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
     i = i+1
 
@@ -203,67 +203,67 @@ final_query_time.append(out_query_time[-1])
 # Create graphs
 # Accuracy
 plt.plot(in_accuracy)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Accuracy')
 plt.title('Decision Tree In-Sample Accuracy by Training Size')
-plt.savefig('churn_output/Decision Tree In-Sample Accuracy by Training Size.png')
+plt.savefig('chess_output/Decision Tree In-Sample Accuracy by Training Size.png')
 plt.close()
 plt.figure()
 
 plt.plot(out_accuracy)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('Testing Accuracy')
 plt.title('Decision Tree Testing Accuracy by Training Size')
-plt.savefig('churn_output/Decision Tree Testing Accuracy by Training Size.png')
+plt.savefig('chess_output/Decision Tree Testing Accuracy by Training Size.png')
 plt.close()
 plt.figure()
 
 # Precision
 plt.plot(in_precision)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Precision')
 plt.title('Decision Tree In-Sample Precision by Training Size')
-plt.savefig('churn_output/Decision Tree In-Sample Precision by Training Size.png')
+plt.savefig('chess_output/Decision Tree In-Sample Precision by Training Size.png')
 plt.close()
 plt.figure()
 
 plt.plot(out_precision)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('Testing Precision')
 plt.title('Decision Tree Testing Precision by Training Size')
-plt.savefig('churn_output/Decision Tree Testing Precision by Training Size.png')
+plt.savefig('chess_output/Decision Tree Testing Precision by Training Size.png')
 plt.close()
 plt.figure()
 
 # Wall Time
 plt.plot(training_time)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('Training Time')
 plt.title('Decision Tree Training Time by Training Size')
-plt.savefig('churn_output/Decision Tree Training Time by Training Size.png')
+plt.savefig('chess_output/Decision Tree Training Time by Training Size.png')
 plt.close()
 plt.figure()
 
 plt.plot(in_query_time)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Query Time')
 plt.title('Decision Tree In-Sample Query Time by Training Size')
-plt.savefig('churn_output/Decision Tree In-Sample Query by Training Size.png')
+plt.savefig('chess_output/Decision Tree In-Sample Query by Training Size.png')
 plt.close()
 plt.figure()
 
 plt.plot(out_query_time)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('Testing Query Time')
 plt.title('Decision Tree Testing Query Time by Training Size')
-plt.savefig('churn_output/Decision Tree Testing Query Time by Training Size.png')
+plt.savefig('chess_output/Decision Tree Testing Query Time by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -287,7 +287,7 @@ for X, y in training_sets:
     start_time = time.time()
     parameters = {'base_estimator__max_depth':(1,5,10,25,50), 'base_estimator__min_samples_split':(5,10,15)}
     ada = AdaBoostClassifier(base_estimator = dt, n_estimators=50, random_state=13)
-    clf = GridSearchCV(ada, parameters) # perform gridsearch and cross validation
+    clf = GridSearchCV(ada, parameters, cv=5) # perform gridsearch and cross validation
     clf.fit(X, y)
     end_time = time.time()
     training_time.append(end_time-start_time)
@@ -301,7 +301,7 @@ for X, y in training_sets:
     in_accuracy.append(accuracy_score(y, y_insample))
     in_precision.append(precision_score(y, y_insample, average='weighted'))
     in_query_time.append(end_time-start_time)
-    file.writelines(["In sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for Boosted Decision Tree: " + str(precision_score(y, y_insample))+'\n', "Boosted Decision Tree insample query time: " + str(end_time-start_time)+'\n'])
+    file.writelines(["In sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for Boosted Decision Tree: " + str(precision_score(y, y_insample, average='weighted'))+'\n', "Boosted Decision Tree insample query time: " + str(end_time-start_time)+'\n'])
 
     # Get predictions for out of sample data
     start_time = time.time()
@@ -310,7 +310,7 @@ for X, y in training_sets:
     out_accuracy.append(accuracy_score(y_test, y_outsample))
     out_precision.append(precision_score(y_test, y_outsample, average='weighted'))
     out_query_time.append(end_time-start_time)
-    file.writelines(["Out of sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for Boosted Decision Tree: " + str(precision_score(y_test, y_outsample))+'\n', "Boosted Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
+    file.writelines(["Out of sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for Boosted Decision Tree: " + str(precision_score(y_test, y_outsample, average='weighted'))+'\n', "Boosted Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
     file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
     i = i+1
   
@@ -323,67 +323,67 @@ final_query_time.append(out_query_time[-1])
 # Create graphs
 # Accuracy
 plt.plot(in_accuracy)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Accuracy')
 plt.title('Boosted Decision Tree In-Sample Accuracy by Training Size')
-plt.savefig('churn_output/Boosted Decision Tree In-Sample Accuracy by Training Size.png')
+plt.savefig('chess_output/Boosted Decision Tree In-Sample Accuracy by Training Size.png')
 plt.close()
 plt.figure()
 
 plt.plot(out_accuracy)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('Testing Accuracy')
 plt.title('Boosted Decision Tree Testing Accuracy by Training Size')
-plt.savefig('churn_output/Boosted Decision Tree Testing Accuracy by Training Size.png')
+plt.savefig('chess_output/Boosted Decision Tree Testing Accuracy by Training Size.png')
 plt.close()
 plt.figure()
 
 # Precision
 plt.plot(in_precision)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Precision')
 plt.title('Boosted Decision Tree In-Sample Precision by Training Size')
-plt.savefig('churn_output/Boosted Decision Tree In-Sample Precision by Training Size.png')
+plt.savefig('chess_output/Boosted Decision Tree In-Sample Precision by Training Size.png')
 plt.close()
 plt.figure()
 
 plt.plot(out_precision)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('Testing Precision')
 plt.title('Boosted Decision Tree Testing Precision by Training Size')
-plt.savefig('churn_output/Boosted Decision Tree Testing Precision by Training Size.png')
+plt.savefig('chess_output/Boosted Decision Tree Testing Precision by Training Size.png')
 plt.close()
 plt.figure()
 
 # Wall Time
 plt.plot(training_time)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('Training Time')
 plt.title('Boosted Decision Tree Training Time by Training Size')
-plt.savefig('churn_output/Boosted Decision Tree Training Time by Training Size.png')
+plt.savefig('chess_output/Boosted Decision Tree Training Time by Training Size.png')
 plt.close()
 plt.figure()
 
 plt.plot(in_query_time)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Query Time')
 plt.title('Boosted Decision Tree In-Sample Query Time by Training Size')
-plt.savefig('churn_output/Boosted Decision Tree In-Sample Query by Training Size.png')
+plt.savefig('chess_output/Boosted Decision Tree In-Sample Query by Training Size.png')
 plt.close()
 plt.figure()
 
 plt.plot(out_query_time)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('Testing Query Time')
 plt.title('Boosted Decision Tree Testing Query Time by Training Size')
-plt.savefig('churn_output/Boosted Decision Tree Testing Query Time by Training Size.png')
+plt.savefig('chess_output/Boosted Decision Tree Testing Query Time by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -407,7 +407,7 @@ for X, y in training_sets_scaled:
     start_time = time.time()
     knn = KNeighborsClassifier()
     parameters = {'n_neighbors':(1,5,10,20), 'weights':('uniform','distance')}
-    clf = GridSearchCV(knn, parameters) # perform gridsearch and cross validation
+    clf = GridSearchCV(knn, parameters, cv=5) # perform gridsearch and cross validation
     clf.fit(X, y)
     end_time = time.time()
     training_time.append(end_time-start_time)
@@ -421,7 +421,7 @@ for X, y in training_sets_scaled:
     in_accuracy.append(accuracy_score(y, y_insample))
     in_precision.append(precision_score(y, y_insample, average='weighted'))
     in_query_time.append(end_time-start_time)
-    file.writelines(["In sample accuracy for KNN: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for KNN: " + str(precision_score(y, y_insample))+'\n', "KNN insample query time: " + str(end_time-start_time)+'\n'])
+    file.writelines(["In sample accuracy for KNN: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for KNN: " + str(precision_score(y, y_insample, average='weighted'))+'\n', "KNN insample query time: " + str(end_time-start_time)+'\n'])
 
     # Get predictions for out of sample data
     start_time = time.time()
@@ -430,7 +430,7 @@ for X, y in training_sets_scaled:
     out_accuracy.append(accuracy_score(y_test, y_outsample))
     out_precision.append(precision_score(y_test, y_outsample, average='weighted'))
     out_query_time.append(end_time-start_time)
-    file.writelines(["Out of sample accuracy for KNN: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for KNN: " + str(precision_score(y_test, y_outsample))+'\n', "KNN out of sample query time: " + str(end_time-start_time)+'\n'])
+    file.writelines(["Out of sample accuracy for KNN: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for KNN: " + str(precision_score(y_test, y_outsample, average='weighted'))+'\n', "KNN out of sample query time: " + str(end_time-start_time)+'\n'])
     file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
     i = i+1
     
@@ -443,67 +443,67 @@ final_query_time.append(out_query_time[-1])
 # Create graphs
 # Accuracy
 plt.plot(in_accuracy)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Accuracy')
 plt.title('KNN In-Sample Accuracy by Training Size')
-plt.savefig('churn_output/KNN In-Sample Accuracy by Training Size.png')
+plt.savefig('chess_output/KNN In-Sample Accuracy by Training Size.png')
 plt.close()
 plt.figure()
 
 plt.plot(out_accuracy)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('Testing Accuracy')
 plt.title('KNN Testing Accuracy by Training Size')
-plt.savefig('churn_output/KNN Testing Accuracy by Training Size.png')
+plt.savefig('chess_output/KNN Testing Accuracy by Training Size.png')
 plt.close()
 plt.figure()
 
 # Precision
 plt.plot(in_precision)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Precision')
 plt.title('KNN In-Sample Precision by Training Size')
-plt.savefig('churn_output/KNN In-Sample Precision by Training Size.png')
+plt.savefig('chess_output/KNN In-Sample Precision by Training Size.png')
 plt.close()
 plt.figure()
 
 plt.plot(out_precision)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('Testing Precision')
 plt.title('KNN Testing Precision by Training Size')
-plt.savefig('churn_output/KNN Testing Precision by Training Size.png')
+plt.savefig('chess_output/KNN Testing Precision by Training Size.png')
 plt.close()
 plt.figure()
 
 # Wall Time
 plt.plot(training_time)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('Training Time')
 plt.title('KNN Training Time by Training Size')
-plt.savefig('churn_output/KNN Training Time by Training Size.png')
+plt.savefig('chess_output/KNN Training Time by Training Size.png')
 plt.close()
 plt.figure()
 
 plt.plot(in_query_time)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Query Time')
 plt.title('KNN In-Sample Query Time by Training Size')
-plt.savefig('churn_output/KNN In-Sample Query by Training Size.png')
+plt.savefig('chess_output/KNN In-Sample Query by Training Size.png')
 plt.close()
 plt.figure()
 
 plt.plot(out_query_time)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('Testing Query Time')
 plt.title('KNN Testing Query Time by Training Size')
-plt.savefig('churn_output/KNN Testing Query Time by Training Size.png')
+plt.savefig('chess_output/KNN Testing Query Time by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -527,7 +527,7 @@ for X, y in training_sets_scaled:
     start_time = time.time()
     svc = LinearSVC(random_state=13)
     parameters = {'loss':['hinge','squared_hinge'], 'tol':[1e-4, 1e-5, 0.01]}
-    clf = GridSearchCV(svc, parameters) # perform gridsearch and cross validation
+    clf = GridSearchCV(svc, parameters, cv=5) # perform gridsearch and cross validation
     clf.fit(X, y)
     end_time = time.time()
     training_time.append(end_time-start_time)
@@ -541,7 +541,7 @@ for X, y in training_sets_scaled:
     in_accuracy.append(accuracy_score(y, y_insample))
     in_precision.append(precision_score(y, y_insample, average='weighted'))
     in_query_time.append(end_time-start_time)
-    file.writelines(["In sample accuracy for SVC: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for SVC: " + str(precision_score(y, y_insample))+'\n', "SVC insample query time: " + str(end_time-start_time)+'\n'])
+    file.writelines(["In sample accuracy for SVC: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for SVC: " + str(precision_score(y, y_insample, average='weighted'))+'\n', "SVC insample query time: " + str(end_time-start_time)+'\n'])
 
     # Get predictions for out of sample data
     start_time = time.time()
@@ -550,7 +550,7 @@ for X, y in training_sets_scaled:
     out_accuracy.append(accuracy_score(y_test, y_outsample))
     out_precision.append(precision_score(y_test, y_outsample, average='weighted'))
     out_query_time.append(end_time-start_time)
-    file.writelines(["Out of sample accuracy for SVC: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for SVC: " + str(precision_score(y_test, y_outsample))+'\n', "SVC out of sample query time: " + str(end_time-start_time)+'\n'])
+    file.writelines(["Out of sample accuracy for SVC: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for SVC: " + str(precision_score(y_test, y_outsample, average='weighted'))+'\n', "SVC out of sample query time: " + str(end_time-start_time)+'\n'])
     file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
     i = i+1
     
@@ -563,67 +563,67 @@ final_query_time.append(out_query_time[-1])
 # Create graphs
 # Accuracy
 plt.plot(in_accuracy)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Accuracy')
 plt.title('SVC In-Sample Accuracy by Training Size')
-plt.savefig('churn_output/SVC In-Sample Accuracy by Training Size.png')
+plt.savefig('chess_output/SVC In-Sample Accuracy by Training Size.png')
 plt.close()
 plt.figure()
 
 plt.plot(out_accuracy)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('Testing Accuracy')
 plt.title('SVC Testing Accuracy by Training Size')
-plt.savefig('churn_output/SVC Testing Accuracy by Training Size.png')
+plt.savefig('chess_output/SVC Testing Accuracy by Training Size.png')
 plt.close()
 plt.figure()
 
 # Precision
 plt.plot(in_precision)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Precision')
 plt.title('SVC In-Sample Precision by Training Size')
-plt.savefig('churn_output/SVC In-Sample Precision by Training Size.png')
+plt.savefig('chess_output/SVC In-Sample Precision by Training Size.png')
 plt.close()
 plt.figure()
 
 plt.plot(out_precision)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('Testing Precision')
 plt.title('SVC Testing Precision by Training Size')
-plt.savefig('churn_output/SVC Testing Precision by Training Size.png')
+plt.savefig('chess_output/SVC Testing Precision by Training Size.png')
 plt.close()
 plt.figure()
 
 # Wall Time
 plt.plot(training_time)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('Training Time')
 plt.title('SVC Training Time by Training Size')
-plt.savefig('churn_output/SVC Training Time by Training Size.png')
+plt.savefig('chess_output/SVC Training Time by Training Size.png')
 plt.close()
 plt.figure()
 
 plt.plot(in_query_time)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Query Time')
 plt.title('SVC In-Sample Query Time by Training Size')
-plt.savefig('churn_output/SVC In-Sample Query by Training Size.png')
+plt.savefig('chess_output/SVC In-Sample Query by Training Size.png')
 plt.close()
 plt.figure()
 
 plt.plot(out_query_time)
-plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('Testing Query Time')
 plt.title('SVC Testing Query Time by Training Size')
-plt.savefig('churn_output/SVC Testing Query Time by Training Size.png')
+plt.savefig('chess_output/SVC Testing Query Time by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -634,7 +634,7 @@ plt.yticks(ticks=np.arange(len(final_accuracy)), labels=['Decision Tree', 'Decis
 plt.ylabel('Model')
 plt.xlabel('Testing Accuracy')
 plt.title('Testing Accuracy by Model')
-plt.savefig('churn_output/Testing Accuracy by Model.png')
+plt.savefig('chess_output/Testing Accuracy by Model.png')
 plt.close()
 plt.figure()
 
@@ -644,7 +644,7 @@ plt.yticks(ticks=np.arange(len(final_precision)), labels=['Decision Tree', 'Deci
 plt.ylabel('Model')
 plt.xlabel('Testing Precision')
 plt.title('Testing Precision by Model')
-plt.savefig('churn_output/Testing Precision by Model.png')
+plt.savefig('chess_output/Testing Precision by Model.png')
 plt.close()
 plt.figure()
 
@@ -654,7 +654,7 @@ plt.yticks(ticks=np.arange(len(final_train_time)), labels=['Decision Tree', 'Dec
 plt.ylabel('Model')
 plt.xlabel('Training Time')
 plt.title('Training Time by Model')
-plt.savefig('churn_output/Training Time by Model.png')
+plt.savefig('chess_output/Training Time by Model.png')
 plt.close()
 plt.figure()
 
@@ -664,7 +664,7 @@ plt.yticks(ticks=np.arange(len(final_query_time)), labels=['Decision Tree', 'Dec
 plt.ylabel('Model')
 plt.xlabel('Query Time')
 plt.title('Query Time by Model')
-plt.savefig('churn_output/Query Time by Model.png')
+plt.savefig('chess_output/Query Time by Model.png')
 plt.close()
 plt.figure()
 
