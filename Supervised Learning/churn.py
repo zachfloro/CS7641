@@ -595,3 +595,61 @@ plt.title('Query Time by Model')
 plt.savefig('churn_output/Query Time by Model.png')
 plt.close()
 plt.figure()
+
+
+##### Neural Network #######
+
+file.write("NEURAL NETWORK RESULTS\n")
+
+# Initialize empty lists to store data
+in_accuracy = []
+in_precision = []
+out_accuracy = []
+out_precision = []
+training_time = []
+in_query_time = []
+out_query_time = []
+
+# Create class for defining MLP
+class MLP(torch.nn.Module):
+    def __init__(self, input_size, hidden_size):
+        super(MLP, self).__init__()
+        self.input_size = input_size
+        self.hidden_size  = hidden_size
+        self.fc1 = torch.nn.Linear(self.input_size, self.hidden_size)
+        self.relu = torch.nn.ReLU()
+        self.fc2 = torch.nn.Linear(self.hidden_size, 1)
+        self.sigmoid = torch.nn.Sigmoid()
+    def forward(self, x):
+        hidden = self.fc1(x)
+        relu = self.relu(hidden)
+        output = self.fc2(relu)
+        output = self.sigmoid(output)
+        return output
+
+model = MLP(13,5)
+criterion = torch.nn.BCELoss()
+optimizer = torch.optim.SGD(model.parameters(), lr = 0.01)
+
+x_train = torch.FloatTensor(X_train_100.values)
+Y_train = torch.FloatTensor(y_train_100.values)
+x_test = torch.FloatTensor(X_test.values)
+Y_test = torch.FloatTensor(y_test.values)
+model.train()
+epoch = 20
+for epoch in range(epoch):
+    optimizer.zero_grad()
+    # Forward pass
+    y_pred = model(x_train)
+    # Compute Loss
+    loss = criterion(y_pred.squeeze(), Y_train)
+   
+    print('Epoch {}: train loss: {}'.format(epoch, loss.item()))
+    # Backward pass
+    loss.backward()
+    optimizer.step()
+    
+model.eval()
+y_pred = model(x_test)
+after_train = criterion(y_pred.squeeze(), Y_test) 
+print('Test loss after Training' , after_train.item())
