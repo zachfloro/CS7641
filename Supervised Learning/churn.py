@@ -589,6 +589,7 @@ plt.figure()
 file.write("NEURAL NETWORK RESULTS\n")
 
 # Initialize empty lists to store data
+training_loss = []
 in_accuracy = []
 in_precision = []
 in_recall = []
@@ -651,7 +652,7 @@ class MLP(torch.nn.Module):
 
 i = 1
 for X, y in training_sets_scaled: 
-#    file.write('Training Set %s:\n' % (i))
+    file.write('Training Set %s:\n' % (i))
     start_time = time.time()
     model = MLP(13,10,7,5)
     criterion = torch.nn.BCELoss()
@@ -673,6 +674,7 @@ for X, y in training_sets_scaled:
         optimizer.step()
     end_time = time.time()
     training_time.append(end_time-start_time)
+    file.write("NN training time: " + str(end_time-start_time)+'\n')
 
     model.eval()
     start_time = time.time()
@@ -683,6 +685,9 @@ for X, y in training_sets_scaled:
     y_insample = np.rint(y_insample.detach().numpy().flatten())
     in_accuracy.append(accuracy_score(Y_train,y_insample)) 
     in_precision.append(precision_score(Y_train,y_insample))
+    in_recall.append(Y_train,y_insample)
+    file.writelines(["In sample accuracy for nn: " + str(accuracy_score(Y_train,y_insample))+'\n', "In sample precision for NN: " + str(precision_score(Y_train,y_insample))+'\n', "In sample recall for NN: " + str(recall_score(Y_train,y_insample))+'\n', "NN insample query time: " + str(end_time-start_time)+'\n'])
+
     start_time = time.time()
     y_outsample = model(x_test)
     end_time = time.time()
@@ -692,6 +697,10 @@ for X, y in training_sets_scaled:
     y_outsample = np.rint(y_outsample.detach().numpy().flatten())
     out_accuracy.append(accuracy_score(Y_test,y_outsample))
     out_precision.append(precision_score(Y_test,y_outsample))
+    out_recall.append(recall_score(Y_test,y_outsample))
+    file.writelines(["Out of sample accuracy for NN: " + str(accuracy_score(Y_test, y_outsample))+'\n', "Out of sample precision for NN: " + str(precision_score(Y_test, y_outsample))+'\n', "Out of sample recall for NN: " + str(recall_score(Y_test, y_outsample))+'\n', "SVC out of sample query time: " + str(end_time-start_time)+'\n'])
+    file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
+    i = i+1
     
 # Append final values
 final_accuracy.append(out_accuracy[-1])
