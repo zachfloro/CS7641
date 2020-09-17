@@ -107,7 +107,7 @@ for X, y in training_sets:
     file.write('Training Set %s:\n' % (i))
     start_time = time.time()
     dt = DecisionTreeClassifier(random_state=13)
-    parameters = {'max_depth':(None, 1, 5, 10), 'min_samples_split':(2,3,4,5,6,7,8,9,10)} # Set parameters to be used in gridsearch
+    parameters = {'max_depth':(5, 10, 13), 'criterion':('gini', 'entropy')} # Set parameters to be used in gridsearch
     clf = GridSearchCV(dt, parameters) # perform gridsearch and cross validation
     clf.fit(X, y)
     end_time = time.time()

@@ -800,9 +800,9 @@ for X, y in training_sets_scaled:
     optimizer = torch.optim.SGD(model.parameters(), lr = 0.01)
     
     x_train = torch.FloatTensor(X.values)
-    Y_train = torch.FloatTensor(y.values)
+    Y_train = torch.FloatTensor(y)
     x_test = torch.FloatTensor(X_test_scaled.values)
-    Y_test = torch.FloatTensor(y_test.values)
+    Y_test = torch.FloatTensor(y_test)
     model.train()
     epoch = 10000
 
@@ -825,9 +825,9 @@ for X, y in training_sets_scaled:
     Y_train = Y_train.detach().numpy().astype(int)
     y_insample = np.rint(y_insample.detach().numpy().flatten())
     in_accuracy.append(accuracy_score(Y_train,y_insample)) 
-    in_precision.append(precision_score(Y_train,y_insample))
-    in_recall.append(recall_score(Y_train,y_insample))
-    file.writelines(["In sample accuracy for nn: " + str(accuracy_score(Y_train,y_insample))+'\n', "In sample precision for NN: " + str(precision_score(Y_train,y_insample))+'\n', "In sample recall for NN: " + str(recall_score(Y_train,y_insample))+'\n', "NN insample query time: " + str(end_time-start_time)+'\n'])
+    in_precision.append(precision_score(Y_train,y_insample, average='weighted'))
+    in_recall.append(recall_score(Y_train,y_insample, average='weighted'))
+    file.writelines(["In sample accuracy for nn: " + str(accuracy_score(Y_train,y_insample))+'\n', "In sample precision for NN: " + str(precision_score(Y_train,y_insample, average='weighted'))+'\n', "In sample recall for NN: " + str(recall_score(Y_train,y_insample, average='weighted'))+'\n', "NN insample query time: " + str(end_time-start_time)+'\n'])
 
     start_time = time.time()
     y_outsample = model(x_test)
@@ -837,9 +837,9 @@ for X, y in training_sets_scaled:
     Y_test = Y_test.detach().numpy().astype(int)
     y_outsample = np.rint(y_outsample.detach().numpy().flatten())
     out_accuracy.append(accuracy_score(Y_test,y_outsample))
-    out_precision.append(precision_score(Y_test,y_outsample))
-    out_recall.append(recall_score(Y_test,y_outsample))
-    file.writelines(["Out of sample accuracy for NN: " + str(accuracy_score(Y_test, y_outsample))+'\n', "Out of sample precision for NN: " + str(precision_score(Y_test, y_outsample))+'\n', "Out of sample recall for NN: " + str(recall_score(Y_test, y_outsample))+'\n', "SVC out of sample query time: " + str(end_time-start_time)+'\n'])
+    out_precision.append(precision_score(Y_test,y_outsample, average='weighted'))
+    out_recall.append(recall_score(Y_test,y_outsample, average='weighted'))
+    file.writelines(["Out of sample accuracy for NN: " + str(accuracy_score(Y_test, y_outsample))+'\n', "Out of sample precision for NN: " + str(precision_score(Y_test, y_outsample, average='weighted'))+'\n', "Out of sample recall for NN: " + str(recall_score(Y_test, y_outsample, average='weighted'))+'\n', "SVC out of sample query time: " + str(end_time-start_time)+'\n'])
     file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
     i = i+1
     
@@ -932,7 +932,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,100
 plt.xlabel('Training Size')
 plt.ylabel('Testing Query Time')
 plt.title('NN Testing Query Time by Training Size')
-plt.savefig('chess _output/NN Testing Query Time by Training Size.png')
+plt.savefig('chess_output/NN Testing Query Time by Training Size.png')
 plt.close()
 plt.figure()
 
