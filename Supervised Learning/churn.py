@@ -623,25 +623,40 @@ in_query_time = []
 out_query_time = []
 
 # Create class for defining MLP
+#class MLP(torch.nn.Module):
+#    def __init__(self, input_size, hidden1, hidden2, hidden3):
+#        super(MLP, self).__init__()
+#        self.input_size = input_size
+#        self.hidden1 = hidden1
+#        self.hidden2 = hidden2
+#        self.hidden3 = hidden3
+#        self.fc1 = torch.nn.Linear(self.input_size, self.hidden1)
+#        self.fc2 = torch.nn.Linear(self.hidden1, self.hidden2)
+#        self.relu = torch.nn.ReLU()
+#        self.fc3 = torch.nn.Linear(self.hidden2, self.hidden3)
+#        self.relu = torch.nn.ReLU()
+#        self.fc4 = torch.nn.Linear(self.hidden3, 1)
+#        self.sigmoid = torch.nn.Sigmoid()
+#    def forward(self, x):
+#        hidden = self.fc1(x)
+#        hidden = self.fc2(hidden)
+#        relu1 = self.relu(hidden)
+#        hidden = self.fc3(relu1)
+#        relu = self.relu(hidden)
+#        output = self.fc4(relu)
+#        output = self.sigmoid(output)
+#        return output
 class MLP(torch.nn.Module):
     def __init__(self, input_size, hidden1, hidden2, hidden3):
         super(MLP, self).__init__()
         self.input_size = input_size
         self.hidden1 = hidden1
-        self.hidden2 = hidden2
-        self.hidden3 = hidden3
         self.fc1 = torch.nn.Linear(self.input_size, self.hidden1)
-        self.fc2 = torch.nn.Linear(self.hidden1, self.hidden2)
         self.relu = torch.nn.ReLU()
-        self.fc3 = torch.nn.Linear(self.hidden2, self.hidden3)
-        self.relu = torch.nn.ReLU()
-        self.fc4 = torch.nn.Linear(self.hidden3, 1)
+        self.fc4 = torch.nn.Linear(self.hidden1, 1)
         self.sigmoid = torch.nn.Sigmoid()
     def forward(self, x):
         hidden = self.fc1(x)
-        hidden = self.fc2(hidden)
-        relu1 = self.relu(hidden)
-        hidden = self.fc3(relu1)
         relu = self.relu(hidden)
         output = self.fc4(relu)
         output = self.sigmoid(output)
@@ -660,7 +675,7 @@ for X, y in training_sets_scaled:
     x_test = torch.FloatTensor(X_test_scaled.values)
     Y_test = torch.FloatTensor(y_test.values)
     model.train()
-    epoch = 1000
+    epoch = 10000
 
     for epoch in range(epoch):
         optimizer.zero_grad()
