@@ -761,7 +761,7 @@ for X, y in training_sets_scaled:
     y_insample = np.rint(y_insample.detach().numpy().flatten())
     in_accuracy.append(accuracy_score(Y_train,y_insample)) 
     in_precision.append(precision_score(Y_train,y_insample))
-    in_recall.append(Y_train,y_insample)
+    in_recall.append(recall_score(Y_train,y_insample))
     file.writelines(["In sample accuracy for nn: " + str(accuracy_score(Y_train,y_insample))+'\n', "In sample precision for NN: " + str(precision_score(Y_train,y_insample))+'\n', "In sample recall for NN: " + str(recall_score(Y_train,y_insample))+'\n', "NN insample query time: " + str(end_time-start_time)+'\n'])
 
     start_time = time.time()
