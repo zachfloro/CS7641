@@ -615,8 +615,9 @@ for X, y in training_sets_scaled:
     end_time = time.time()
     in_accuracy.append(accuracy_score(y, y_insample))
     in_precision.append(precision_score(y, y_insample, average='weighted'))
+    in_recall.append(recall_score(y, y_insample, average='weighted'))
     in_query_time.append(end_time-start_time)
-    file.writelines(["In sample accuracy for SVC: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for SVC: " + str(precision_score(y, y_insample, average='weighted'))+'\n', "SVC insample query time: " + str(end_time-start_time)+'\n'])
+    file.writelines(["In sample accuracy for SVC: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for SVC: " + str(precision_score(y, y_insample, average='weighted'))+'\n', "In sample recall for SVC: " + str(recall_score(y, y_insample, average='weighted'))+'\n', "SVC insample query time: " + str(end_time-start_time)+'\n'])
 
     # Get predictions for out of sample data
     start_time = time.time()
@@ -624,14 +625,16 @@ for X, y in training_sets_scaled:
     end_time = time.time()
     out_accuracy.append(accuracy_score(y_test, y_outsample))
     out_precision.append(precision_score(y_test, y_outsample, average='weighted'))
+    out_recall.append(recall_score(y_test, y_outsample, average='weighted'))
     out_query_time.append(end_time-start_time)
-    file.writelines(["Out of sample accuracy for SVC: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for SVC: " + str(precision_score(y_test, y_outsample, average='weighted'))+'\n', "SVC out of sample query time: " + str(end_time-start_time)+'\n'])
+    file.writelines(["Out of sample accuracy for SVC: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for SVC: " + str(precision_score(y_test, y_outsample, average='weighted'))+'\n', "Out of sample recall for SVC: " + str(recall_score(y_test, y_outsample, average='weighted'))+'\n', "SVC out of sample query time: " + str(end_time-start_time)+'\n'])
     file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
     i = i+1
     
 # Append final values
 final_accuracy.append(out_accuracy[-1])
 final_precision.append(out_precision[-1])
+final_recall.append(out_recall[-1])
 final_train_time.append(training_time[-1])
 final_query_time.append(out_query_time[-1])
 
@@ -671,6 +674,25 @@ plt.xlabel('Training Size')
 plt.ylabel('Testing Precision')
 plt.title('SVC Testing Precision by Training Size')
 plt.savefig('chess_output/SVC Testing Precision by Training Size.png')
+plt.close()
+plt.figure()
+
+# Recall
+plt.plot(in_recall)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Recall')
+plt.title('SVC In-Sample Recall by Training Size')
+plt.savefig('chess_output/SVC In-Sample Recall by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_recall)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Recall')
+plt.title('SVC Testing Recall by Training Size')
+plt.savefig('chess_output/SVC Testing Recall by Training Size.png')
 plt.close()
 plt.figure()
 
