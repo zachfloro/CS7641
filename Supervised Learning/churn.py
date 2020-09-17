@@ -43,6 +43,16 @@ X = df.drop(columns=['Exited'])
 
 # Split into train and test
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=13)
+# Rebalance dataset
+df_train = X_train.copy()
+df_train['pred'] = y_train.values
+df_train_0 = df_train.loc[df_train['pred']==0]
+df_train_1 = df_train.loc[df_train['pred']==1]
+df_train_1_over = df_train_1.sample(df_train_0.shape[0], replace=True)
+df_train = pd.concat([df_train_0, df_train_1_over],axis=0)
+df_train = df_train.sample(frac=1)
+X_train = df_train.iloc[:,:-1]
+y_train = df_train['pred']
 scaler = MinMaxScaler()
 scaler.fit(X_train)
 X_train_scaled = pd.DataFrame(scaler.transform(X_train),columns=X_train.columns)
@@ -638,14 +648,14 @@ class MLP(torch.nn.Module):
         return output
 
 model = MLP(13,10,7,5)
-#weights = torch.FloatTensor(np.full((1000,2),[.8,.2]))
-#criterion = torch.nn.BCELoss(weight=weights)
+weights = torch.FloatTensor([y_train.size/list(y_train).count(0),y_train.size/list(y_train).count(1)])
 criterion = torch.nn.BCELoss()
+#criterion = torch.nn.BCELoss()
 optimizer = torch.optim.SGD(model.parameters(), lr = 0.01)
 
-x_train = torch.FloatTensor(X_train_1000.values)
+x_train = torch.FloatTensor(X_train_sc_1000.values)
 Y_train = torch.FloatTensor(y_train_1000.values)
-x_test = torch.FloatTensor(X_test.values)
+x_test = torch.FloatTensor(X_test_scaled.values)
 Y_test = torch.FloatTensor(y_test.values)
 model.train()
 epoch = 1000
