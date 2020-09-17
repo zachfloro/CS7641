@@ -77,7 +77,7 @@ training_sets = [(X_train_100, y_train_100), (X_train_1000, y_train_1000), (X_tr
 training_sets_scaled = [(X_train_sc_100, y_train_100), (X_train_sc_1000, y_train_1000), (X_train_sc_2500, y_train_2500), (X_train_sc_5000, y_train_5000), (X_train_scaled, y_train)]
 
 # Open a txt file to log data in
-file = open("churn_output/churn_log.txt","w")
+file = open("churn_output_basic/churn_log.txt","w")
 
 # Create lists to compare final test accuracy and precision for each model, plus query and train times
 final_accuracy = []
@@ -151,7 +151,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Accuracy')
 plt.title('Decision Tree In-Sample Accuracy by Training Size')
-plt.savefig('churn_output/Decision Tree In-Sample Accuracy by Training Size.png')
+plt.savefig('churn_output_basic/Decision Tree In-Sample Accuracy by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -160,7 +160,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Testing Accuracy')
 plt.title('Decision Tree Testing Accuracy by Training Size')
-plt.savefig('churn_output/Decision Tree Testing Accuracy by Training Size.png')
+plt.savefig('churn_output_basic/Decision Tree Testing Accuracy by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -170,7 +170,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Precision')
 plt.title('Decision Tree In-Sample Precision by Training Size')
-plt.savefig('churn_output/Decision Tree In-Sample Precision by Training Size.png')
+plt.savefig('churn_output_basic/Decision Tree In-Sample Precision by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -179,7 +179,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Testing Precision')
 plt.title('Decision Tree Testing Precision by Training Size')
-plt.savefig('churn_output/Decision Tree Testing Precision by Training Size.png')
+plt.savefig('churn_output_basic/Decision Tree Testing Precision by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -189,7 +189,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Recall')
 plt.title('Decision Tree In-Sample Recall by Training Size')
-plt.savefig('churn_output/Decision Tree In-Sample Recall by Training Size.png')
+plt.savefig('churn_output_basic/Decision Tree In-Sample Recall by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -198,7 +198,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Testing Recall')
 plt.title('Decision Tree Testing Recall by Training Size')
-plt.savefig('churn_output/Decision Tree Testing Recall by Training Size.png')
+plt.savefig('churn_output_basic/Decision Tree Testing Recall by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -208,7 +208,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Training Time')
 plt.title('Decision Tree Training Time by Training Size')
-plt.savefig('churn_output/Decision Tree Training Time by Training Size.png')
+plt.savefig('churn_output_basic/Decision Tree Training Time by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -217,7 +217,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Query Time')
 plt.title('Decision Tree In-Sample Query Time by Training Size')
-plt.savefig('churn_output/Decision Tree In-Sample Query by Training Size.png')
+plt.savefig('churn_output_basic/Decision Tree In-Sample Query by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -226,7 +226,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Testing Query Time')
 plt.title('Decision Tree Testing Query Time by Training Size')
-plt.savefig('churn_output/Decision Tree Testing Query Time by Training Size.png')
+plt.savefig('churn_output_basic/Decision Tree Testing Query Time by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -295,7 +295,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Accuracy')
 plt.title('Boosted Decision Tree In-Sample Accuracy by Training Size')
-plt.savefig('churn_output/Boosted Decision Tree In-Sample Accuracy by Training Size.png')
+plt.savefig('churn_output_basic/Boosted Decision Tree In-Sample Accuracy by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -304,7 +304,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Testing Accuracy')
 plt.title('Boosted Decision Tree Testing Accuracy by Training Size')
-plt.savefig('churn_output/Boosted Decision Tree Testing Accuracy by Training Size.png')
+plt.savefig('churn_output_basic/Boosted Decision Tree Testing Accuracy by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -314,7 +314,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Precision')
 plt.title('Boosted Decision Tree In-Sample Precision by Training Size')
-plt.savefig('churn_output/Boosted Decision Tree In-Sample Precision by Training Size.png')
+plt.savefig('churn_output_basic/Boosted Decision Tree In-Sample Precision by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -323,7 +323,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Testing Precision')
 plt.title('Boosted Decision Tree Testing Precision by Training Size')
-plt.savefig('churn_output/Boosted Decision Tree Testing Precision by Training Size.png')
+plt.savefig('churn_output_basic/Boosted Decision Tree Testing Precision by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -333,7 +333,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Recall')
 plt.title('Boosted Decision Tree In-Sample Recall by Training Size')
-plt.savefig('churn_output/Boosted Decision Tree In-Sample Recall by Training Size.png')
+plt.savefig('churn_output_basic/Boosted Decision Tree In-Sample Recall by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -342,7 +342,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Testing Recall')
 plt.title('Boosted Decision Tree Testing Recall by Training Size')
-plt.savefig('churn_output/Boosted Decision Tree Testing Recall by Training Size.png')
+plt.savefig('churn_output_basic/Boosted Decision Tree Testing Recall by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -352,7 +352,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Training Time')
 plt.title('Boosted Decision Tree Training Time by Training Size')
-plt.savefig('churn_output/Boosted Decision Tree Training Time by Training Size.png')
+plt.savefig('churn_output_basic/Boosted Decision Tree Training Time by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -361,7 +361,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Query Time')
 plt.title('Boosted Decision Tree In-Sample Query Time by Training Size')
-plt.savefig('churn_output/Boosted Decision Tree In-Sample Query by Training Size.png')
+plt.savefig('churn_output_basic/Boosted Decision Tree In-Sample Query by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -370,7 +370,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Testing Query Time')
 plt.title('Boosted Decision Tree Testing Query Time by Training Size')
-plt.savefig('churn_output/Boosted Decision Tree Testing Query Time by Training Size.png')
+plt.savefig('churn_output_basic/Boosted Decision Tree Testing Query Time by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -439,7 +439,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Accuracy')
 plt.title('KNN In-Sample Accuracy by Training Size')
-plt.savefig('churn_output/KNN In-Sample Accuracy by Training Size.png')
+plt.savefig('churn_output_basic/KNN In-Sample Accuracy by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -448,7 +448,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Testing Accuracy')
 plt.title('KNN Testing Accuracy by Training Size')
-plt.savefig('churn_output/KNN Testing Accuracy by Training Size.png')
+plt.savefig('churn_output_basic/KNN Testing Accuracy by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -458,7 +458,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Precision')
 plt.title('KNN In-Sample Precision by Training Size')
-plt.savefig('churn_output/KNN In-Sample Precision by Training Size.png')
+plt.savefig('churn_output_basic/KNN In-Sample Precision by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -467,7 +467,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Testing Precision')
 plt.title('KNN Testing Precision by Training Size')
-plt.savefig('churn_output/KNN Testing Precision by Training Size.png')
+plt.savefig('churn_output_basic/KNN Testing Precision by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -477,7 +477,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Recall')
 plt.title('KNN In-Sample Recall by Training Size')
-plt.savefig('churn_output/KNN In-Sample Recall by Training Size.png')
+plt.savefig('churn_output_basic/KNN In-Sample Recall by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -486,7 +486,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Testing Recall')
 plt.title('KNN Testing Recall by Training Size')
-plt.savefig('churn_output/KNN Testing Recall by Training Size.png')
+plt.savefig('churn_output_basic/KNN Testing Recall by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -496,7 +496,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Training Time')
 plt.title('KNN Training Time by Training Size')
-plt.savefig('churn_output/KNN Training Time by Training Size.png')
+plt.savefig('churn_output_basic/KNN Training Time by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -505,7 +505,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Query Time')
 plt.title('KNN In-Sample Query Time by Training Size')
-plt.savefig('churn_output/KNN In-Sample Query by Training Size.png')
+plt.savefig('churn_output_basic/KNN In-Sample Query by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -514,7 +514,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Testing Query Time')
 plt.title('KNN Testing Query Time by Training Size')
-plt.savefig('churn_output/KNN Testing Query Time by Training Size.png')
+plt.savefig('churn_output_basic/KNN Testing Query Time by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -583,7 +583,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Accuracy')
 plt.title('SVC In-Sample Accuracy by Training Size')
-plt.savefig('churn_output/SVC In-Sample Accuracy by Training Size.png')
+plt.savefig('churn_output_basic/SVC In-Sample Accuracy by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -592,7 +592,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Testing Accuracy')
 plt.title('SVC Testing Accuracy by Training Size')
-plt.savefig('churn_output/SVC Testing Accuracy by Training Size.png')
+plt.savefig('churn_output_basic/SVC Testing Accuracy by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -602,7 +602,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Precision')
 plt.title('SVC In-Sample Precision by Training Size')
-plt.savefig('churn_output/SVC In-Sample Precision by Training Size.png')
+plt.savefig('churn_output_basic/SVC In-Sample Precision by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -611,7 +611,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Testing Precision')
 plt.title('SVC Testing Precision by Training Size')
-plt.savefig('churn_output/SVC Testing Precision by Training Size.png')
+plt.savefig('churn_output_basic/SVC Testing Precision by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -621,7 +621,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Recall')
 plt.title('SVC In-Sample Recall by Training Size')
-plt.savefig('churn_output/SVC In-Sample Recall by Training Size.png')
+plt.savefig('churn_output_basic/SVC In-Sample Recall by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -630,7 +630,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Testing Recall')
 plt.title('SVC Testing Recall by Training Size')
-plt.savefig('churn_output/SVC Testing Recall by Training Size.png')
+plt.savefig('churn_output_basic/SVC Testing Recall by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -640,7 +640,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Training Time')
 plt.title('SVC Training Time by Training Size')
-plt.savefig('churn_output/SVC Training Time by Training Size.png')
+plt.savefig('churn_output_basic/SVC Training Time by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -649,7 +649,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Query Time')
 plt.title('SVC In-Sample Query Time by Training Size')
-plt.savefig('churn_output/SVC In-Sample Query by Training Size.png')
+plt.savefig('churn_output_basic/SVC In-Sample Query by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -658,7 +658,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Testing Query Time')
 plt.title('SVC Testing Query Time by Training Size')
-plt.savefig('churn_output/SVC Testing Query Time by Training Size.png')
+plt.savefig('churn_output_basic/SVC Testing Query Time by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -795,7 +795,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Accuracy')
 plt.title('NN In-Sample Accuracy by Training Size')
-plt.savefig('churn_output/NN In-Sample Accuracy by Training Size.png')
+plt.savefig('churn_output_basic/NN In-Sample Accuracy by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -804,7 +804,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Testing Accuracy')
 plt.title('NN Testing Accuracy by Training Size')
-plt.savefig('churn_output/NN Testing Accuracy by Training Size.png')
+plt.savefig('churn_output_basic/NN Testing Accuracy by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -814,7 +814,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Precision')
 plt.title('NN In-Sample Precision by Training Size')
-plt.savefig('churn_output/NN In-Sample Precision by Training Size.png')
+plt.savefig('churn_output_basic/NN In-Sample Precision by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -823,7 +823,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Testing Precision')
 plt.title('NN Testing Precision by Training Size')
-plt.savefig('churn_output/NN Testing Precision by Training Size.png')
+plt.savefig('churn_output_basic/NN Testing Precision by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -833,7 +833,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Recall')
 plt.title('NN In-Sample Recall by Training Size')
-plt.savefig('churn_output/NN In-Sample Recall by Training Size.png')
+plt.savefig('churn_output_basic/NN In-Sample Recall by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -842,7 +842,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Testing Recall')
 plt.title('NN Testing Recall by Training Size')
-plt.savefig('churn_output/NN Testing Recall by Training Size.png')
+plt.savefig('churn_output_basic/NN Testing Recall by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -852,7 +852,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Training Time')
 plt.title('NN Training Time by Training Size')
-plt.savefig('churn_output/NN Training Time by Training Size.png')
+plt.savefig('churn_output_basic/NN Training Time by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -861,7 +861,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Query Time')
 plt.title('NN In-Sample Query Time by Training Size')
-plt.savefig('churn_output/NN In-Sample Query by Training Size.png')
+plt.savefig('churn_output_basic/NN In-Sample Query by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -870,7 +870,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,670
 plt.xlabel('Training Size')
 plt.ylabel('Testing Query Time')
 plt.title('NN Testing Query Time by Training Size')
-plt.savefig('churn_output/NN Testing Query Time by Training Size.png')
+plt.savefig('churn_output_basic/NN Testing Query Time by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -882,7 +882,7 @@ plt.yticks(ticks=np.arange(len(final_accuracy)), labels=['Decision Tree', 'Decis
 plt.ylabel('Model')
 plt.xlabel('Testing Accuracy')
 plt.title('Testing Accuracy by Model')
-plt.savefig('churn_output/Testing Accuracy by Model.png')
+plt.savefig('churn_output_basic/Testing Accuracy by Model.png')
 plt.close()
 plt.figure()
 
@@ -892,7 +892,7 @@ plt.yticks(ticks=np.arange(len(final_precision)), labels=['Decision Tree', 'Deci
 plt.ylabel('Model')
 plt.xlabel('Testing Precision')
 plt.title('Testing Precision by Model')
-plt.savefig('churn_output/Testing Precision by Model.png')
+plt.savefig('churn_output_basic/Testing Precision by Model.png')
 plt.close()
 plt.figure()
 
@@ -902,7 +902,7 @@ plt.yticks(ticks=np.arange(len(final_precision)), labels=['Decision Tree', 'Deci
 plt.ylabel('Model')
 plt.xlabel('Testing Recall')
 plt.title('Testing Recall by Model')
-plt.savefig('churn_output/Testing Recall by Model.png')
+plt.savefig('churn_output_basic/Testing Recall by Model.png')
 plt.close()
 plt.figure()
 
@@ -912,7 +912,7 @@ plt.yticks(ticks=np.arange(len(final_train_time)), labels=['Decision Tree', 'Dec
 plt.ylabel('Model')
 plt.xlabel('Training Time')
 plt.title('Training Time by Model')
-plt.savefig('churn_output/Training Time by Model.png')
+plt.savefig('churn_output_basic/Training Time by Model.png')
 plt.close()
 plt.figure()
 
@@ -922,7 +922,7 @@ plt.yticks(ticks=np.arange(len(final_query_time)), labels=['Decision Tree', 'Dec
 plt.ylabel('Model')
 plt.xlabel('Query Time')
 plt.title('Query Time by Model')
-plt.savefig('churn_output/Query Time by Model.png')
+plt.savefig('churn_output_basic/Query Time by Model.png')
 plt.close()
 plt.figure()
 
