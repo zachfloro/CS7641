@@ -300,8 +300,10 @@ file.write("DECISION TREE W/ BOOSTING RESULTS\n")
 # Initialize empty lists to store data
 in_accuracy = []
 in_precision = []
+in_recall = []
 out_accuracy = []
 out_precision = []
+out_recall = []
 training_time = []
 in_query_time = []
 out_query_time = []
@@ -392,8 +394,8 @@ plt.plot(in_recall)
 plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Recall')
-plt.title('Decision Tree In-Sample Recall by Training Size')
-plt.savefig('chess_output/Decision Tree In-Sample Recall by Training Size.png')
+plt.title('Boosted Decision Tree In-Sample Recall by Training Size')
+plt.savefig('chess_output/Boosted Decision Tree In-Sample Recall by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -401,8 +403,8 @@ plt.plot(out_recall)
 plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
 plt.xlabel('Training Size')
 plt.ylabel('Testing Recall')
-plt.title('Decision Tree Testing Recall by Training Size')
-plt.savefig('chess_output/Decision Tree Testing Recall by Training Size.png')
+plt.title('Boosted Decision Tree Testing Recall by Training Size')
+plt.savefig('chess_output/Boosted Decision Tree Testing Recall by Training Size.png')
 plt.close()
 plt.figure()
 
@@ -441,8 +443,10 @@ file.write("K NEAREST NEIGHBORS RESULTS\n")
 # Initialize empty lists to store data
 in_accuracy = []
 in_precision = []
+in_recall = []
 out_accuracy = []
 out_precision = []
+out_recall = []
 training_time = []
 in_query_time = []
 out_query_time = []
@@ -561,8 +565,10 @@ file.write("SUPPORT VECTOR MACHINE RESULTS\n")
 # Initialize empty lists to store data
 in_accuracy = []
 in_precision = []
+in_recall = []
 out_accuracy = []
 out_precision = []
+out_recall = []
 training_time = []
 in_query_time = []
 out_query_time = []
