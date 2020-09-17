@@ -25,7 +25,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import LinearSVC
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import accuracy_score, precision_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score
 import time
 
 df = pd.read_csv('../Data/churn/Churn_Modeling.csv')
@@ -83,6 +83,7 @@ file = open("churn_output/churn_log.txt","w")
 # Create lists to compare final test accuracy and precision for each model, plus query and train times
 final_accuracy = []
 final_precision = []
+final_recall = []
 final_train_time = []
 final_query_time = []
 
@@ -93,8 +94,10 @@ file.write("DECISION TREE RESULTS\n")
 # Initialize empty lists to store data
 in_accuracy = []
 in_precision = []
+in_recall = []
 out_accuracy = []
 out_precision = []
+out_recall = []
 training_time = []
 in_query_time = []
 out_query_time = []
@@ -119,8 +122,9 @@ for X, y in training_sets:
     end_time = time.time()
     in_accuracy.append(accuracy_score(y, y_insample))
     in_precision.append(precision_score(y, y_insample))
+    in_recall.append(recall_score(y, y_insample))
     in_query_time.append(end_time-start_time)
-    file.writelines(["In sample accuracy for Decision Tree: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for Decision Tree: " + str(precision_score(y, y_insample))+'\n', "Decision Tree insample query time: " + str(end_time-start_time)+'\n'])
+    file.writelines(["In sample accuracy for Decision Tree: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for Decision Tree: " + str(precision_score(y, y_insample))+'\n', "In sample recall for Decision Tree: " + str(recall_score(y, y_insample))+'\n', "Decision Tree insample query time: " + str(end_time-start_time)+'\n'])
 
     # Get predictions for out of sample data
     start_time = time.time()
@@ -128,8 +132,9 @@ for X, y in training_sets:
     end_time = time.time()
     out_accuracy.append(accuracy_score(y_test, y_outsample))
     out_precision.append(precision_score(y_test, y_outsample))
+    out_recall.append(recall_score(y_test, y_outsample))
     out_query_time.append(end_time-start_time)
-    file.writelines(["Out of sample accuracy for Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for Decision Tree: " + str(precision_score(y_test, y_outsample))+'\n', "Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
+    file.writelines(["Out of sample accuracy for Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for Decision Tree: " + str(precision_score(y_test, y_outsample))+'\n', "Out of sample recall for Decision Tree: " + str(recall_score(y_test, y_outsample))+'\n', "Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
     file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
     i = i+1
 
@@ -213,8 +218,10 @@ file.write("DECISION TREE W/ BOOSTING RESULTS\n")
 # Initialize empty lists to store data
 in_accuracy = []
 in_precision = []
+in_recall = []
 out_accuracy = []
 out_precision = []
+out_recall = []
 training_time = []
 in_query_time = []
 out_query_time = []
@@ -239,8 +246,9 @@ for X, y in training_sets:
     end_time = time.time()
     in_accuracy.append(accuracy_score(y, y_insample))
     in_precision.append(precision_score(y, y_insample))
+    in_recall.append(recall_score(y, y_insample))
     in_query_time.append(end_time-start_time)
-    file.writelines(["In sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for Boosted Decision Tree: " + str(precision_score(y, y_insample))+'\n', "Boosted Decision Tree insample query time: " + str(end_time-start_time)+'\n'])
+    file.writelines(["In sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for Boosted Decision Tree: " + str(precision_score(y, y_insample))+'\n', "In sample recall for Boosted Decision Tree: " + str(recall_score(y, y_insample))+'\n', "Boosted Decision Tree insample query time: " + str(end_time-start_time)+'\n'])
 
     # Get predictions for out of sample data
     start_time = time.time()
@@ -248,8 +256,9 @@ for X, y in training_sets:
     end_time = time.time()
     out_accuracy.append(accuracy_score(y_test, y_outsample))
     out_precision.append(precision_score(y_test, y_outsample))
+    out_recall.append(recall_score(y_test, y_outsample))
     out_query_time.append(end_time-start_time)
-    file.writelines(["Out of sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for Boosted Decision Tree: " + str(precision_score(y_test, y_outsample))+'\n', "Boosted Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
+    file.writelines(["Out of sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for Boosted Decision Tree: " + str(precision_score(y_test, y_outsample))+'\n', "Out of sample recall for Boosted Decision Tree: " + str(recall_score(y_test, y_outsample))+'\n', "Boosted Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
     file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
     i = i+1
   
@@ -333,8 +342,10 @@ file.write("K NEAREST NEIGHBORS RESULTS\n")
 # Initialize empty lists to store data
 in_accuracy = []
 in_precision = []
+in_recall = []
 out_accuracy = []
 out_precision = []
+out_recall = []
 training_time = []
 in_query_time = []
 out_query_time = []
@@ -359,8 +370,9 @@ for X, y in training_sets_scaled:
     end_time = time.time()
     in_accuracy.append(accuracy_score(y, y_insample))
     in_precision.append(precision_score(y, y_insample))
+    in_recall.append(recall_score(y, y_insample))
     in_query_time.append(end_time-start_time)
-    file.writelines(["In sample accuracy for KNN: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for KNN: " + str(precision_score(y, y_insample))+'\n', "KNN insample query time: " + str(end_time-start_time)+'\n'])
+    file.writelines(["In sample accuracy for KNN: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for KNN: " + str(precision_score(y, y_insample))+'\n', "In sample recall for KNN: " + str(recall_score(y, y_insample))+'\n', "KNN insample query time: " + str(end_time-start_time)+'\n'])
 
     # Get predictions for out of sample data
     start_time = time.time()
@@ -368,8 +380,9 @@ for X, y in training_sets_scaled:
     end_time = time.time()
     out_accuracy.append(accuracy_score(y_test, y_outsample))
     out_precision.append(precision_score(y_test, y_outsample))
+    out_recall.append(recall_score(y_test, y_outsample))
     out_query_time.append(end_time-start_time)
-    file.writelines(["Out of sample accuracy for KNN: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for KNN: " + str(precision_score(y_test, y_outsample))+'\n', "KNN out of sample query time: " + str(end_time-start_time)+'\n'])
+    file.writelines(["Out of sample accuracy for KNN: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for KNN: " + str(precision_score(y_test, y_outsample))+'\n', "Out of sample recall for KNN: " + str(recall_score(y_test, y_outsample))+'\n', "KNN out of sample query time: " + str(end_time-start_time)+'\n'])
     file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
     i = i+1
     
@@ -453,8 +466,10 @@ file.write("SUPPORT VECTOR MACHINE RESULTS\n")
 # Initialize empty lists to store data
 in_accuracy = []
 in_precision = []
+in_recall = []
 out_accuracy = []
 out_precision = []
+out_recall = []
 training_time = []
 in_query_time = []
 out_query_time = []
@@ -479,8 +494,9 @@ for X, y in training_sets_scaled:
     end_time = time.time()
     in_accuracy.append(accuracy_score(y, y_insample))
     in_precision.append(precision_score(y, y_insample))
+    in_recall.append(recall_score(y, y_insample))
     in_query_time.append(end_time-start_time)
-    file.writelines(["In sample accuracy for SVC: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for SVC: " + str(precision_score(y, y_insample))+'\n', "SVC insample query time: " + str(end_time-start_time)+'\n'])
+    file.writelines(["In sample accuracy for SVC: " + str(accuracy_score(y, y_insample))+'\n', "In sample precision for SVC: " + str(precision_score(y, y_insample))+'\n', "In sample recall for SVC: " + str(recall_score(y, y_insample))+'\n', "SVC insample query time: " + str(end_time-start_time)+'\n'])
 
     # Get predictions for out of sample data
     start_time = time.time()
@@ -488,8 +504,9 @@ for X, y in training_sets_scaled:
     end_time = time.time()
     out_accuracy.append(accuracy_score(y_test, y_outsample))
     out_precision.append(precision_score(y_test, y_outsample))
+    out_recall.append(recall_score(y_test, y_outsample))
     out_query_time.append(end_time-start_time)
-    file.writelines(["Out of sample accuracy for SVC: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for SVC: " + str(precision_score(y_test, y_outsample))+'\n', "SVC out of sample query time: " + str(end_time-start_time)+'\n'])
+    file.writelines(["Out of sample accuracy for SVC: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for SVC: " + str(precision_score(y_test, y_outsample))+'\n', "Out of sample recall for SVC: " + str(recall_score(y_test, y_outsample))+'\n', "SVC out of sample query time: " + str(end_time-start_time)+'\n'])
     file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
     i = i+1
     
@@ -572,11 +589,12 @@ plt.figure()
 file.write("NEURAL NETWORK RESULTS\n")
 
 # Initialize empty lists to store data
-training_loss = []
 in_accuracy = []
 in_precision = []
+in_recall = []
 out_accuracy = []
 out_precision = []
+out_recall = []
 training_time = []
 in_query_time = []
 out_query_time = []
