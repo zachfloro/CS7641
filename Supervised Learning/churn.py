@@ -752,7 +752,7 @@ plt.figure()
 ##### FINAL PLOTS #######
 # Accuracy
 plt.barh(np.arange(len(final_accuracy)), final_accuracy)
-plt.yticks(ticks=np.arange(len(final_accuracy)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN'])
+plt.yticks(ticks=np.arange(len(final_accuracy)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN', 'SVM', 'NN'])
 plt.ylabel('Model')
 plt.xlabel('Testing Accuracy')
 plt.title('Testing Accuracy by Model')
@@ -762,7 +762,7 @@ plt.figure()
 
 # Precision
 plt.barh(np.arange(len(final_precision)), final_precision)
-plt.yticks(ticks=np.arange(len(final_precision)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN'])
+plt.yticks(ticks=np.arange(len(final_precision)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN', 'SVM', 'NN'])
 plt.ylabel('Model')
 plt.xlabel('Testing Precision')
 plt.title('Testing Precision by Model')
@@ -772,7 +772,7 @@ plt.figure()
 
 # Training Time
 plt.barh(np.arange(len(final_train_time)), final_train_time)
-plt.yticks(ticks=np.arange(len(final_train_time)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN'])
+plt.yticks(ticks=np.arange(len(final_train_time)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN', 'SVM', 'NN'])
 plt.ylabel('Model')
 plt.xlabel('Training Time')
 plt.title('Training Time by Model')
@@ -782,7 +782,7 @@ plt.figure()
 
 # Query Time
 plt.barh(np.arange(len(final_query_time)), final_query_time)
-plt.yticks(ticks=np.arange(len(final_query_time)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN'])
+plt.yticks(ticks=np.arange(len(final_query_time)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN', 'SVM', 'NN'])
 plt.ylabel('Model')
 plt.xlabel('Query Time')
 plt.title('Query Time by Model')
