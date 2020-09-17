@@ -651,12 +651,22 @@ class MLP(torch.nn.Module):
         super(MLP, self).__init__()
         self.input_size = input_size
         self.hidden1 = hidden1
+        self.hidden2 = hidden2
+        self.hidden3 = hidden3
         self.fc1 = torch.nn.Linear(self.input_size, self.hidden1)
         self.relu = torch.nn.ReLU()
-        self.fc4 = torch.nn.Linear(self.hidden1, 1)
+        self.fc2 = torch.nn.Linear(self.hidden1, self.hidden2)
+        self.relu = torch.nn.ReLU()
+        self.fc3 = torch.nn.Linear(self.hidden2, self.hidden3)
+        self.relu = torch.nn.ReLU()
+        self.fc4 = torch.nn.Linear(self.hidden3, 1)
         self.sigmoid = torch.nn.Sigmoid()
     def forward(self, x):
         hidden = self.fc1(x)
+        relu = self.relu(hidden)
+        hidden = self.fc2(relu)
+        relu = self.relu(hidden)
+        hidden = self.fc3(relu)
         relu = self.relu(hidden)
         output = self.fc4(relu)
         output = self.sigmoid(output)
