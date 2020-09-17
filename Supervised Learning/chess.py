@@ -931,7 +931,7 @@ plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,100
 plt.xlabel('Training Size')
 plt.ylabel('Testing Query Time')
 plt.title('NN Testing Query Time by Training Size')
-plt.savefig('chess_output/NN Testing Query Time by Training Size.png')
+plt.savefig('chess _output/NN Testing Query Time by Training Size.png')
 plt.close()
 plt.figure()
 
