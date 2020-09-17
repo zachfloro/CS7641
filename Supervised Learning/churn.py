@@ -603,6 +603,7 @@ plt.figure()
 file.write("NEURAL NETWORK RESULTS\n")
 
 # Initialize empty lists to store data
+training_loss = []
 in_accuracy = []
 in_precision = []
 out_accuracy = []
@@ -646,19 +647,26 @@ x_test = torch.FloatTensor(X_test.values)
 Y_test = torch.FloatTensor(y_test.values)
 model.train()
 epoch = 20
+
 for epoch in range(epoch):
     optimizer.zero_grad()
-    # Forward pass
-    y_pred = model(x_train)
-    # Compute Loss
-    loss = criterion(y_pred.squeeze(), Y_train)
-   
-    print('Epoch {}: train loss: {}'.format(epoch, loss.item()))
-    # Backward pass
+    y_insample = model(x_train)
+    loss = criterion(y_insample.squeeze(), Y_train)
+    training_loss.append(loss.item())
     loss.backward()
     optimizer.step()
     
+
 model.eval()
-y_pred = model(x_test)
-after_train = criterion(y_pred.squeeze(), Y_test) 
+y_insample = model(x_train)
+Y_train = Y_train.detach().numpy().astype(int)
+y_insample = np.rint(y_insample.detach().numpy().flatten())
+in_accuracy.append(accuracy_score(Y_train,y_insample)) 
+in_precision.append(precision_score(Y_train,y_insample))
+y_outsample = model(x_test)
+Y_test = Y_test.detach().numpy().astype(int)
+y_outsample = np.rint(y_outsample.detach().numpy().flatten())
+out_accuracy.append(accuracy_score(Y_test,y_outsample))
+out_precision.append(precision_score(Y_test,y_outsample))
+after_train = criterion(y_outsample.squeeze(), Y_test) 
 print('Test loss after Training' , after_train.item())
