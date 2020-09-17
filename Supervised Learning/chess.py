@@ -724,6 +724,218 @@ plt.savefig('chess_output/SVC Testing Query Time by Training Size.png')
 plt.close()
 plt.figure()
 
+##### Neural Network #######
+
+file.write("NEURAL NETWORK RESULTS\n")
+
+# Initialize empty lists to store data
+training_loss = []
+in_accuracy = []
+in_precision = []
+in_recall = []
+out_accuracy = []
+out_precision = []
+out_recall = []
+training_time = []
+in_query_time = []
+out_query_time = []
+
+# Create class for defining MLP
+#class MLP(torch.nn.Module):
+#    def __init__(self, input_size, hidden1, hidden2, hidden3):
+#        super(MLP, self).__init__()
+#        self.input_size = input_size
+#        self.hidden1 = hidden1
+#        self.hidden2 = hidden2
+#        self.hidden3 = hidden3
+#        self.fc1 = torch.nn.Linear(self.input_size, self.hidden1)
+#        self.fc2 = torch.nn.Linear(self.hidden1, self.hidden2)
+#        self.relu = torch.nn.ReLU()
+#        self.fc3 = torch.nn.Linear(self.hidden2, self.hidden3)
+#        self.relu = torch.nn.ReLU()
+#        self.fc4 = torch.nn.Linear(self.hidden3, 1)
+#        self.sigmoid = torch.nn.Sigmoid()
+#    def forward(self, x):
+#        hidden = self.fc1(x)
+#        hidden = self.fc2(hidden)
+#        relu1 = self.relu(hidden)
+#        hidden = self.fc3(relu1)
+#        relu = self.relu(hidden)
+#        output = self.fc4(relu)
+#        output = self.sigmoid(output)
+#        return output
+class MLP(torch.nn.Module):
+    def __init__(self, input_size, hidden1, hidden2, hidden3):
+        super(MLP, self).__init__()
+        self.input_size = input_size
+        self.hidden1 = hidden1
+        self.hidden2 = hidden2
+        self.hidden3 = hidden3
+        self.fc1 = torch.nn.Linear(self.input_size, self.hidden1)
+        self.relu = torch.nn.ReLU()
+        self.fc2 = torch.nn.Linear(self.hidden1, self.hidden2)
+        self.relu = torch.nn.ReLU()
+        self.fc3 = torch.nn.Linear(self.hidden2, self.hidden3)
+        self.relu = torch.nn.ReLU()
+        self.fc4 = torch.nn.Linear(self.hidden3, 1)
+        self.sigmoid = torch.nn.Sigmoid()
+    def forward(self, x):
+        hidden = self.fc1(x)
+        relu = self.relu(hidden)
+        hidden = self.fc2(relu)
+        relu = self.relu(hidden)
+        hidden = self.fc3(relu)
+        relu = self.relu(hidden)
+        output = self.fc4(relu)
+        output = self.sigmoid(output)
+        return output
+
+i = 1
+for X, y in training_sets_scaled: 
+    file.write('Training Set %s:\n' % (i))
+    start_time = time.time()
+    model = MLP(13,10,7,5)
+    criterion = torch.nn.BCELoss()
+    optimizer = torch.optim.SGD(model.parameters(), lr = 0.01)
+    
+    x_train = torch.FloatTensor(X.values)
+    Y_train = torch.FloatTensor(y.values)
+    x_test = torch.FloatTensor(X_test_scaled.values)
+    Y_test = torch.FloatTensor(y_test.values)
+    model.train()
+    epoch = 10000
+
+    for epoch in range(epoch):
+        optimizer.zero_grad()
+        y_insample = model(x_train)
+        loss = criterion(y_insample.squeeze(), Y_train)
+        training_loss.append(loss.item())
+        loss.backward()
+        optimizer.step()
+    end_time = time.time()
+    training_time.append(end_time-start_time)
+    file.write("NN training time: " + str(end_time-start_time)+'\n')
+
+    model.eval()
+    start_time = time.time()
+    y_insample = model(x_train)
+    end_time = time.time()
+    in_query_time.append(end_time-start_time)
+    Y_train = Y_train.detach().numpy().astype(int)
+    y_insample = np.rint(y_insample.detach().numpy().flatten())
+    in_accuracy.append(accuracy_score(Y_train,y_insample)) 
+    in_precision.append(precision_score(Y_train,y_insample))
+    in_recall.append(recall_score(Y_train,y_insample))
+    file.writelines(["In sample accuracy for nn: " + str(accuracy_score(Y_train,y_insample))+'\n', "In sample precision for NN: " + str(precision_score(Y_train,y_insample))+'\n', "In sample recall for NN: " + str(recall_score(Y_train,y_insample))+'\n', "NN insample query time: " + str(end_time-start_time)+'\n'])
+
+    start_time = time.time()
+    y_outsample = model(x_test)
+    end_time = time.time()
+    out_query_time.append(end_time-start_time)
+    after_train = criterion(y_outsample.squeeze(), Y_test)
+    Y_test = Y_test.detach().numpy().astype(int)
+    y_outsample = np.rint(y_outsample.detach().numpy().flatten())
+    out_accuracy.append(accuracy_score(Y_test,y_outsample))
+    out_precision.append(precision_score(Y_test,y_outsample))
+    out_recall.append(recall_score(Y_test,y_outsample))
+    file.writelines(["Out of sample accuracy for NN: " + str(accuracy_score(Y_test, y_outsample))+'\n', "Out of sample precision for NN: " + str(precision_score(Y_test, y_outsample))+'\n', "Out of sample recall for NN: " + str(recall_score(Y_test, y_outsample))+'\n', "SVC out of sample query time: " + str(end_time-start_time)+'\n'])
+    file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
+    i = i+1
+    
+# Append final values
+final_accuracy.append(out_accuracy[-1])
+final_precision.append(out_precision[-1])
+final_recall.append(out_recall[-1])
+final_train_time.append(training_time[-1])
+final_query_time.append(out_query_time[-1])
+
+# Create graphs
+# Accuracy
+plt.plot(in_accuracy)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Accuracy')
+plt.title('NN In-Sample Accuracy by Training Size')
+plt.savefig('chess_output/NN In-Sample Accuracy by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_accuracy)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Accuracy')
+plt.title('NN Testing Accuracy by Training Size')
+plt.savefig('chess_output/NN Testing Accuracy by Training Size.png')
+plt.close()
+plt.figure()
+
+# Precision
+plt.plot(in_precision)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Precision')
+plt.title('NN In-Sample Precision by Training Size')
+plt.savefig('chess_output/NN In-Sample Precision by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_precision)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Precision')
+plt.title('NN Testing Precision by Training Size')
+plt.savefig('chess_output/NN Testing Precision by Training Size.png')
+plt.close()
+plt.figure()
+
+# Recall
+plt.plot(in_recall)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Recall')
+plt.title('NN In-Sample Recall by Training Size')
+plt.savefig('chess_output/NN In-Sample Recall by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_recall)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Recall')
+plt.title('NN Testing Recall by Training Size')
+plt.savefig('chess_output/NN Testing Recall by Training Size.png')
+plt.close()
+plt.figure()
+
+# Wall Time
+plt.plot(training_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
+plt.xlabel('Training Size')
+plt.ylabel('Training Time')
+plt.title('NN Training Time by Training Size')
+plt.savefig('chess_output/NN Training Time by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(in_query_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Query Time')
+plt.title('NN In-Sample Query Time by Training Size')
+plt.savefig('chess_output/NN In-Sample Query by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_query_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,10000,13438])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Query Time')
+plt.title('NN Testing Query Time by Training Size')
+plt.savefig('chess_output/NN Testing Query Time by Training Size.png')
+plt.close()
+plt.figure()
+
+
 ##### FINAL PLOTS #######
 # Accuracy
 plt.barh(np.arange(len(final_accuracy)), final_accuracy)
