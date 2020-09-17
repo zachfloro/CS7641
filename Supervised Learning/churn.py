@@ -141,6 +141,7 @@ for X, y in training_sets:
 # Append final values
 final_accuracy.append(out_accuracy[-1])
 final_precision.append(out_precision[-1])
+final_recall.append(out_recall[-1])
 final_train_time.append(training_time[-1])
 final_query_time.append(out_query_time[-1])
 
@@ -284,6 +285,7 @@ for X, y in training_sets:
 # Append final values
 final_accuracy.append(out_accuracy[-1])
 final_precision.append(out_precision[-1])
+final_recall.append(out_recall[-1])
 final_train_time.append(training_time[-1])
 final_query_time.append(out_query_time[-1])
 
@@ -427,6 +429,7 @@ for X, y in training_sets_scaled:
 # Append final values
 final_accuracy.append(out_accuracy[-1])
 final_precision.append(out_precision[-1])
+final_recall.append(out_recall[-1])
 final_train_time.append(training_time[-1])
 final_query_time.append(out_query_time[-1])
 
@@ -570,6 +573,7 @@ for X, y in training_sets_scaled:
 # Append final values
 final_accuracy.append(out_accuracy[-1])
 final_precision.append(out_precision[-1])
+final_recall.append(out_recall[-1])
 final_train_time.append(training_time[-1])
 final_query_time.append(out_query_time[-1])
 
@@ -781,6 +785,7 @@ for X, y in training_sets_scaled:
 # Append final values
 final_accuracy.append(out_accuracy[-1])
 final_precision.append(out_precision[-1])
+final_recall.append(out_recall[-1])
 final_train_time.append(training_time[-1])
 final_query_time.append(out_query_time[-1])
 
@@ -889,6 +894,16 @@ plt.ylabel('Model')
 plt.xlabel('Testing Precision')
 plt.title('Testing Precision by Model')
 plt.savefig('churn_output/Testing Precision by Model.png')
+plt.close()
+plt.figure()
+
+# Recall
+plt.barh(np.arange(len(final_recall)), final_recall)
+plt.yticks(ticks=np.arange(len(final_precision)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN', 'SVM', 'NN'])
+plt.ylabel('Model')
+plt.xlabel('Testing Recall')
+plt.title('Testing Recall by Model')
+plt.savefig('churn_output/Testing Recall by Model.png')
 plt.close()
 plt.figure()
 
