@@ -715,4 +715,76 @@ for X, y in training_sets_scaled:
     y_outsample = np.rint(y_outsample.detach().numpy().flatten())
     out_accuracy.append(accuracy_score(Y_test,y_outsample))
     out_precision.append(precision_score(Y_test,y_outsample))
- 
+    
+# Append final values
+final_accuracy.append(out_accuracy[-1])
+final_precision.append(out_precision[-1])
+final_train_time.append(training_time[-1])
+final_query_time.append(out_query_time[-1])
+
+# Create graphs
+# Accuracy
+plt.plot(in_accuracy)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Accuracy')
+plt.title('NN In-Sample Accuracy by Training Size')
+plt.savefig('churn_output/NN In-Sample Accuracy by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_accuracy)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Accuracy')
+plt.title('NN Testing Accuracy by Training Size')
+plt.savefig('churn_output/NN Testing Accuracy by Training Size.png')
+plt.close()
+plt.figure()
+
+# Precision
+plt.plot(in_precision)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Precision')
+plt.title('NN In-Sample Precision by Training Size')
+plt.savefig('churn_output/NN In-Sample Precision by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_precision)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Precision')
+plt.title('NN Testing Precision by Training Size')
+plt.savefig('churn_output/NN Testing Precision by Training Size.png')
+plt.close()
+plt.figure()
+
+# Wall Time
+plt.plot(training_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Training Time')
+plt.title('NN Training Time by Training Size')
+plt.savefig('churn_output/NN Training Time by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(in_query_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Query Time')
+plt.title('NN In-Sample Query Time by Training Size')s
+plt.savefig('churn_output/NN In-Sample Query by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_query_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Query Time')
+plt.title('NN Testing Query Time by Training Size')
+plt.savefig('churn_output/NN Testing Query Time by Training Size.png')
+plt.close()
+plt.figure()
