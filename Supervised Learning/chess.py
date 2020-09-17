@@ -18,7 +18,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 import torch
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler, LabelEncoder
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.neighbors import KNeighborsClassifier
@@ -196,7 +196,7 @@ for X, y in training_sets:
     out_precision.append(precision_score(y_test, y_outsample, average='weighted'))
     out_recall.append(recall_score(y_test, y_outsample, average='weighted'))
     out_query_time.append(end_time-start_time)
-    file.writelines(["Out of sample accuracy for Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for Decision Tree: " + str(precision_score(y_test, y_outsample, average='weighted'))+'\n', "Out of sample recall for Decision Tree: " + str(recall_score(y, y_outsample, average='weighted'))+'\n', "Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
+    file.writelines(["Out of sample accuracy for Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for Decision Tree: " + str(precision_score(y_test, y_outsample, average='weighted'))+'\n', "Out of sample recall for Decision Tree: " + str(recall_score(y_test, y_outsample, average='weighted'))+'\n', "Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
     file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
     i = i+1
 
@@ -338,6 +338,7 @@ for X, y in training_sets:
     end_time = time.time()
     out_accuracy.append(accuracy_score(y_test, y_outsample))
     out_precision.append(precision_score(y_test, y_outsample, average='weighted'))
+    out_recall.append(recall_score(y_test, y_outsample, average='weighted'))
     out_query_time.append(end_time-start_time)
     file.writelines(["Out of sample accuracy for Boosted Decision Tree: " + str(accuracy_score(y_test, y_outsample))+'\n', "Out of sample precision for Boosted Decision Tree: " + str(precision_score(y_test, y_outsample, average='weighted'))+'\n', "Out of sample recall for Boosted Decision Tree: " + str(recall_score(y_test, y_outsample, average='weighted'))+'\n', "Boosted Decision Tree out of sample query time: " + str(end_time-start_time)+'\n'])
     file.write("END OF ITERATION\n----------------------------------------------------------------------------------\n")
@@ -794,7 +795,7 @@ i = 1
 for X, y in training_sets_scaled: 
     file.write('Training Set %s:\n' % (i))
     start_time = time.time()
-    model = MLP(13,10,7,5)
+    model = MLP(376,150,75,25)
     criterion = torch.nn.BCELoss()
     optimizer = torch.optim.SGD(model.parameters(), lr = 0.01)
     
