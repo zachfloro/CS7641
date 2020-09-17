@@ -566,47 +566,6 @@ plt.savefig('churn_output/SVC Testing Query Time by Training Size.png')
 plt.close()
 plt.figure()
 
-##### FINAL PLOTS #######
-# Accuracy
-plt.barh(np.arange(len(final_accuracy)), final_accuracy)
-plt.yticks(ticks=np.arange(len(final_accuracy)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN'])
-plt.ylabel('Model')
-plt.xlabel('Testing Accuracy')
-plt.title('Testing Accuracy by Model')
-plt.savefig('churn_output/Testing Accuracy by Model.png')
-plt.close()
-plt.figure()
-
-# Precision
-plt.barh(np.arange(len(final_precision)), final_precision)
-plt.yticks(ticks=np.arange(len(final_precision)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN'])
-plt.ylabel('Model')
-plt.xlabel('Testing Precision')
-plt.title('Testing Precision by Model')
-plt.savefig('churn_output/Testing Precision by Model.png')
-plt.close()
-plt.figure()
-
-# Training Time
-plt.barh(np.arange(len(final_train_time)), final_train_time)
-plt.yticks(ticks=np.arange(len(final_train_time)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN'])
-plt.ylabel('Model')
-plt.xlabel('Training Time')
-plt.title('Training Time by Model')
-plt.savefig('churn_output/Training Time by Model.png')
-plt.close()
-plt.figure()
-
-# Query Time
-plt.barh(np.arange(len(final_query_time)), final_query_time)
-plt.yticks(ticks=np.arange(len(final_query_time)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN'])
-plt.ylabel('Model')
-plt.xlabel('Query Time')
-plt.title('Query Time by Model')
-plt.savefig('churn_output/Query Time by Model.png')
-plt.close()
-plt.figure()
-
 
 ##### Neural Network #######
 
@@ -775,7 +734,7 @@ plt.plot(in_query_time)
 plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
 plt.xlabel('Training Size')
 plt.ylabel('In-Sample Query Time')
-plt.title('NN In-Sample Query Time by Training Size')s
+plt.title('NN In-Sample Query Time by Training Size')
 plt.savefig('churn_output/NN In-Sample Query by Training Size.png')
 plt.close()
 plt.figure()
@@ -786,5 +745,47 @@ plt.xlabel('Training Size')
 plt.ylabel('Testing Query Time')
 plt.title('NN Testing Query Time by Training Size')
 plt.savefig('churn_output/NN Testing Query Time by Training Size.png')
+plt.close()
+plt.figure()
+
+
+##### FINAL PLOTS #######
+# Accuracy
+plt.barh(np.arange(len(final_accuracy)), final_accuracy)
+plt.yticks(ticks=np.arange(len(final_accuracy)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN'])
+plt.ylabel('Model')
+plt.xlabel('Testing Accuracy')
+plt.title('Testing Accuracy by Model')
+plt.savefig('churn_output/Testing Accuracy by Model.png')
+plt.close()
+plt.figure()
+
+# Precision
+plt.barh(np.arange(len(final_precision)), final_precision)
+plt.yticks(ticks=np.arange(len(final_precision)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN'])
+plt.ylabel('Model')
+plt.xlabel('Testing Precision')
+plt.title('Testing Precision by Model')
+plt.savefig('churn_output/Testing Precision by Model.png')
+plt.close()
+plt.figure()
+
+# Training Time
+plt.barh(np.arange(len(final_train_time)), final_train_time)
+plt.yticks(ticks=np.arange(len(final_train_time)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN'])
+plt.ylabel('Model')
+plt.xlabel('Training Time')
+plt.title('Training Time by Model')
+plt.savefig('churn_output/Training Time by Model.png')
+plt.close()
+plt.figure()
+
+# Query Time
+plt.barh(np.arange(len(final_query_time)), final_query_time)
+plt.yticks(ticks=np.arange(len(final_query_time)), labels=['Decision Tree', 'Decision Tree w/ Boosting', 'KNN'])
+plt.ylabel('Model')
+plt.xlabel('Query Time')
+plt.title('Query Time by Model')
+plt.savefig('churn_output/Query Time by Model.png')
 plt.close()
 plt.figure()
