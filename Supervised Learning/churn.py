@@ -926,3 +926,6 @@ plt.title('Query Time by Model')
 plt.savefig('churn_output/Query Time by Model.png')
 plt.close()
 plt.figure()
+
+#Close file
+file.close()
