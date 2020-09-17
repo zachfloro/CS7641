@@ -16,6 +16,8 @@ ATTRIBUTIONS:
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import math
+import torch
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import AdaBoostClassifier
@@ -23,8 +25,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import LinearSVC
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
-from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import accuracy_score, precision_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score
 import time
 
 df = pd.read_csv('../Data/chess/games.csv')
