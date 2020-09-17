@@ -638,6 +638,8 @@ class MLP(torch.nn.Module):
         return output
 
 model = MLP(13,10,7,5)
+#weights = torch.FloatTensor(np.full((1000,2),[.8,.2]))
+#criterion = torch.nn.BCELoss(weight=weights)
 criterion = torch.nn.BCELoss()
 optimizer = torch.optim.SGD(model.parameters(), lr = 0.01)
 
@@ -646,7 +648,7 @@ Y_train = torch.FloatTensor(y_train_1000.values)
 x_test = torch.FloatTensor(X_test.values)
 Y_test = torch.FloatTensor(y_test.values)
 model.train()
-epoch = 20
+epoch = 1000
 
 for epoch in range(epoch):
     optimizer.zero_grad()
@@ -664,9 +666,10 @@ y_insample = np.rint(y_insample.detach().numpy().flatten())
 in_accuracy.append(accuracy_score(Y_train,y_insample)) 
 in_precision.append(precision_score(Y_train,y_insample))
 y_outsample = model(x_test)
+after_train = criterion(y_outsample.squeeze(), Y_test)
 Y_test = Y_test.detach().numpy().astype(int)
 y_outsample = np.rint(y_outsample.detach().numpy().flatten())
 out_accuracy.append(accuracy_score(Y_test,y_outsample))
 out_precision.append(precision_score(Y_test,y_outsample))
-after_train = criterion(y_outsample.squeeze(), Y_test) 
+ 
 print('Test loss after Training' , after_train.item())
