@@ -91,7 +91,7 @@ final_query_time = []
 file.write("DECISION TREE RESULTS\n")
 
 # Run cross validation on main training set to choose parameters
-dt = DecisionTreeClassifier(criterion='entropy', random_state=13)
+dt = DecisionTreeClassifier(random_state=13)
 parameters = {'max_depth':(3, 5, 10), 'min_samples_split':(10,20)} # Set parameters to be used in gridsearch
 clf = GridSearchCV(dt, parameters, 'recall', cv=5) # perform gridsearch and cross validation
 clf.fit(X_train, y_train)
@@ -242,9 +242,9 @@ plt.figure()
 file.write("DECISION TREE W/ BOOSTING RESULTS\n")
 
 # Run cross validation on main training set to choose parameters
-parameters = {'base_estimator__max_depth':(1,5,10,25,50), 'base_estimator__min_samples_split':(5,10,15)}
+parameters = {'base_estimator__max_depth':(10,25,50), 'base_estimator__min_samples_split':(10,20,30)}
 ada = AdaBoostClassifier(base_estimator = dt, n_estimators=50, random_state=13)
-clf = GridSearchCV(ada, parameters) # perform gridsearch and cross validation
+clf = GridSearchCV(ada, parameters, 'recall', cv=5) # perform gridsearch and cross validation
 clf.fit(X_train, y_train)
 clf_best = clf.best_estimator_
 file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
@@ -393,7 +393,7 @@ file.write("K NEAREST NEIGHBORS RESULTS\n")
 # Run cross validation on main training set to choose parameters
 knn = KNeighborsClassifier()
 parameters = {'n_neighbors':(1,5,10,20), 'weights':('uniform','distance')}
-clf = GridSearchCV(knn, parameters) # perform gridsearch and cross validation
+clf = GridSearchCV(knn, parameters, 'recall', cv=5) # perform gridsearch and cross validation
 clf.fit(X_train, y_train)
 clf_best = clf.best_estimator_
 file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
@@ -542,7 +542,7 @@ file.write("SUPPORT VECTOR MACHINE RESULTS\n")
 # Run cross validation on main training set to choose parameters
 svc = LinearSVC(random_state=13)
 parameters = {'loss':['hinge','squared_hinge'], 'tol':[1e-4, 1e-5, 0.01]}
-clf = GridSearchCV(knn, parameters) # perform gridsearch and cross validation
+clf = GridSearchCV(knn, parameters, 'recall', cv=5) # perform gridsearch and cross validation
 clf.fit(X_train, y_train)
 clf_best = clf.best_estimator_
 file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
@@ -703,29 +703,6 @@ in_query_time = []
 out_query_time = []
 
 # Create class for defining MLP
-#class MLP(torch.nn.Module):
-#    def __init__(self, input_size, hidden1, hidden2, hidden3):
-#        super(MLP, self).__init__()
-#        self.input_size = input_size
-#        self.hidden1 = hidden1
-#        self.hidden2 = hidden2
-#        self.hidden3 = hidden3
-#        self.fc1 = torch.nn.Linear(self.input_size, self.hidden1)
-#        self.fc2 = torch.nn.Linear(self.hidden1, self.hidden2)
-#        self.relu = torch.nn.ReLU()
-#        self.fc3 = torch.nn.Linear(self.hidden2, self.hidden3)
-#        self.relu = torch.nn.ReLU()
-#        self.fc4 = torch.nn.Linear(self.hidden3, 1)
-#        self.sigmoid = torch.nn.Sigmoid()
-#    def forward(self, x):
-#        hidden = self.fc1(x)
-#        hidden = self.fc2(hidden)
-#        relu1 = self.relu(hidden)
-#        hidden = self.fc3(relu1)
-#        relu = self.relu(hidden)
-#        output = self.fc4(relu)
-#        output = self.sigmoid(output)
-#        return output
 class MLP(torch.nn.Module):
     def __init__(self, input_size, hidden1, hidden2, hidden3):
         super(MLP, self).__init__()
