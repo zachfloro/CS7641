@@ -42,16 +42,7 @@ X = df.drop(columns=['Exited'])
 
 # Split into train and test
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=13)
-# Rebalance dataset
-df_train = X_train.copy()
-df_train['pred'] = y_train.values
-df_train_0 = df_train.loc[df_train['pred']==0]
-df_train_1 = df_train.loc[df_train['pred']==1]
-df_train_1_over = df_train_1.sample(df_train_0.shape[0], replace=True)
-df_train = pd.concat([df_train_0, df_train_1_over],axis=0)
-df_train = df_train.sample(frac=1)
-X_train = df_train.iloc[:,:-1]
-y_train = df_train['pred']
+
 scaler = MinMaxScaler()
 scaler.fit(X_train)
 X_train_scaled = pd.DataFrame(scaler.transform(X_train),columns=X_train.columns)
@@ -91,7 +82,7 @@ final_query_time = []
 file.write("DECISION TREE RESULTS\n")
 
 # Run cross validation on main training set to choose parameters
-dt = DecisionTreeClassifier(random_state=13)
+dt = DecisionTreeClassifier(random_state=13, criterion='entropy', class_weight='balanced')
 parameters = {'max_depth':(3, 5, 10), 'min_samples_split':(10,20)} # Set parameters to be used in gridsearch
 clf = GridSearchCV(dt, parameters, 'recall', cv=5) # perform gridsearch and cross validation
 clf.fit(X_train, y_train)
@@ -242,7 +233,7 @@ plt.figure()
 file.write("DECISION TREE W/ BOOSTING RESULTS\n")
 
 # Run cross validation on main training set to choose parameters
-parameters = {'base_estimator__max_depth':(10,25,50), 'base_estimator__min_samples_split':(10,20,30)}
+parameters = {'base_estimator__max_depth':(10,25,50), 'base_estimator__min_samples_split':(10,20,30), 'learning_rate':[0.1, 0.01, 0.001], 'n_estimators':[50,100]}
 ada = AdaBoostClassifier(base_estimator = dt, n_estimators=50, random_state=13)
 clf = GridSearchCV(ada, parameters, 'recall', cv=5) # perform gridsearch and cross validation
 clf.fit(X_train, y_train)
@@ -540,9 +531,9 @@ plt.figure()
 file.write("SUPPORT VECTOR MACHINE RESULTS\n")
 
 # Run cross validation on main training set to choose parameters
-svc = LinearSVC(random_state=13)
+svc = LinearSVC(random_state=13, class_weight='balanced')
 parameters = {'loss':['hinge','squared_hinge'], 'tol':[1e-4, 1e-5, 0.01]}
-clf = GridSearchCV(knn, parameters, 'recall', cv=5) # perform gridsearch and cross validation
+clf = GridSearchCV(svc, parameters, 'recall', cv=5) # perform gridsearch and cross validation
 clf.fit(X_train, y_train)
 clf_best = clf.best_estimator_
 file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
@@ -689,6 +680,40 @@ plt.figure()
 ##### Neural Network #######
 
 file.write("NEURAL NETWORK RESULTS\n")
+
+# Rebalance dataset
+df_train = X_train.copy()
+df_train['pred'] = y_train.values
+df_train_0 = df_train.loc[df_train['pred']==0]
+df_train_1 = df_train.loc[df_train['pred']==1]
+df_train_1_over = df_train_1.sample(df_train_0.shape[0], replace=True)
+df_train = pd.concat([df_train_0, df_train_1_over],axis=0)
+df_train = df_train.sample(frac=1)
+X_train = df_train.iloc[:,:-1]
+y_train = df_train['pred']
+scaler = MinMaxScaler()
+scaler.fit(X_train)
+X_train_scaled = pd.DataFrame(scaler.transform(X_train),columns=X_train.columns)
+X_test_scaled = pd.DataFrame(scaler.transform(X_test),columns=X_test.columns)
+
+# Create various sizes of training set
+X_train_100 = X_train.head(100)
+X_train_1000 = X_train.iloc[100:].head(1000)
+X_train_2500 = X_train.iloc[1100:].head(2500)
+X_train_5000 = X_train.tail(5000)
+y_train_100 = y_train.head(100)
+y_train_1000 = y_train.iloc[100:].head(1000)
+y_train_2500 = y_train.iloc[1100:].head(2500)
+y_train_5000 = y_train.tail(5000)
+
+# Do same thing for scaled versions
+X_train_sc_100 = X_train_scaled.head(100)
+X_train_sc_1000 = X_train_scaled.iloc[100:].head(1000)
+X_train_sc_2500 = X_train_scaled.iloc[1100:].head(2500)
+X_train_sc_5000 = X_train_scaled.tail(5000)
+
+training_sets = [(X_train_100, y_train_100), (X_train_1000, y_train_1000), (X_train_2500, y_train_2500), (X_train_5000, y_train_5000), (X_train, y_train)]
+training_sets_scaled = [(X_train_sc_100, y_train_100), (X_train_sc_1000, y_train_1000), (X_train_sc_2500, y_train_2500), (X_train_sc_5000, y_train_5000), (X_train_scaled, y_train)]
 
 # Initialize empty lists to store data
 training_loss = []
