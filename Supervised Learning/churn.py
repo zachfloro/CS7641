@@ -108,13 +108,13 @@ for X, y in training_sets:
     start_time = time.time()
     dt = DecisionTreeClassifier(criterion='entropy', random_state=13)
     parameters = {'max_depth':(3, 5, 10), 'min_samples_split':(10,20)} # Set parameters to be used in gridsearch
-#    parameters = {'max_depth':[5], 'criterion':['entropy'], 'min_samples_split':[20]}
     clf = GridSearchCV(dt, parameters, 'recall', cv=5) # perform gridsearch and cross validation
     clf.fit(X, y)
     end_time = time.time()
     training_time.append(end_time-start_time)
     file.write("Decision Tree training time: " + str(end_time-start_time)+'\n')
     file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
+    file.write("Cross Validation Results: " + str(clf.cv_results_['mean_test_score'])+'\n')
 
     # Get predictions for in sample data
     start_time = time.time()
