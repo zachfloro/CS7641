@@ -90,6 +90,16 @@ final_query_time = []
 
 file.write("DECISION TREE RESULTS\n")
 
+# Run cross validation on main training set to choose parameters
+dt = DecisionTreeClassifier(criterion='entropy', random_state=13)
+parameters = {'max_depth':(3, 5, 10), 'min_samples_split':(10,20)} # Set parameters to be used in gridsearch
+clf = GridSearchCV(dt, parameters, 'recall', cv=5) # perform gridsearch and cross validation
+clf.fit(X_train, y_train)
+file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
+file.write("Cross Validation Results: " + str(clf.cv_results_['mean_test_score'])+'\n')
+clf_best = clf.best_estimator_
+
+
 # Initialize empty lists to store data
 in_accuracy = []
 in_precision = []
@@ -106,15 +116,11 @@ i = 1
 for X, y in training_sets: 
     file.write('Training Set %s:\n' % (i))
     start_time = time.time()
-    dt = DecisionTreeClassifier(criterion='entropy', random_state=13)
-    parameters = {'max_depth':(3, 5, 10), 'min_samples_split':(10,20)} # Set parameters to be used in gridsearch
-    clf = GridSearchCV(dt, parameters, 'recall', cv=5) # perform gridsearch and cross validation
-    clf.fit(X, y)
+    clf_best.fit(X, y)
     end_time = time.time()
     training_time.append(end_time-start_time)
     file.write("Decision Tree training time: " + str(end_time-start_time)+'\n')
-    file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
-    file.write("Cross Validation Results: " + str(clf.cv_results_['mean_test_score'])+'\n')
+    
 
     # Get predictions for in sample data
     start_time = time.time()
@@ -235,6 +241,15 @@ plt.figure()
 
 file.write("DECISION TREE W/ BOOSTING RESULTS\n")
 
+# Run cross validation on main training set to choose parameters
+parameters = {'base_estimator__max_depth':(1,5,10,25,50), 'base_estimator__min_samples_split':(5,10,15)}
+ada = AdaBoostClassifier(base_estimator = dt, n_estimators=50, random_state=13)
+clf = GridSearchCV(ada, parameters) # perform gridsearch and cross validation
+clf.fit(X_train, y_train)
+clf_best = clf.best_estimator_
+file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
+file.write("Cross Validation Results: " + str(clf.cv_results_['mean_test_score'])+'\n')
+
 # Initialize empty lists to store data
 in_accuracy = []
 in_precision = []
@@ -251,14 +266,10 @@ i = 1
 for X, y in training_sets: 
     file.write('Training Set %s:\n' % (i))
     start_time = time.time()
-    parameters = {'base_estimator__max_depth':(1,5,10,25,50), 'base_estimator__min_samples_split':(5,10,15)}
-    ada = AdaBoostClassifier(base_estimator = dt, n_estimators=50, random_state=13)
-    clf = GridSearchCV(ada, parameters) # perform gridsearch and cross validation
-    clf.fit(X, y)
+    clf_best.fit(X, y)
     end_time = time.time()
     training_time.append(end_time-start_time)
     file.write("Boosted Decision Tree training time: " + str(end_time-start_time)+'\n')
-    file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
 
     # Get predictions for in sample data
     start_time = time.time()
@@ -379,6 +390,15 @@ plt.figure()
 
 file.write("K NEAREST NEIGHBORS RESULTS\n")
 
+# Run cross validation on main training set to choose parameters
+knn = KNeighborsClassifier()
+parameters = {'n_neighbors':(1,5,10,20), 'weights':('uniform','distance')}
+clf = GridSearchCV(knn, parameters) # perform gridsearch and cross validation
+clf.fit(X_train, y_train)
+clf_best = clf.best_estimator_
+file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
+file.write("Cross Validation Results: " + str(clf.cv_results_['mean_test_score'])+'\n')
+
 # Initialize empty lists to store data
 in_accuracy = []
 in_precision = []
@@ -395,14 +415,10 @@ i = 1
 for X, y in training_sets_scaled: 
     file.write('Training Set %s:\n' % (i))
     start_time = time.time()
-    knn = KNeighborsClassifier()
-    parameters = {'n_neighbors':(1,5,10,20), 'weights':('uniform','distance')}
-    clf = GridSearchCV(knn, parameters) # perform gridsearch and cross validation
-    clf.fit(X, y)
+    clf_best.fit(X, y)
     end_time = time.time()
     training_time.append(end_time-start_time)
     file.write("KNN training time: " + str(end_time-start_time)+'\n')
-    file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
 
     # Get predictions for in sample data
     start_time = time.time()
@@ -523,6 +539,15 @@ plt.figure()
 
 file.write("SUPPORT VECTOR MACHINE RESULTS\n")
 
+# Run cross validation on main training set to choose parameters
+svc = LinearSVC(random_state=13)
+parameters = {'loss':['hinge','squared_hinge'], 'tol':[1e-4, 1e-5, 0.01]}
+clf = GridSearchCV(knn, parameters) # perform gridsearch and cross validation
+clf.fit(X_train, y_train)
+clf_best = clf.best_estimator_
+file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
+file.write("Cross Validation Results: " + str(clf.cv_results_['mean_test_score'])+'\n')
+
 # Initialize empty lists to store data
 in_accuracy = []
 in_precision = []
@@ -539,10 +564,7 @@ i = 1
 for X, y in training_sets_scaled: 
     file.write('Training Set %s:\n' % (i))
     start_time = time.time()
-    svc = LinearSVC(random_state=13)
-    parameters = {'loss':['hinge','squared_hinge'], 'tol':[1e-4, 1e-5, 0.01]}
-    clf = GridSearchCV(svc, parameters) # perform gridsearch and cross validation
-    clf.fit(X, y)
+    clf_best.fit(X, y)
     end_time = time.time()
     training_time.append(end_time-start_time)
     file.write("SVC training time: " + str(end_time-start_time)+'\n')
