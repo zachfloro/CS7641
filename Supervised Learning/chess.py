@@ -302,8 +302,8 @@ plt.figure()
 file.write("DECISION TREE W/ BOOSTING RESULTS\n")
 
 # Run cross validation on main training set to choose parameters
-parameters = {'base_estimator__max_depth':(5,10,25), 'base_estimator__min_samples_split':(10,20,30), 'learning_rate':[0.1, 0.01, 0.001], 'n_estimators':[50,100]}
-ada = AdaBoostClassifier(base_estimator = dt, random_state=13)
+parameters = {'base_estimator__max_depth':(5,10,25), 'base_estimator__min_samples_split':(10,20,30), 'learning_rate':[0.1, 0.01, 0.001]}
+ada = AdaBoostClassifier(base_estimator = dt, n_estimators = 50, random_state=13)
 clf = GridSearchCV(ada, parameters, cv=5) # perform gridsearch and cross validation
 clf.fit(X_train, y_train)
 clf_best = clf.best_estimator_
