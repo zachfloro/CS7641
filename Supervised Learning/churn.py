@@ -115,7 +115,7 @@ for X, y in training_sets:
 
     # Get predictions for in sample data
     start_time = time.time()
-    y_insample = clf.predict(X)
+    y_insample = clf_best.predict(X)
     end_time = time.time()
     in_accuracy.append(accuracy_score(y, y_insample))
     in_precision.append(precision_score(y, y_insample))
@@ -125,7 +125,7 @@ for X, y in training_sets:
 
     # Get predictions for out of sample data
     start_time = time.time()
-    y_outsample = clf.predict(X_test)
+    y_outsample = clf_best.predict(X_test)
     end_time = time.time()
     out_accuracy.append(accuracy_score(y_test, y_outsample))
     out_precision.append(precision_score(y_test, y_outsample))
@@ -264,7 +264,7 @@ for X, y in training_sets:
 
     # Get predictions for in sample data
     start_time = time.time()
-    y_insample = clf.predict(X)
+    y_insample = clf_best.predict(X)
     end_time = time.time()
     in_accuracy.append(accuracy_score(y, y_insample))
     in_precision.append(precision_score(y, y_insample))
@@ -274,7 +274,7 @@ for X, y in training_sets:
 
     # Get predictions for out of sample data
     start_time = time.time()
-    y_outsample = clf.predict(X_test)
+    y_outsample = clf_best.predict(X_test)
     end_time = time.time()
     out_accuracy.append(accuracy_score(y_test, y_outsample))
     out_precision.append(precision_score(y_test, y_outsample))
@@ -377,6 +377,134 @@ plt.savefig('churn_output/Boosted Decision Tree Testing Query Time by Training S
 plt.close()
 plt.figure()
 
+# Boosting on the exact same decision tree as in the first section
+
+clf_best = DecisionTreeClassifier(class_weight='balanced', criterion='entropy', max_depth=5, max_features=None, max_leaf_nodes=None, min_impurity_decrease=0.0, min_impurity_split=None, min_samples_leaf=1, min_samples_split=20,min_weight_fraction_leaf=0.0, presort=False,random_state=13, splitter='best')
+
+# Initialize empty lists to store data
+in_accuracy = []
+in_precision = []
+in_recall = []
+out_accuracy = []
+out_precision = []
+out_recall = []
+training_time = []
+in_query_time = []
+out_query_time = []
+
+# Train decision trees w/ boosting with different sizes of training data
+i = 1
+for X, y in training_sets: 
+    start_time = time.time()
+    clf_best.fit(X, y)
+    end_time = time.time()
+    training_time.append(end_time-start_time)
+
+    # Get predictions for in sample data
+    start_time = time.time()
+    y_insample = clf_best.predict(X)
+    end_time = time.time()
+    in_accuracy.append(accuracy_score(y, y_insample))
+    in_precision.append(precision_score(y, y_insample))
+    in_recall.append(recall_score(y, y_insample))
+    in_query_time.append(end_time-start_time)
+    
+    # Get predictions for out of sample data
+    start_time = time.time()
+    y_outsample = clf_best.predict(X_test)
+    end_time = time.time()
+    out_accuracy.append(accuracy_score(y_test, y_outsample))
+    out_precision.append(precision_score(y_test, y_outsample))
+    out_recall.append(recall_score(y_test, y_outsample))
+    out_query_time.append(end_time-start_time)
+    i = i+1
+
+# Create graphs
+# Accuracy
+plt.plot(in_accuracy)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Accuracy')
+plt.title('Exact Boosted Decision Tree In-Sample Accuracy by Training Size')
+plt.savefig('churn_output/Exact Boosted Decision Tree In-Sample Accuracy by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_accuracy)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Accuracy')
+plt.title('Exact Boosted Decision Tree Testing Accuracy by Training Size')
+plt.savefig('churn_output/Exact Boosted Decision Tree Testing Accuracy by Training Size.png')
+plt.close()
+plt.figure()
+
+# Precision
+plt.plot(in_precision)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Precision')
+plt.title('Exact Boosted Decision Tree In-Sample Precision by Training Size')
+plt.savefig('churn_output/Exact Boosted Decision Tree In-Sample Precision by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_precision)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Precision')
+plt.title('Exact Boosted Decision Tree Testing Precision by Training Size')
+plt.savefig('churn_output/Exact Boosted Decision Tree Testing Precision by Training Size.png')
+plt.close()
+plt.figure()
+
+# Recall
+plt.plot(in_recall)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Recall')
+plt.title('Exact Boosted Decision Tree In-Sample Recall by Training Size')
+plt.savefig('churn_output/Exact Boosted Decision Tree In-Sample Recall by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_recall)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Recall')
+plt.title('Exact Boosted Decision Tree Testing Recall by Training Size')
+plt.savefig('churn_output/Exact Boosted Decision Tree Testing Recall by Training Size.png')
+plt.close()
+plt.figure()
+
+# Wall Time
+plt.plot(training_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Training Time')
+plt.title('Exact Boosted Decision Tree Training Time by Training Size')
+plt.savefig('churn_output/Exact Boosted Decision Tree Training Time by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(in_query_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Query Time')
+plt.title('Exact Boosted Decision Tree In-Sample Query Time by Training Size')
+plt.savefig('churn_output/Exact Boosted Decision Tree In-Sample Query by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_query_time)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Query Time')
+plt.title('Exact Boosted Decision Tree Testing Query Time by Training Size')
+plt.savefig('churn_output/Exact Boosted Decision Tree Testing Query Time by Training Size.png')
+plt.close()
+plt.figure()
+
 ##### K Nearest Neighbors #######
 
 file.write("K NEAREST NEIGHBORS RESULTS\n")
@@ -413,7 +541,7 @@ for X, y in training_sets_scaled:
 
     # Get predictions for in sample data
     start_time = time.time()
-    y_insample = clf.predict(X)
+    y_insample = clf_best.predict(X)
     end_time = time.time()
     in_accuracy.append(accuracy_score(y, y_insample))
     in_precision.append(precision_score(y, y_insample))
@@ -423,7 +551,7 @@ for X, y in training_sets_scaled:
 
     # Get predictions for out of sample data
     start_time = time.time()
-    y_outsample = clf.predict(X_test_scaled)
+    y_outsample = clf_best.predict(X_test_scaled)
     end_time = time.time()
     out_accuracy.append(accuracy_score(y_test, y_outsample))
     out_precision.append(precision_score(y_test, y_outsample))
@@ -563,7 +691,7 @@ for X, y in training_sets_scaled:
 
     # Get predictions for in sample data
     start_time = time.time()
-    y_insample = clf.predict(X)
+    y_insample = clf_best.predict(X)
     end_time = time.time()
     in_accuracy.append(accuracy_score(y, y_insample))
     in_precision.append(precision_score(y, y_insample))
@@ -573,7 +701,7 @@ for X, y in training_sets_scaled:
 
     # Get predictions for out of sample data
     start_time = time.time()
-    y_outsample = clf.predict(X_test_scaled)
+    y_outsample = clf_best.predict(X_test_scaled)
     end_time = time.time()
     out_accuracy.append(accuracy_score(y_test, y_outsample))
     out_precision.append(precision_score(y_test, y_outsample))

@@ -153,9 +153,9 @@ file = open("chess_output/chess_log.txt","w")
 file.write("DECISION TREE RESULTS\n")
 
 # Run cross validation on main training set to choose parameters
-dt = DecisionTreeClassifier(random_state=13, criterion='entropy', class_weight='balanced')
+dt = DecisionTreeClassifier(random_state=13, criterion='entropy')
 parameters = {'max_depth':(2, 5, 10, 50), 'min_samples_split':(2,3,4,5,6,7,8,9,10)} # Set parameters to be used in gridsearch
-clf = GridSearchCV(dt, parameters, 'recall', cv=5) # perform gridsearch and cross validation
+clf = GridSearchCV(dt, parameters, cv=5) # perform gridsearch and cross validation
 clf.fit(X_train, y_train)
 file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
 file.write("Cross Validation Results: " + str(clf.cv_results_['mean_test_score'])+'\n')
@@ -304,7 +304,7 @@ file.write("DECISION TREE W/ BOOSTING RESULTS\n")
 # Run cross validation on main training set to choose parameters
 parameters = {'base_estimator__max_depth':(5,10,25), 'base_estimator__min_samples_split':(10,20,30), 'learning_rate':[0.1, 0.01, 0.001], 'n_estimators':[50,100]}
 ada = AdaBoostClassifier(base_estimator = dt, random_state=13)
-clf = GridSearchCV(ada, parameters, 'recall', cv=5) # perform gridsearch and cross validation
+clf = GridSearchCV(ada, parameters, cv=5) # perform gridsearch and cross validation
 clf.fit(X_train, y_train)
 clf_best = clf.best_estimator_
 file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
@@ -453,7 +453,7 @@ file.write("K NEAREST NEIGHBORS RESULTS\n")
 # Run cross validation on main training set to choose parameters
 knn = KNeighborsClassifier()
 parameters = {'n_neighbors':(1,5,10,20), 'weights':('uniform','distance')}
-clf = GridSearchCV(knn, parameters, 'recall', cv=5) # perform gridsearch and cross validation
+clf = GridSearchCV(knn, parameters, cv=5) # perform gridsearch and cross validation
 clf.fit(X_train, y_train)
 clf_best = clf.best_estimator_
 file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
@@ -602,7 +602,7 @@ file.write("SUPPORT VECTOR MACHINE RESULTS\n")
 # Run cross validation on main training set to choose parameters
 svc = LinearSVC(random_state=13, class_weight='balanced')
 parameters = {'loss':['hinge','squared_hinge'], 'tol':[1e-4, 1e-5, 0.01]}
-clf = GridSearchCV(svc, parameters, 'recall', cv=5) # perform gridsearch and cross validation
+clf = GridSearchCV(svc, parameters, cv=5) # perform gridsearch and cross validation
 clf.fit(X_train, y_train)
 clf_best = clf.best_estimator_
 file.write("Best Classifier Chosen: " + str(clf.best_estimator_)+'\n')
