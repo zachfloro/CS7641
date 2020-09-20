@@ -1,0 +1,144 @@
+DECISION TREE RESULTS
+Best Classifier Chosen: DecisionTreeClassifier(class_weight=None, criterion='entropy', max_depth=10,
+                       max_features=None, max_leaf_nodes=None,
+                       min_impurity_decrease=0.0, min_impurity_split=None,
+                       min_samples_leaf=1, min_samples_split=10,
+                       min_weight_fraction_leaf=0.0, presort=False,
+                       random_state=13, splitter='best')
+Cross Validation Results: [0.61214466 0.61214466 0.61214466 0.61214466 0.61214466 0.61214466
+ 0.61214466 0.61214466 0.61214466 0.72786129 0.72786129 0.72786129
+ 0.72786129 0.72786129 0.72786129 0.72786129 0.72786129 0.72786129
+ 0.75852061 0.75948802 0.75933919 0.75933919 0.7594136  0.75911594
+ 0.75881828 0.75963685 0.76030659 0.72927519 0.72570323 0.72600089
+ 0.72443816 0.72674505 0.72540557 0.7269683  0.72875428 0.72867986]
+Training Set 1:
+Decision Tree training time: 0.6326324939727783
+In sample accuracy for Decision Tree: 0.9
+In sample precision for Decision Tree: 0.91155
+In sample recall for Decision Tree: 0.9
+Decision Tree insample query time: 0.0009737014770507812
+Out of sample accuracy for Decision Tree: 0.6190332326283988
+Out of sample precision for Decision Tree: 0.5929281153590108
+Out of sample recall for Decision Tree: 0.6190332326283988
+Decision Tree out of sample query time: 0.09135627746582031
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 2:
+Decision Tree training time: 3.823078155517578
+In sample accuracy for Decision Tree: 0.88
+In sample precision for Decision Tree: 0.8894315935015554
+In sample recall for Decision Tree: 0.88
+Decision Tree insample query time: 0.013990640640258789
+Out of sample accuracy for Decision Tree: 0.691238670694864
+Out of sample precision for Decision Tree: 0.6871860204986542
+Out of sample recall for Decision Tree: 0.691238670694864
+Decision Tree out of sample query time: 0.09373140335083008
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 3:
+Decision Tree training time: 9.417281866073608
+In sample accuracy for Decision Tree: 0.8744
+In sample precision for Decision Tree: 0.8741875818365418
+In sample recall for Decision Tree: 0.8744
+Decision Tree insample query time: 0.03491091728210449
+Out of sample accuracy for Decision Tree: 0.7164652567975831
+Out of sample precision for Decision Tree: 0.7101190440311612
+Out of sample recall for Decision Tree: 0.7164652567975831
+Decision Tree out of sample query time: 0.09310126304626465
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 4:
+Decision Tree training time: 19.55181384086609
+In sample accuracy for Decision Tree: 0.8476
+In sample precision for Decision Tree: 0.848923395148564
+In sample recall for Decision Tree: 0.8476
+Decision Tree insample query time: 0.07053375244140625
+Out of sample accuracy for Decision Tree: 0.7175226586102719
+Out of sample precision for Decision Tree: 0.7138284730523146
+Out of sample recall for Decision Tree: 0.7175226586102719
+Decision Tree out of sample query time: 0.09295320510864258
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 5:
+Decision Tree training time: 46.873903036117554
+In sample accuracy for Decision Tree: 0.8379
+In sample precision for Decision Tree: 0.8378517868321383
+In sample recall for Decision Tree: 0.8379
+Decision Tree insample query time: 0.13704180717468262
+Out of sample accuracy for Decision Tree: 0.7486404833836858
+Out of sample precision for Decision Tree: 0.740709451682766
+Out of sample recall for Decision Tree: 0.7486404833836858
+Decision Tree out of sample query time: 0.0920252799987793
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 6:
+Decision Tree training time: 65.21695351600647
+In sample accuracy for Decision Tree: 0.8258669444857866
+In sample precision for Decision Tree: 0.8252541102335792
+In sample recall for Decision Tree: 0.8258669444857866
+Decision Tree insample query time: 0.18691182136535645
+Out of sample accuracy for Decision Tree: 0.7493957703927493
+Out of sample precision for Decision Tree: 0.7401962657413257
+Out of sample recall for Decision Tree: 0.7493957703927493
+Decision Tree out of sample query time: 0.09395503997802734
+END OF ITERATION
+----------------------------------------------------------------------------------
+DECISION TREE W/ BOOSTING RESULTS
+Best Classifier Chosen: AdaBoostClassifier(algorithm='SAMME.R',
+                   base_estimator=DecisionTreeClassifier(class_weight=None,
+                                                         criterion='entropy',
+                                                         max_depth=25,
+                                                         max_features=None,
+                                                         max_leaf_nodes=None,
+                                                         min_impurity_decrease=0.0,
+                                                         min_impurity_split=None,
+                                                         min_samples_leaf=1,
+                                                         min_samples_split=20,
+                                                         min_weight_fraction_leaf=0.0,
+                                                         presort=False,
+                                                         random_state=13,
+                                                         splitter='best'),
+                   learning_rate=0.01, n_estimators=50, random_state=13)
+Cross Validation Results: [0.7894776  0.76931091 0.73612145 0.78754279 0.76938533 0.73612145
+ 0.79156124 0.76864117 0.73612145 0.77623158 0.78895669 0.77057598
+ 0.77809198 0.78404524 0.77243637 0.77905938 0.7880637  0.7734782
+ 0.79364489 0.81090936 0.76439946 0.79200774 0.81180235 0.76953416
+ 0.79297515 0.80942104 0.77511534]
+Training Set 1:
+Boosted Decision Tree training time: 17.630144596099854
+In sample accuracy for Boosted Decision Tree: 1.0
+In sample precision for Boosted Decision Tree: 1.0
+In sample recall for Boosted Decision Tree: 1.0
+Boosted Decision Tree insample query time: 0.044879913330078125
+Out of sample accuracy for Boosted Decision Tree: 0.6324773413897281
+Out of sample precision for Boosted Decision Tree: 0.6146218485536367
+Out of sample recall for Boosted Decision Tree: 0.6324773413897281
+Boosted Decision Tree out of sample query time: 2.9179563522338867
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 2:
+Boosted Decision Tree training time: 154.63683581352234
+In sample accuracy for Boosted Decision Tree: 0.979
+In sample precision for Boosted Decision Tree: 0.9792077443385369
+In sample recall for Boosted Decision Tree: 0.979
+Boosted Decision Tree insample query time: 0.43402624130249023
+Out of sample accuracy for Boosted Decision Tree: 0.7444108761329306
+Out of sample precision for Boosted Decision Tree: 0.7436193517259344
+Out of sample recall for Boosted Decision Tree: 0.7444108761329306
+Boosted Decision Tree out of sample query time: 2.8601973056793213
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 3:
+Boosted Decision Tree training time: 396.5883593559265
+In sample accuracy for Boosted Decision Tree: 1.0
+In sample precision for Boosted Decision Tree: 1.0
+In sample recall for Boosted Decision Tree: 1.0
+Boosted Decision Tree insample query time: 1.0870387554168701
+Out of sample accuracy for Boosted Decision Tree: 0.7785498489425982
+Out of sample precision for Boosted Decision Tree: 0.7813360020206078
+Out of sample recall for Boosted Decision Tree: 0.7785498489425982
+Boosted Decision Tree out of sample query time: 3.109880208969116
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 4:
+Boosted Decision Tree training time: 832.8021018505096

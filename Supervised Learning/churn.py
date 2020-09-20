@@ -11,6 +11,8 @@ ATTRIBUTIONS:
         Travis E, Oliphant. A guide to NumPy, USA: Trelgol Publishing, (2006).
         Stéfan van der Walt, S. Chris Colbert, and Gaël Varoquaux. The NumPy Array: A Structure for Efficient Numerical Computation, Computing in Science & Engineering, 13, 22-30 (2011), DOI:10.1109/MCSE.2011.37 (publisher link)
         (https://numpy.org/)
+    For neural networks I use the Pytorch package.  Please see the following paper for more specific information:
+        PyTorch: An Imperative Style, High-Performance Deep Learning Library. Paszke, Adam and Gross, Sam and Massa, Francisco and Lerer, Adam and Bradbury, James and Chanan, Gregory and Killeen, Trevor and Lin, Zeming and Gimelshein, Natalia and Antiga, Luca and Desmaison, Alban and Kopf, Andreas and Yang, Edward and DeVito, Zachary and Raison, Martin and Tejani, Alykhan and Chilamkurthy, Sasank and Steiner, Benoit and Fang, Lu and Bai, Junjie and Chintala, Soumith (2019). Advances in Neural Information Processing Systems, 32, 8024-8035.
 '''
 
 import pandas as pd
@@ -507,6 +509,137 @@ plt.savefig('churn_output/8_100 Boosted Decision Tree Testing Recall by Training
 plt.close()
 plt.figure()
 
+
+# Boosting with 10 Estimators and learning rate = .8
+parameters = {'learning_rate':[.8]}
+ada = AdaBoostClassifier(base_estimator = dt, n_estimators = 10, random_state=13)
+clf = GridSearchCV(ada, parameters, 'recall', cv=5) # perform gridsearch and cross validation
+clf.fit(X_train, y_train)
+clf_best = clf.best_estimator_
+
+# Initialize empty lists to store data
+in_accuracy = []
+in_precision = []
+in_recall = []
+out_accuracy = []
+out_precision = []
+out_recall = []
+training_time = []
+in_query_time = []
+out_query_time = []
+
+# Train decision trees w/ boosting with different sizes of training data
+i = 1
+for X, y in training_sets: 
+    start_time = time.time()
+    clf_best.fit(X, y)
+    end_time = time.time()
+    training_time.append(end_time-start_time)
+
+    # Get predictions for in sample data
+    start_time = time.time()
+    y_insample = clf_best.predict(X)
+    end_time = time.time()
+    in_accuracy.append(accuracy_score(y, y_insample))
+    in_precision.append(precision_score(y, y_insample))
+    in_recall.append(recall_score(y, y_insample))
+    in_query_time.append(end_time-start_time)
+    
+    # Get predictions for out of sample data
+    start_time = time.time()
+    y_outsample = clf_best.predict(X_test)
+    end_time = time.time()
+    out_accuracy.append(accuracy_score(y_test, y_outsample))
+    out_precision.append(precision_score(y_test, y_outsample))
+    out_recall.append(recall_score(y_test, y_outsample))
+    out_query_time.append(end_time-start_time)
+    i = i+1
+
+# Create graphs
+# Recall
+plt.plot(in_recall)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Recall')
+plt.title('1_10 Boosted Decision Tree In-Sample Recall by Training Size')
+plt.savefig('churn_output/1_10 Boosted Decision Tree In-Sample Recall by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_recall)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Recall')
+plt.title('1_10 Boosted Decision Tree Testing Recall by Training Size')
+plt.savefig('churn_output/1_10 Boosted Decision Tree Testing Recall by Training Size.png')
+plt.close()
+plt.figure()
+
+# Boosting with 100 Estimators and learning rate = .8
+parameters = {'learning_rate':[.1]}
+ada = AdaBoostClassifier(base_estimator = dt, n_estimators = 100, random_state=13)
+clf = GridSearchCV(ada, parameters, 'recall', cv=5) # perform gridsearch and cross validation
+clf.fit(X_train, y_train)
+clf_best = clf.best_estimator_
+
+# Initialize empty lists to store data
+in_accuracy = []
+in_precision = []
+in_recall = []
+out_accuracy = []
+out_precision = []
+out_recall = []
+training_time = []
+in_query_time = []
+out_query_time = []
+
+# Train decision trees w/ boosting with different sizes of training data
+i = 1
+for X, y in training_sets: 
+    start_time = time.time()
+    clf_best.fit(X, y)
+    end_time = time.time()
+    training_time.append(end_time-start_time)
+
+    # Get predictions for in sample data
+    start_time = time.time()
+    y_insample = clf_best.predict(X)
+    end_time = time.time()
+    in_accuracy.append(accuracy_score(y, y_insample))
+    in_precision.append(precision_score(y, y_insample))
+    in_recall.append(recall_score(y, y_insample))
+    in_query_time.append(end_time-start_time)
+    
+    # Get predictions for out of sample data
+    start_time = time.time()
+    y_outsample = clf_best.predict(X_test)
+    end_time = time.time()
+    out_accuracy.append(accuracy_score(y_test, y_outsample))
+    out_precision.append(precision_score(y_test, y_outsample))
+    out_recall.append(recall_score(y_test, y_outsample))
+    out_query_time.append(end_time-start_time)
+    i = i+1
+
+# Create graphs
+# Recall
+plt.plot(in_recall)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Recall')
+plt.title('1_100 Boosted Decision Tree In-Sample Recall by Training Size')
+plt.savefig('churn_output/1_100 Boosted Decision Tree In-Sample Recall by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_recall)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Recall')
+plt.title('1_100 Boosted Decision Tree Testing Recall by Training Size')
+plt.savefig('churn_output/1_100 Boosted Decision Tree Testing Recall by Training Size.png')
+plt.close()
+plt.figure()
+
 ##### K Nearest Neighbors #######
 
 file.write("K NEAREST NEIGHBORS RESULTS\n")
@@ -653,6 +786,70 @@ plt.xlabel('Training Size')
 plt.ylabel('Testing Query Time')
 plt.title('KNN Testing Query Time by Training Size')
 plt.savefig('churn_output/KNN Testing Query Time by Training Size.png')
+plt.close()
+plt.figure()
+
+# Run KNN with k=1 to account for imbalanced classes
+knn = KNeighborsClassifier(n_neighbors=1)
+parameters = {'weights':('uniform','distance')}
+clf = GridSearchCV(knn, parameters, 'recall', cv=5) # perform gridsearch and cross validation
+clf.fit(X_train, y_train)
+clf_best = clf.best_estimator_
+
+# Initialize empty lists to store data
+in_accuracy = []
+in_precision = []
+in_recall = []
+out_accuracy = []
+out_precision = []
+out_recall = []
+training_time = []
+in_query_time = []
+out_query_time = []
+
+# Train decision trees w/ boosting with different sizes of training data
+i = 1
+for X, y in training_sets_scaled: 
+    start_time = time.time()
+    clf_best.fit(X, y)
+    end_time = time.time()
+    training_time.append(end_time-start_time)
+
+    # Get predictions for in sample data
+    start_time = time.time()
+    y_insample = clf_best.predict(X)
+    end_time = time.time()
+    in_accuracy.append(accuracy_score(y, y_insample))
+    in_precision.append(precision_score(y, y_insample))
+    in_recall.append(recall_score(y, y_insample))
+    in_query_time.append(end_time-start_time)
+
+    # Get predictions for out of sample data
+    start_time = time.time()
+    y_outsample = clf_best.predict(X_test_scaled)
+    end_time = time.time()
+    out_accuracy.append(accuracy_score(y_test, y_outsample))
+    out_precision.append(precision_score(y_test, y_outsample))
+    out_recall.append(recall_score(y_test, y_outsample))
+    out_query_time.append(end_time-start_time)
+    i = i+1
+    
+# Recall
+plt.plot(in_recall)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('In-Sample Recall')
+plt.title('1NN In-Sample Recall by Training Size')
+plt.savefig('churn_output/1NN In-Sample Recall by Training Size.png')
+plt.close()
+plt.figure()
+
+plt.plot(out_recall)
+plt.xticks(ticks=list(range(len(training_sets))), labels=[100,1000,2500,5000,6700])
+plt.xlabel('Training Size')
+plt.ylabel('Testing Recall')
+plt.title('1NN Testing Recall by Training Size')
+plt.savefig('churn_output/1NN Testing Recall by Training Size.png')
 plt.close()
 plt.figure()
 
