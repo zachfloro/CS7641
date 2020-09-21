@@ -13,6 +13,8 @@ ATTRIBUTIONS:
         (https://numpy.org/)
     For neural networks I use the Pytorch package.  Please see the following paper for more specific information:
         PyTorch: An Imperative Style, High-Performance Deep Learning Library. Paszke, Adam and Gross, Sam and Massa, Francisco and Lerer, Adam and Bradbury, James and Chanan, Gregory and Killeen, Trevor and Lin, Zeming and Gimelshein, Natalia and Antiga, Luca and Desmaison, Alban and Kopf, Andreas and Yang, Edward and DeVito, Zachary and Raison, Martin and Tejani, Alykhan and Chilamkurthy, Sasank and Steiner, Benoit and Fang, Lu and Bai, Junjie and Chintala, Soumith (2019). Advances in Neural Information Processing Systems, 32, 8024-8035.
+    For graphing I used the Matplotlib package. Please see the following paper for more specific information:
+        Matplotlib: A 2D graphics environment, Hunter J.D., Computing in Science & Engineering. PP 90-95, 2007. 
 '''
 
 import pandas as pd
