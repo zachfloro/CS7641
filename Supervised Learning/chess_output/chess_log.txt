@@ -142,3 +142,265 @@ END OF ITERATION
 ----------------------------------------------------------------------------------
 Training Set 4:
 Boosted Decision Tree training time: 832.8021018505096
+In sample accuracy for Boosted Decision Tree: 1.0
+In sample precision for Boosted Decision Tree: 1.0
+In sample recall for Boosted Decision Tree: 1.0
+Boosted Decision Tree insample query time: 2.1650798320770264
+Out of sample accuracy for Boosted Decision Tree: 0.7882175226586102
+Out of sample precision for Boosted Decision Tree: 0.7878635620068715
+Out of sample recall for Boosted Decision Tree: 0.7882175226586102
+Boosted Decision Tree out of sample query time: 2.8719558715820312
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 5:
+Boosted Decision Tree training time: 1786.7078278064728
+In sample accuracy for Boosted Decision Tree: 1.0
+In sample precision for Boosted Decision Tree: 1.0
+In sample recall for Boosted Decision Tree: 1.0
+Boosted Decision Tree insample query time: 4.446992874145508
+Out of sample accuracy for Boosted Decision Tree: 0.7974320241691842
+Out of sample precision for Boosted Decision Tree: 0.7947331600734779
+Out of sample recall for Boosted Decision Tree: 0.7974320241691842
+Boosted Decision Tree out of sample query time: 2.8920209407806396
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 6:
+Boosted Decision Tree training time: 2476.591232776642
+In sample accuracy for Boosted Decision Tree: 1.0
+In sample precision for Boosted Decision Tree: 1.0
+In sample recall for Boosted Decision Tree: 1.0
+Boosted Decision Tree insample query time: 6.25069260597229
+Out of sample accuracy for Boosted Decision Tree: 0.8022658610271903
+Out of sample precision for Boosted Decision Tree: 0.80099698608838
+Out of sample recall for Boosted Decision Tree: 0.8022658610271903
+Boosted Decision Tree out of sample query time: 2.887988567352295
+END OF ITERATION
+----------------------------------------------------------------------------------
+K NEAREST NEIGHBORS RESULTS
+Best Classifier Chosen: KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
+                     metric_params=None, n_jobs=None, n_neighbors=20, p=2,
+                     weights='distance')
+Cross Validation Results: [0.57694597 0.57694597 0.59644292 0.61162375 0.60157762 0.62442328
+ 0.61288882 0.63365084]
+Training Set 1:
+KNN training time: 0.1313493251800537
+In sample accuracy for KNN: 1.0
+In sample precision for KNN: 1.0
+In sample recall for KNN: 1.0
+KNN insample query time: 0.005983829498291016
+Out of sample accuracy for KNN: 0.6089123867069487
+Out of sample precision for KNN: 0.5788094950934043
+Out of sample recall for KNN: 0.6089123867069487
+KNN out of sample query time: 0.34079957008361816
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 2:
+KNN training time: 2.9874091148376465
+In sample accuracy for KNN: 0.694
+In sample precision for KNN: 0.6673521671826624
+In sample recall for KNN: 0.694
+KNN insample query time: 0.5226118564605713
+Out of sample accuracy for KNN: 0.6249244712990937
+Out of sample precision for KNN: 0.6106724192057417
+Out of sample recall for KNN: 0.6249244712990937
+KNN out of sample query time: 3.539226531982422
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 3:
+KNN training time: 16.322545051574707
+In sample accuracy for KNN: 1.0
+In sample precision for KNN: 1.0
+In sample recall for KNN: 1.0
+KNN insample query time: 3.0137481689453125
+Out of sample accuracy for KNN: 0.645619335347432
+Out of sample precision for KNN: 0.6621088804724201
+Out of sample recall for KNN: 0.645619335347432
+KNN out of sample query time: 8.353140115737915
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 4:
+KNN training time: 53.79987406730652
+In sample accuracy for KNN: 1.0
+In sample precision for KNN: 1.0
+In sample recall for KNN: 1.0
+KNN insample query time: 10.116953134536743
+Out of sample accuracy for KNN: 0.6483383685800604
+Out of sample precision for KNN: 0.6643466154605284
+Out of sample recall for KNN: 0.6483383685800604
+KNN out of sample query time: 13.82032561302185
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 5:
+KNN training time: 170.34457659721375
+In sample accuracy for KNN: 1.0
+In sample precision for KNN: 1.0
+In sample recall for KNN: 1.0
+KNN insample query time: 34.34284424781799
+Out of sample accuracy for KNN: 0.6735649546827794
+Out of sample precision for KNN: 0.6838612667043321
+Out of sample recall for KNN: 0.6735649546827794
+KNN out of sample query time: 22.977487564086914
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 6:
+KNN training time: 265.90424513816833
+In sample accuracy for KNN: 1.0
+In sample precision for KNN: 1.0
+In sample recall for KNN: 1.0
+KNN insample query time: 53.084893465042114
+Out of sample accuracy for KNN: 0.6867069486404834
+Out of sample precision for KNN: 0.6929000417481607
+Out of sample recall for KNN: 0.6867069486404834
+KNN out of sample query time: 26.54301691055298
+END OF ITERATION
+----------------------------------------------------------------------------------
+SUPPORT VECTOR MACHINE RESULTS
+Best Classifier Chosen: LinearSVC(C=1.0, class_weight='balanced', dual=True, fit_intercept=True,
+          intercept_scaling=1, loss='hinge', max_iter=1000, multi_class='ovr',
+          penalty='l2', random_state=13, tol=0.0001, verbose=0)
+Cross Validation Results: [0.66914719 0.66914719 0.66914719 0.66550082 0.66550082 0.66550082]
+Training Set 1:
+SVC training time: 0.08470463752746582
+In sample accuracy for SVC: 0.97
+In sample precision for SVC: 0.970140712945591
+In sample recall for SVC: 0.97
+SVC insample query time: 0.0010001659393310547
+Out of sample accuracy for SVC: 0.6249244712990937
+Out of sample precision for SVC: 0.6325922972779008
+Out of sample recall for SVC: 0.6249244712990937
+SVC out of sample query time: 0.004988431930541992
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 2:
+SVC training time: 0.8445713520050049
+In sample accuracy for SVC: 0.833
+In sample precision for SVC: 0.8422754136374178
+In sample recall for SVC: 0.833
+SVC insample query time: 0.002988576889038086
+Out of sample accuracy for SVC: 0.7297583081570997
+Out of sample precision for SVC: 0.7340304238776127
+Out of sample recall for SVC: 0.7297583081570997
+SVC out of sample query time: 0.00399017333984375
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 3:
+SVC training time: 2.312027931213379
+In sample accuracy for SVC: 0.8156
+In sample precision for SVC: 0.8160240302196744
+In sample recall for SVC: 0.8156
+SVC insample query time: 0.00598454475402832
+Out of sample accuracy for SVC: 0.752416918429003
+Out of sample precision for SVC: 0.7517648687723844
+Out of sample recall for SVC: 0.752416918429003
+SVC out of sample query time: 0.005985260009765625
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 4:
+SVC training time: 5.551039934158325
+In sample accuracy for SVC: 0.801
+In sample precision for SVC: 0.8014031005041381
+In sample recall for SVC: 0.801
+SVC insample query time: 0.011969804763793945
+Out of sample accuracy for SVC: 0.7561933534743203
+Out of sample precision for SVC: 0.7541860439418813
+Out of sample recall for SVC: 0.7561933534743203
+SVC out of sample query time: 0.005984783172607422
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 5:
+SVC training time: 14.879135847091675
+In sample accuracy for SVC: 0.7955
+In sample precision for SVC: 0.7915779163269515
+In sample recall for SVC: 0.7955
+SVC insample query time: 0.02342820167541504
+Out of sample accuracy for SVC: 0.7619335347432025
+Out of sample precision for SVC: 0.7576627956681437
+Out of sample recall for SVC: 0.7619335347432025
+SVC out of sample query time: 0.004988431930541992
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 6:
+SVC training time: 21.038599014282227
+In sample accuracy for SVC: 0.7918589075755321
+In sample precision for SVC: 0.788950051073933
+In sample recall for SVC: 0.7918589075755321
+SVC insample query time: 0.008974552154541016
+Out of sample accuracy for SVC: 0.7640483383685801
+Out of sample precision for SVC: 0.7610470482092221
+Out of sample recall for SVC: 0.7640483383685801
+SVC out of sample query time: 0.0048449039459228516
+END OF ITERATION
+----------------------------------------------------------------------------------
+NEURAL NETWORK RESULTS
+Training Set 1:
+NN training time: 11.392304420471191
+In sample accuracy for nn: 0.48
+In sample precision for NN: 0.4283050847457627
+In sample recall for NN: 0.48
+NN insample query time: 0.0
+Out of sample accuracy for NN: 0.31163141993957705
+Out of sample precision for NN: 0.3235468674271374
+Out of sample recall for NN: 0.31163141993957705
+SVC out of sample query time: 0.013963460922241211
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 2:
+NN training time: 48.498053312301636
+In sample accuracy for nn: 0.431
+In sample precision for NN: 0.4243813454496467
+In sample recall for NN: 0.431
+NN insample query time: 0.002992868423461914
+Out of sample accuracy for NN: 0.3293051359516616
+Out of sample precision for NN: 0.3664878011407416
+Out of sample recall for NN: 0.3293051359516616
+SVC out of sample query time: 0.015958070755004883
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 3:
+NN training time: 129.31284308433533
+In sample accuracy for nn: 0.4292
+In sample precision for NN: 0.39935474141131483
+In sample recall for NN: 0.4292
+NN insample query time: 0.00498652458190918
+Out of sample accuracy for NN: 0.36903323262839877
+Out of sample precision for NN: 0.35105295699119143
+Out of sample recall for NN: 0.36903323262839877
+SVC out of sample query time: 0.012965202331542969
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 4:
+NN training time: 267.7881474494934
+In sample accuracy for nn: 0.417
+In sample precision for NN: 0.40392374751587506
+In sample recall for NN: 0.417
+NN insample query time: 0.01096034049987793
+Out of sample accuracy for NN: 0.3688821752265861
+Out of sample precision for NN: 0.35987641088356054
+Out of sample recall for NN: 0.3688821752265861
+SVC out of sample query time: 0.014959573745727539
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 5:
+NN training time: 502.563725233078
+In sample accuracy for nn: 0.376
+In sample precision for NN: 0.3971009438758445
+In sample recall for NN: 0.376
+NN insample query time: 0.020395517349243164
+Out of sample accuracy for NN: 0.3483383685800604
+Out of sample precision for NN: 0.37334639995655217
+Out of sample recall for NN: 0.3483383685800604
+SVC out of sample query time: 0.013962984085083008
+END OF ITERATION
+----------------------------------------------------------------------------------
+Training Set 6:
+NN training time: 693.6320536136627
+In sample accuracy for nn: 0.3548891204048221
+In sample precision for NN: 0.3949227071193224
+In sample recall for NN: 0.3548891204048221
+NN insample query time: 0.028921842575073242
+Out of sample accuracy for NN: 0.3386706948640483
+Out of sample precision for NN: 0.3833957531159781
+Out of sample recall for NN: 0.3386706948640483
+SVC out of sample query time: 0.013962984085083008
+END OF ITERATION
+----------------------------------------------------------------------------------
