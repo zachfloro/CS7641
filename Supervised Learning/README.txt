@@ -1,5 +1,8 @@
 This README file explains how to download and run the code in this repository.
 
+The repository containing the data and code for this project is on a public github at https://github.com/zachfloro/CS7641
+
+
 This project is coded entirely in python using an anaconda environment (environment.yml in the repository).
 
 ####### RUNNING THE CODE ################
