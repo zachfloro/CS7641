@@ -6,7 +6,7 @@ This project is coded entirely in python using an anaconda environment (environm
 
 1. To clone this repository open git bash and run the following command: git clone https://github.com/zachfloro/CS7641
 
-2. Once the repository is cloned to your machine open a python prompt and navigate to the CS7641 repository and to the Radomized_Optimization sub directory on your machine.
+2. Once the repository is cloned to your machine open a python prompt and navigate to the CS7641 repository and to the Radomized Optimization sub directory on your machine.
 	a.) run the following command in your python shell: conda env create -f environment.yml
 	b.) run the following command in your python shell: conda activate base
 
